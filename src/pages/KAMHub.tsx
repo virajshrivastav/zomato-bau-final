@@ -7,7 +7,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDriveSheets } from "@/hooks/useDriveSheets";
-import { ChevronRight, Store, Home, Loader2 } from "lucide-react";
+import { useKAMPerformanceSummary } from "@/hooks/useKAMRankings";
+import { RankBadge } from "@/components/RankMovement";
+import { ChevronRight, Store, Home, Loader2, TrendingUp, TrendingDown } from "lucide-react";
 
 // Helper function to determine status based on restaurant data
 const getRestaurantStatus = (
@@ -32,6 +34,9 @@ const KAMHub = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { data: restaurants, isLoading, error } = useDriveSheets();
+  const { data: performanceSummary, isLoading: isLoadingPerformance } = useKAMPerformanceSummary(
+    user?.email || ""
+  );
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filter restaurants based on search
@@ -138,8 +143,9 @@ const KAMHub = () => {
                   filteredRestaurants.map((restaurant, index) => {
                     const status = getRestaurantStatus(restaurant);
                     const driveCount = restaurant.drive_data?.length || 0;
-                    const revenue = restaurant.sept_ov
-                      ? `₹${(restaurant.sept_ov / 1000).toFixed(0)}K`
+                    // sept_ov is order volume (number of orders), not rupees
+                    const orderVolume = restaurant.sept_ov
+                      ? `${(parseFloat(restaurant.sept_ov) / 1000).toFixed(1)}K`
                       : "N/A";
 
                     return (
@@ -174,7 +180,7 @@ const KAMHub = () => {
                                 </div>
                               )}
                               <div className="flex items-center gap-1">
-                                <span className="font-medium">{revenue}</span>
+                                <span className="font-medium">{orderVolume}</span>
                                 <span className="text-xs">Sept OV</span>
                               </div>
                             </div>
@@ -209,69 +215,136 @@ const KAMHub = () => {
                     </Button>
                   </div>
 
-                  {/* NCN Metric */}
-                  <div className="mb-6 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-foreground">NCN</span>
-                        <StatusPill autoVariant value={85} className="text-xs h-5 px-2">
-                          +3.2%
-                        </StatusPill>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span className="text-2xl font-bold text-foreground">25%</span>
-                      </div>
+                  {isLoadingPerformance ? (
+                    <div className="flex items-center justify-center py-8">
+                      <Loader2 className="w-6 h-6 animate-spin text-primary" />
                     </div>
-                    <p className="text-xs text-muted-foreground">New Customers to New</p>
-                  </div>
+                  ) : (
+                    <>
+                      {/* NCN Metric */}
+                      <div className="mb-6 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold text-foreground">NCN</span>
+                            {performanceSummary?.ncn_rank_change !== undefined &&
+                              performanceSummary.ncn_rank_change !== 0 && (
+                                <div
+                                  className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded ${
+                                    performanceSummary.ncn_rank_change > 0
+                                      ? "bg-green-100 text-green-700"
+                                      : "bg-red-100 text-red-700"
+                                  }`}
+                                >
+                                  {performanceSummary.ncn_rank_change > 0 ? (
+                                    <TrendingUp className="h-3 w-3" />
+                                  ) : (
+                                    <TrendingDown className="h-3 w-3" />
+                                  )}
+                                  <span>{Math.abs(performanceSummary.ncn_rank_change)}</span>
+                                </div>
+                              )}
+                          </div>
+                          <RankBadge
+                            rank={performanceSummary?.ncn_rank || null}
+                            rankChange={performanceSummary?.ncn_rank_change}
+                          />
+                        </div>
+                        <p className="text-xs text-muted-foreground">New Customers to New</p>
+                      </div>
 
-                  {/* N2R Metric */}
-                  <div className="mb-6 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-foreground">N2R</span>
-                        <StatusPill autoVariant value={18} className="text-xs h-5 px-2">
-                          -1.8%
-                        </StatusPill>
+                      {/* N2R Metric */}
+                      <div className="mb-6 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold text-foreground">N2R</span>
+                            {performanceSummary?.n2r_rank_change !== undefined &&
+                              performanceSummary.n2r_rank_change !== 0 && (
+                                <div
+                                  className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded ${
+                                    performanceSummary.n2r_rank_change > 0
+                                      ? "bg-green-100 text-green-700"
+                                      : "bg-red-100 text-red-700"
+                                  }`}
+                                >
+                                  {performanceSummary.n2r_rank_change > 0 ? (
+                                    <TrendingUp className="h-3 w-3" />
+                                  ) : (
+                                    <TrendingDown className="h-3 w-3" />
+                                  )}
+                                  <span>{Math.abs(performanceSummary.n2r_rank_change)}</span>
+                                </div>
+                              )}
+                          </div>
+                          <RankBadge
+                            rank={performanceSummary?.n2r_rank || null}
+                            rankChange={performanceSummary?.n2r_rank_change}
+                          />
+                        </div>
+                        <p className="text-xs text-muted-foreground">New to Regular</p>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <span className="text-2xl font-bold text-foreground">18%</span>
-                      </div>
-                    </div>
-                    <p className="text-xs text-muted-foreground">New to Regular</p>
-                  </div>
 
-                  {/* MRP Metric */}
-                  <div className="mb-6 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-foreground">MRP</span>
-                        <StatusPill autoVariant value={21} className="text-xs h-5 px-2">
-                          -2.1%
-                        </StatusPill>
+                      {/* Items <=159 Metric */}
+                      <div className="mb-6 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold text-foreground">
+                              Items ≤159
+                            </span>
+                            {performanceSummary?.items_rank_change !== undefined &&
+                              performanceSummary.items_rank_change !== 0 && (
+                                <div
+                                  className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded ${
+                                    performanceSummary.items_rank_change > 0
+                                      ? "bg-green-100 text-green-700"
+                                      : "bg-red-100 text-red-700"
+                                  }`}
+                                >
+                                  {performanceSummary.items_rank_change > 0 ? (
+                                    <TrendingUp className="h-3 w-3" />
+                                  ) : (
+                                    <TrendingDown className="h-3 w-3" />
+                                  )}
+                                  <span>{Math.abs(performanceSummary.items_rank_change)}</span>
+                                </div>
+                              )}
+                          </div>
+                          <RankBadge
+                            rank={performanceSummary?.items_rank || null}
+                            rankChange={performanceSummary?.items_rank_change}
+                          />
+                        </div>
+                        <p className="text-xs text-muted-foreground">Items Drive Performance</p>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <span className="text-2xl font-bold text-foreground">₹45K</span>
-                      </div>
-                    </div>
-                    <p className="text-xs text-muted-foreground">Monthly Revenue per Rest.</p>
-                  </div>
 
-                  {/* Active Drives Metric */}
-                  <div className="p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-foreground">Active</span>
-                        <StatusPill type="danger" className="text-xs h-5 px-2">
-                          +12
-                        </StatusPill>
+                      {/* Active Drives Metric */}
+                      <div className="p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold text-foreground">Active</span>
+                            {performanceSummary?.active_drives_change !== undefined &&
+                              performanceSummary.active_drives_change !== 0 && (
+                                <div
+                                  className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded ${
+                                    performanceSummary.active_drives_change > 0
+                                      ? "bg-green-100 text-green-700"
+                                      : "bg-red-100 text-red-700"
+                                  }`}
+                                >
+                                  {performanceSummary.active_drives_change > 0 ? "+" : ""}
+                                  {performanceSummary.active_drives_change}
+                                </div>
+                              )}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-2xl font-bold text-foreground">
+                              {performanceSummary?.active_drives || 0}
+                            </span>
+                          </div>
+                        </div>
+                        <p className="text-xs text-muted-foreground">Total Active Drives</p>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <span className="text-2xl font-bold text-foreground">127</span>
-                      </div>
-                    </div>
-                    <p className="text-xs text-muted-foreground">Total Active Drives</p>
-                  </div>
+                    </>
+                  )}
                 </div>
               </Card>
             </div>

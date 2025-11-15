@@ -125,10 +125,7 @@ export function useDeleteComment() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from("restaurant_comments")
-        .delete()
-        .eq("id", id);
+      const { error } = await supabase.from("restaurant_comments").delete().eq("id", id);
 
       if (error) {
         console.error("Error deleting comment:", error);
@@ -145,4 +142,3 @@ export function useDeleteComment() {
     },
   });
 }
-
