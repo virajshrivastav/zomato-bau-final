@@ -1,28 +1,26 @@
 # 🚀 Zomato Drive Dashboard
 
-**Status:** ✅ MVP Complete and Working
+**Status:** ✅ Sprint 1 Complete | 🚀 Sprint 2 Ready
 **Purpose:** Unified dashboard for managing restaurant partnership drives
 
 ---
 
 ## ⭐ START HERE
 
-**👉 [WHAT-TO-DO-NOW.md](WHAT-TO-DO-NOW.md)** - Clear next steps (5 min read)
+### 📊 Current Status
+**👉 [PROJECT-STATUS.md](PROJECT-STATUS.md)** - Complete project status and next steps (5 min read)
 
-**Quick Links:**
-- [MVP-COMPLETE.md](MVP-COMPLETE.md) - What's working and how to test
-- [QUICK-REFERENCE.md](QUICK-REFERENCE.md) - Commands and test users
-- [SPRINT-1-COMPLETE.md](SPRINT-1-COMPLETE.md) - Implementation details
+### 🚀 Ready for Sprint 2?
+**👉 [SPRINT-2-GUIDE.md](SPRINT-2-GUIDE.md)** - Step-by-step execution plan for full data import
 
-**Ready to build?** Start with Sprint 0:
-- **[SPRINT-0-FOUNDATION.md](SPRINT-0-FOUNDATION.md)** - Auth + Database setup (5 hours)
-- **[SPRINT-1-COMPLETE.md](SPRINT-1-COMPLETE.md)** - Core features implementation ✅
+### 📚 Documentation
+**👉 [DOCUMENTATION-INDEX.md](DOCUMENTATION-INDEX.md)** - Complete guide to all documentation
 
-**Need to connect analytics?**
-- **[ANALYTICS-INTEGRATION-GUIDE.md](ANALYTICS-INTEGRATION-GUIDE.md)** - How to connect real data (1-2 hours)
-
-**Need quick lookup?**
-- **[QUICK-REFERENCE.md](QUICK-REFERENCE.md)** - Commands, test users, troubleshooting
+**Essential Docs:**
+- **[PROJECT-STATUS.md](PROJECT-STATUS.md)** - What's done, what's next
+- **[IMPORTANT-NOTES.md](IMPORTANT-NOTES.md)** - Critical warnings and notes
+- **[SPRINT-2-GUIDE.md](SPRINT-2-GUIDE.md)** - Sprint 2 execution plan
+- **[SPRINT-1-COMPLETION-REPORT.md](SPRINT-1-COMPLETION-REPORT.md)** - Sprint 1 results (100% accuracy)
 
 ---
 
@@ -269,29 +267,26 @@ src/
 - `/zonal-head-view` - Zonal Head View (Screen 5)
 - `/live-sprints` - Live Sprints Leaderboard
 
-## 📚 Documentation
+## 📚 Documentation Structure
 
-### Core Guides (Read in Order)
+### 🎯 Start Here (Essential)
+1. **[PROJECT-STATUS.md](PROJECT-STATUS.md)** - Current status, what's done, what's next
+2. **[SPRINT-2-GUIDE.md](SPRINT-2-GUIDE.md)** - Sprint 2 execution plan
+3. **[IMPORTANT-NOTES.md](IMPORTANT-NOTES.md)** - Critical warnings and notes
 
-1. **[PROJECT-GOALS.md](PROJECT-GOALS.md)** - Business context, user personas, success metrics
-2. **[CURRENT-STATE.md](CURRENT-STATE.md)** - What's built (UI) vs. what's not (backend)
-3. **[DOCUMENTATION-GAPS.md](DOCUMENTATION-GAPS.md)** - Analysis of previous doc chaos
-4. **[IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md)** - Sprint 0, 1, 2 breakdown
-5. **[SPRINT-0-FOUNDATION.md](SPRINT-0-FOUNDATION.md)** - Auth + Database (Coming soon)
-6. **[SPRINT-1-CORE.md](SPRINT-1-CORE.md)** - API hooks + Conversion tracking (Coming soon)
-7. **[SPRINT-2-ANALYTICS.md](SPRINT-2-ANALYTICS.md)** - Real-time analytics (Coming soon)
+### 📖 Technical Documentation
+- **[DATABASE-TO-FRONTEND-COMPLETE-GUIDE.md](DATABASE-TO-FRONTEND-COMPLETE-GUIDE.md)** - Data flow architecture
+- **[SYSTEM-ARCHITECTURE-DIAGRAM.md](SYSTEM-ARCHITECTURE-DIAGRAM.md)** - System design overview
+- **[AUTHENTICATION_SETUP_COMPLETE.md](AUTHENTICATION_SETUP_COMPLETE.md)** - Auth setup guide
 
-### UI Improvements
+### 📊 Sprint Reports
+- **[SPRINT-1-COMPLETION-REPORT.md](SPRINT-1-COMPLETION-REPORT.md)** - Sprint 1 results (100% accuracy)
+- **[DRIVE-DATA-IMPLEMENTATION-PLAN.md](DRIVE-DATA-IMPLEMENTATION-PLAN.md)** - Original implementation plan
 
-- **[PHASE-2-COMPLETE-SUMMARY.md](PHASE-2-COMPLETE-SUMMARY.md)** - Dedicated Auth Page implementation
-- **[PHASE-3-COMPLETE-SUMMARY.md](PHASE-3-COMPLETE-SUMMARY.md)** - Dashboard Layout Redesign
-- **[NAVIGATION-IMPROVEMENTS.md](NAVIGATION-IMPROVEMENTS.md)** - Navigation fixes and Restaurant Portfolio CTA
-
-### Reference Files
-
-- **[sample-data.csv](sample-data.csv)** - Data structure reference
-- **[archive/zomato/docs/](archive/zomato/docs/)** - Original business requirements (Next.js)
-- **[archive/lovable-repos/](archive/lovable-repos/)** - Original 5 Lovable repos (integrated into `src/`)
+### 🔧 Setup & Configuration
+- **[ENVIRONMENT_VARIABLES.md](ENVIRONMENT_VARIABLES.md)** - Environment setup
+- **[SUPABASE_USER_SETUP.md](SUPABASE_USER_SETUP.md)** - Database user management
+- **[CLI_SETUP_GUIDE.md](CLI_SETUP_GUIDE.md)** - CLI tools setup
 
 ---
 
@@ -307,29 +302,39 @@ This project integrates 5 Lovable repositories into one cohesive application:
 
 **Status:** ✅ All screens integrated | ✅ All components extracted | ✅ Routing configured
 
-## 🎯 Current Features (MVP Complete)
+## 🎯 Current Status
 
-**What Works:**
-- ✅ All 5 screens fully designed and navigable
+### ✅ Sprint 1 Complete (100% Success)
+- ✅ All 7 screens fully designed and navigable
 - ✅ 21 custom components + 48 shadcn/ui components
 - ✅ Responsive design (mobile + desktop)
 - ✅ **Google OAuth authentication** with domain restriction (@zomato.com)
 - ✅ Email/password authentication (fallback)
-- ✅ Development mode with test email whitelist
-- ✅ Database with Row Level Security (RLS)
-- ✅ Conversion tracking (approached/converted)
-- ✅ Search and filter restaurants
-- ✅ Analytics display (charts and metrics)
-- ✅ Routing configured (React Router v6)
+- ✅ Database with `drive_sheets_data` table (200+ columns)
+- ✅ Test restaurant displaying with 100% data accuracy
+- ✅ All three drive types working (NCN, N2R, Items)
+- ✅ Data import pipeline established
+- ✅ Frontend-backend integration complete
 
-**What's Pending:**
-- 📊 Google Sheets integration (recommended - Sprint 2)
-- 📊 Enhanced filtering (optional - Sprint 3)
-- 📊 Real analytics calculations (optional - Sprint 4)
-- 📊 Promo/Task/Notes CRUD (optional - Sprint 5)
-- 📊 Export functionality (optional - Sprint 6)
+### 🚀 Sprint 2 Ready
+**Goal:** Import all ~5,500 restaurants from CSV files
 
-**Next Steps:** See [IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md) for enhancement options.
+**Tasks:**
+1. Create full import script
+2. Import all data (NCN, N2R, Items)
+3. Verify data integrity
+4. Test multi-user access
+5. Re-enable RLS
+6. Performance optimization
+
+**See:** [SPRINT-2-GUIDE.md](SPRINT-2-GUIDE.md) for detailed execution plan
+
+### 📊 Future Enhancements (Sprint 3+)
+- Google Sheets direct integration
+- Enhanced filtering and search
+- Real-time analytics calculations
+- Promo/Task/Notes CRUD operations
+- Export functionality
 
 ---
 
