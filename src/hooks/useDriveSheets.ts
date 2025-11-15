@@ -14,7 +14,7 @@ export interface DriveSheetData {
   city_cluster: string | null;
   account_type: string | null;
   sept_ov: string | null;
-  
+
   // NCN Data
   ncn_p1: string | null;
   ncn_p2: string | null;
@@ -40,7 +40,7 @@ export interface DriveSheetData {
   ncn_approached: string | null;
   ncn_converted_stepper: string | null;
   ncn_locality_x_cuisine: string | null;
-  
+
   // N2R Data
   n2r_la_ov: string | null;
   n2r_mm_ov: string | null;
@@ -61,7 +61,7 @@ export interface DriveSheetData {
   n2r_mm_min_coupons: string | null;
   n2r_um_min_coupons: string | null;
   n2r_approached: string | null;
-  
+
   // Items Data
   items_priority: string | null;
   items_pos_flag: string | null;
@@ -76,7 +76,7 @@ export interface DriveSheetData {
   items_approached: string | null;
   items_converted: string | null;
   items_locality_x_cuisine: string | null;
-  
+
   created_at?: string;
   updated_at?: string;
 }
@@ -119,4 +119,3 @@ export function useDriveSheet(resId: string) {
     enabled: !!resId,
   });
 }
-

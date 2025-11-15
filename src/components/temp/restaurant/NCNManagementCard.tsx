@@ -157,7 +157,9 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                                   stepperAndBaseCodes: {
                                     ...data.stepperAndBaseCodes,
                                     la: data.stepperAndBaseCodes.la.map((c) =>
-                                      c.id === code.id ? { ...c, percentage: Number(e.target.value) } : c
+                                      c.id === code.id
+                                        ? { ...c, percentage: Number(e.target.value) }
+                                        : c
                                     ),
                                   },
                                 });
@@ -178,7 +180,9 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                                   stepperAndBaseCodes: {
                                     ...data.stepperAndBaseCodes,
                                     la: data.stepperAndBaseCodes.la.map((c) =>
-                                      c.id === code.id ? { ...c, maxAmount: Number(e.target.value) } : c
+                                      c.id === code.id
+                                        ? { ...c, maxAmount: Number(e.target.value) }
+                                        : c
                                     ),
                                   },
                                 });
@@ -203,7 +207,9 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                                   stepperAndBaseCodes: {
                                     ...data.stepperAndBaseCodes,
                                     la: data.stepperAndBaseCodes.la.map((c) =>
-                                      c.id === code.id ? { ...c, flatOff: Number(e.target.value) } : c
+                                      c.id === code.id
+                                        ? { ...c, flatOff: Number(e.target.value) }
+                                        : c
                                     ),
                                   },
                                 });
@@ -284,7 +290,9 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                                   stepperAndBaseCodes: {
                                     ...data.stepperAndBaseCodes,
                                     mm: data.stepperAndBaseCodes.mm.map((c) =>
-                                      c.id === code.id ? { ...c, percentage: Number(e.target.value) } : c
+                                      c.id === code.id
+                                        ? { ...c, percentage: Number(e.target.value) }
+                                        : c
                                     ),
                                   },
                                 });
@@ -305,7 +313,9 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                                   stepperAndBaseCodes: {
                                     ...data.stepperAndBaseCodes,
                                     mm: data.stepperAndBaseCodes.mm.map((c) =>
-                                      c.id === code.id ? { ...c, maxAmount: Number(e.target.value) } : c
+                                      c.id === code.id
+                                        ? { ...c, maxAmount: Number(e.target.value) }
+                                        : c
                                     ),
                                   },
                                 });
@@ -330,7 +340,9 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                                   stepperAndBaseCodes: {
                                     ...data.stepperAndBaseCodes,
                                     mm: data.stepperAndBaseCodes.mm.map((c) =>
-                                      c.id === code.id ? { ...c, flatOff: Number(e.target.value) } : c
+                                      c.id === code.id
+                                        ? { ...c, flatOff: Number(e.target.value) }
+                                        : c
                                     ),
                                   },
                                 });
@@ -411,7 +423,9 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                                   stepperAndBaseCodes: {
                                     ...data.stepperAndBaseCodes,
                                     um: data.stepperAndBaseCodes.um.map((c) =>
-                                      c.id === code.id ? { ...c, percentage: Number(e.target.value) } : c
+                                      c.id === code.id
+                                        ? { ...c, percentage: Number(e.target.value) }
+                                        : c
                                     ),
                                   },
                                 });
@@ -432,7 +446,9 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                                   stepperAndBaseCodes: {
                                     ...data.stepperAndBaseCodes,
                                     um: data.stepperAndBaseCodes.um.map((c) =>
-                                      c.id === code.id ? { ...c, maxAmount: Number(e.target.value) } : c
+                                      c.id === code.id
+                                        ? { ...c, maxAmount: Number(e.target.value) }
+                                        : c
                                     ),
                                   },
                                 });
@@ -457,7 +473,9 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                                   stepperAndBaseCodes: {
                                     ...data.stepperAndBaseCodes,
                                     um: data.stepperAndBaseCodes.um.map((c) =>
-                                      c.id === code.id ? { ...c, flatOff: Number(e.target.value) } : c
+                                      c.id === code.id
+                                        ? { ...c, flatOff: Number(e.target.value) }
+                                        : c
                                     ),
                                   },
                                 });

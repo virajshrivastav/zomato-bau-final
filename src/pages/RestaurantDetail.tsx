@@ -105,127 +105,151 @@ const RestaurantDetail = () => {
       la: [
         (() => {
           const parsed = parseBaseCode(restaurant.ncn_la_base_code_suggested);
-          return parsed && {
-            id: "la-base",
-            percentage: parsed.percentage,
-            maxAmount: parsed.maxAmount,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "la-base",
+              percentage: parsed.percentage,
+              maxAmount: parsed.maxAmount,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
         (() => {
           const parsed = parseStepperCode(restaurant.ncn_la_step1);
-          return parsed && {
-            id: "la-step1",
-            flatOff: parsed.flatOff,
-            mov: parsed.mov,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "la-step1",
+              flatOff: parsed.flatOff,
+              mov: parsed.mov,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
         (() => {
           const parsed = parseStepperCode(restaurant.ncn_la_step2);
-          return parsed && {
-            id: "la-step2",
-            flatOff: parsed.flatOff,
-            mov: parsed.mov,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "la-step2",
+              flatOff: parsed.flatOff,
+              mov: parsed.mov,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
         (() => {
           const parsed = parseStepperCode(restaurant.ncn_la_step3);
-          return parsed && {
-            id: "la-step3",
-            flatOff: parsed.flatOff,
-            mov: parsed.mov,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "la-step3",
+              flatOff: parsed.flatOff,
+              mov: parsed.mov,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
       ].filter(Boolean),
       mm: [
         (() => {
           const parsed = parseBaseCode(restaurant.ncn_mm_base_code_suggested);
-          return parsed && {
-            id: "mm-base",
-            percentage: parsed.percentage,
-            maxAmount: parsed.maxAmount,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "mm-base",
+              percentage: parsed.percentage,
+              maxAmount: parsed.maxAmount,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
         (() => {
           const parsed = parseStepperCode(restaurant.ncn_mm_step1);
-          return parsed && {
-            id: "mm-step1",
-            flatOff: parsed.flatOff,
-            mov: parsed.mov,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "mm-step1",
+              flatOff: parsed.flatOff,
+              mov: parsed.mov,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
         (() => {
           const parsed = parseStepperCode(restaurant.ncn_mm_step2);
-          return parsed && {
-            id: "mm-step2",
-            flatOff: parsed.flatOff,
-            mov: parsed.mov,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "mm-step2",
+              flatOff: parsed.flatOff,
+              mov: parsed.mov,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
         (() => {
           const parsed = parseStepperCode(restaurant.ncn_mm_step3);
-          return parsed && {
-            id: "mm-step3",
-            flatOff: parsed.flatOff,
-            mov: parsed.mov,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "mm-step3",
+              flatOff: parsed.flatOff,
+              mov: parsed.mov,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
       ].filter(Boolean),
       um: [
         (() => {
           const parsed = parseBaseCode(restaurant.ncn_um_base_code_suggested);
-          return parsed && {
-            id: "um-base",
-            percentage: parsed.percentage,
-            maxAmount: parsed.maxAmount,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "um-base",
+              percentage: parsed.percentage,
+              maxAmount: parsed.maxAmount,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
         (() => {
           const parsed = parseStepperCode(restaurant.ncn_um_step1);
-          return parsed && {
-            id: "um-step1",
-            flatOff: parsed.flatOff,
-            mov: parsed.mov,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "um-step1",
+              flatOff: parsed.flatOff,
+              mov: parsed.mov,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
         (() => {
           const parsed = parseStepperCode(restaurant.ncn_um_step2);
-          return parsed && {
-            id: "um-step2",
-            flatOff: parsed.flatOff,
-            mov: parsed.mov,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "um-step2",
+              flatOff: parsed.flatOff,
+              mov: parsed.mov,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
         (() => {
           const parsed = parseStepperCode(restaurant.ncn_um_step3);
-          return parsed && {
-            id: "um-step3",
-            flatOff: parsed.flatOff,
-            mov: parsed.mov,
-            status: "Picked" as const,
-            selected: false,
-          };
+          return (
+            parsed && {
+              id: "um-step3",
+              flatOff: parsed.flatOff,
+              mov: parsed.mov,
+              status: "Picked" as const,
+              selected: false,
+            }
+          );
         })(),
       ].filter(Boolean),
     },
