@@ -24,8 +24,12 @@ export interface RestaurantMetrics {
 // NCN - No Cooking November Interfaces
 export interface PromoCode {
   id: string;
-  flatOff: number; // Editable
-  mov: number; // Minimum Order Value - Editable
+  // For flat discount codes (stepper codes)
+  flatOff?: number; // Editable - Flat discount amount
+  mov?: number; // Minimum Order Value - Editable
+  // For percentage-based codes (base codes)
+  percentage?: number; // Editable - Percentage discount
+  maxAmount?: number; // Editable - Maximum discount amount (upto value)
   status: "Submitted" | "Picked" | "Pending";
   selected: boolean;
 }

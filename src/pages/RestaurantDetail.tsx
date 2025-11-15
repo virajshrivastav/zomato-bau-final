@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useRestaurant } from "@/hooks/useRestaurants";
+import { useDriveSheet } from "@/hooks/useDriveSheets";
 import { RestaurantHeader } from "@/components/temp/restaurant/RestaurantHeader";
 import { MetricsRow } from "@/components/temp/restaurant/MetricsRow";
 import { NCNManagementCard } from "@/components/temp/restaurant/NCNManagementCard";
@@ -17,13 +17,15 @@ import {
   ItemsData,
   Comment,
 } from "@/types/restaurantTemp";
+import { parseStepperCode } from "@/utils/parseStepperCode";
+import { parseBaseCode } from "@/utils/parseBaseCode";
 
 const RestaurantDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const { data: restaurant, isLoading, error } = useRestaurant(id || "");
+  const { data: restaurant, isLoading, error } = useDriveSheet(id || "");
 
   if (isLoading) {
     return (
@@ -61,150 +63,233 @@ const RestaurantDetail = () => {
     name: restaurant.res_name,
     location: restaurant.locality || "N/A",
     cuisine: restaurant.cuisine || "N/A",
-    phone: undefined, // TODO: Add phone field to database
-    email: undefined, // TODO: Add email field to database
-    toingFlag: "Not Live", // TODO: Add TOING flag to database
+    phone: undefined,
+    email: restaurant.am_email,
+    toingFlag: "Not Live",
   };
 
   const metricsData: RestaurantMetrics = {
-    activeDrives: restaurant.drive_data?.length || 0,
-    zvdPo: "N/A", // TODO: Add ZVD.PO calculation
+    activeDrives: 3, // NCN, N2R, Items
+    zvdPo: restaurant.sept_ov || "N/A",
     adsBudget: {
-      total: 50000, // TODO: Add ADS budget to database
-      utilized: 32000, // TODO: Add ADS utilized to database
-      percentage: 64, // TODO: Calculate from total and utilized
+      total: 50000,
+      utilized: 32000,
+      percentage: 64,
     },
-    toingFlag: "Not Live", // TODO: Add TOING flag to database
+    toingFlag: "Not Live",
   };
 
-  // NCN Data - Transform from drive_data
-  const ncnDriveData = restaurant.drive_data?.find(
-    (dd) =>
-      dd.drives?.drive_name.toLowerCase().includes("ncn") ||
-      dd.drives?.drive_name.toLowerCase().includes("no cooking november")
-  );
-
+  // NCN Data - Use real data from drive_sheets_data
   const ncnData: NCNData = {
     priorities: [
-      "Stepper Codes",
-      "Base Codes",
-      "BOGO Offers",
-      "Flash Sales",
-      "Salt Discount",
-      "Customer Retention",
-    ], // TODO: Add priorities to database
-    activePromosLink: ncnDriveData?.la_active_promos || "#",
+      restaurant.ncn_p1,
+      restaurant.ncn_p2,
+      restaurant.ncn_p3,
+      restaurant.ncn_p4,
+      restaurant.ncn_p5,
+      restaurant.ncn_p6,
+    ].filter(Boolean) as string[], // Remove null values
+    activePromosLink: "#",
     suggestedPromos: {
       bogo: {
-        items: ["Burger + Fries", "Pizza + Coke", "Combo Meal"], // TODO: Add to database
+        items: restaurant.ncn_locality_x_cuisine?.split(", ").slice(0, 3) || [],
       },
       flashSale: {
-        items: ["Lunch Special", "Dinner Deal", "Weekend Offer"], // TODO: Add to database
+        items: restaurant.ncn_locality_x_cuisine?.split(", ").slice(3, 6) || [],
       },
       salt: {
-        percentage: 15, // TODO: Add to database
+        percentage: 15,
       },
     },
     stepperAndBaseCodes: {
       la: [
-        {
-          id: "la-1",
-          flatOff: ncnDriveData?.la || 50,
-          mov: 199,
-          status: ncnDriveData?.la_step1 ? "Picked" : "Pending",
-          selected: false,
-        },
-        {
-          id: "la-2",
-          flatOff: ncnDriveData?.la || 75,
-          mov: 299,
-          status: ncnDriveData?.la_step2 ? "Picked" : "Pending",
-          selected: false,
-        },
-      ],
+        (() => {
+          const parsed = parseBaseCode(restaurant.ncn_la_base_code_suggested);
+          return parsed && {
+            id: "la-base",
+            percentage: parsed.percentage,
+            maxAmount: parsed.maxAmount,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+        (() => {
+          const parsed = parseStepperCode(restaurant.ncn_la_step1);
+          return parsed && {
+            id: "la-step1",
+            flatOff: parsed.flatOff,
+            mov: parsed.mov,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+        (() => {
+          const parsed = parseStepperCode(restaurant.ncn_la_step2);
+          return parsed && {
+            id: "la-step2",
+            flatOff: parsed.flatOff,
+            mov: parsed.mov,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+        (() => {
+          const parsed = parseStepperCode(restaurant.ncn_la_step3);
+          return parsed && {
+            id: "la-step3",
+            flatOff: parsed.flatOff,
+            mov: parsed.mov,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+      ].filter(Boolean),
       mm: [
-        {
-          id: "mm-1",
-          flatOff: ncnDriveData?.mm || 60,
-          mov: 249,
-          status: "Pending",
-          selected: false,
-        },
-      ],
+        (() => {
+          const parsed = parseBaseCode(restaurant.ncn_mm_base_code_suggested);
+          return parsed && {
+            id: "mm-base",
+            percentage: parsed.percentage,
+            maxAmount: parsed.maxAmount,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+        (() => {
+          const parsed = parseStepperCode(restaurant.ncn_mm_step1);
+          return parsed && {
+            id: "mm-step1",
+            flatOff: parsed.flatOff,
+            mov: parsed.mov,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+        (() => {
+          const parsed = parseStepperCode(restaurant.ncn_mm_step2);
+          return parsed && {
+            id: "mm-step2",
+            flatOff: parsed.flatOff,
+            mov: parsed.mov,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+        (() => {
+          const parsed = parseStepperCode(restaurant.ncn_mm_step3);
+          return parsed && {
+            id: "mm-step3",
+            flatOff: parsed.flatOff,
+            mov: parsed.mov,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+      ].filter(Boolean),
       um: [
-        {
-          id: "um-1",
-          flatOff: ncnDriveData?.um || 70,
-          mov: 349,
-          status: "Pending",
-          selected: false,
-        },
-      ],
+        (() => {
+          const parsed = parseBaseCode(restaurant.ncn_um_base_code_suggested);
+          return parsed && {
+            id: "um-base",
+            percentage: parsed.percentage,
+            maxAmount: parsed.maxAmount,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+        (() => {
+          const parsed = parseStepperCode(restaurant.ncn_um_step1);
+          return parsed && {
+            id: "um-step1",
+            flatOff: parsed.flatOff,
+            mov: parsed.mov,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+        (() => {
+          const parsed = parseStepperCode(restaurant.ncn_um_step2);
+          return parsed && {
+            id: "um-step2",
+            flatOff: parsed.flatOff,
+            mov: parsed.mov,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+        (() => {
+          const parsed = parseStepperCode(restaurant.ncn_um_step3);
+          return parsed && {
+            id: "um-step3",
+            flatOff: parsed.flatOff,
+            mov: parsed.mov,
+            status: "Picked" as const,
+            selected: false,
+          };
+        })(),
+      ].filter(Boolean),
     },
-    approached: ncnDriveData?.approached ? "yes" : "no",
-    converted: ncnDriveData?.converted_stepper ? "yes" : "no",
+    approached: restaurant.ncn_approached?.toLowerCase() === "yes" ? "yes" : "no",
+    converted: restaurant.ncn_converted_stepper?.toLowerCase() === "yes" ? "yes" : "no",
   };
 
-  // N2R Data - Transform from drive_data
-  const n2rDriveData = restaurant.drive_data?.find(
-    (dd) =>
-      dd.drives?.drive_name.toLowerCase().includes("n2r") ||
-      dd.drives?.drive_name.toLowerCase().includes("new to restaurant")
-  );
-
+  // N2R Data - Use real data from drive_sheets_data
   const n2rData: N2RData = {
     currentCodes: {
       la: {
-        aov: n2rDriveData?.la || 250,
-        currentCode: n2rDriveData?.la_active_promos || "N/A",
+        aov: parseInt(restaurant.n2r_la_current_aov || "0"),
+        currentCode: restaurant.n2r_la_current_code || "N/A",
       },
       mm: {
-        aov: n2rDriveData?.mm || 350,
-        currentCode: n2rDriveData?.mm_active_promos || "N/A",
+        aov: parseInt(restaurant.n2r_mm_current_aov || "0"),
+        currentCode: restaurant.n2r_mm_current_code || "N/A",
       },
       um: {
-        aov: n2rDriveData?.um || 450,
-        currentCode: n2rDriveData?.um_active_promos || "N/A",
+        aov: parseInt(restaurant.n2r_um_current_aov || "0"),
+        currentCode: restaurant.n2r_um_current_code || "N/A",
       },
     },
     suggestedCodes: {
       la: {
-        construct: n2rDriveData?.la_base_code_suggested || "50% upto 100",
-        mov: "199rs",
+        construct: restaurant.n2r_la_suggested_construct || "50% upto 100",
+        mov: restaurant.n2r_la_suggested_mov ? `${restaurant.n2r_la_suggested_mov}rs` : "199rs",
       },
       mm: {
-        construct: n2rDriveData?.mm_base_code_suggested || "60% upto 120",
-        mov: "249rs",
+        construct: restaurant.n2r_mm_suggested_construct || "60% upto 120",
+        mov: restaurant.n2r_mm_suggested_mov ? `${restaurant.n2r_mm_suggested_mov}rs` : "249rs",
       },
       um: {
-        construct: n2rDriveData?.um_base_code_suggested || "70% upto 150",
-        mov: "349rs",
+        construct: restaurant.n2r_um_suggested_construct || "70% upto 150",
+        mov: restaurant.n2r_um_suggested_mov ? `${restaurant.n2r_um_suggested_mov}rs` : "349rs",
       },
     },
     reqCoupons: {
-      la: 1000, // TODO: Add to database
-      mm: 800, // TODO: Add to database
-      um: 600, // TODO: Add to database
+      la: parseInt(restaurant.n2r_la_min_coupons || "0"),
+      mm: parseInt(restaurant.n2r_mm_min_coupons || "0"),
+      um: parseInt(restaurant.n2r_um_min_coupons || "0"),
     },
-    approached: n2rDriveData?.approached ? "yes" : "no",
-    converted: n2rDriveData?.converted_stepper ? "yes" : "no",
+    approached: restaurant.n2r_approached?.toLowerCase() === "yes" ? "yes" : "no",
+    converted: "no", // N2R doesn't have converted field in CSV
   };
 
-  // Items Data
+  // Items Data - Use real data from drive_sheets_data
+  const dishSuggestions = [
+    restaurant.items_dish_tag_1,
+    restaurant.items_dish_tag_2,
+    restaurant.items_dish_tag_3,
+    restaurant.items_dish_tag_4,
+    restaurant.items_dish_tag_5,
+    restaurant.items_dish_tag_6,
+    restaurant.items_dish_tag_7,
+  ].filter(Boolean) as string[];
+
   const itemsData: ItemsData = {
-    priority: "P0", // TODO: Add to database
-    posFlag: "Pet Pooja", // TODO: Add to database
-    pg7to10: "23%", // TODO: Add to database
-    dishSuggestions: [
-      "Paneer Tikka",
-      "Chicken Biryani",
-      "Veg Fried Rice",
-      "Butter Naan",
-      "Dal Makhani",
-      "Gulab Jamun",
-    ], // TODO: Add to database
-    approached: "no",
-    converted: "no",
+    priority: restaurant.items_priority || "P0",
+    posFlag: restaurant.items_pos_flag || "N/A",
+    pg7to10: restaurant.items_pg_7_10_contribution || "0%",
+    dishSuggestions: dishSuggestions,
+    approached: restaurant.items_approached?.toLowerCase() === "yes" ? "yes" : "no",
+    converted: restaurant.items_converted?.toLowerCase() === "yes" ? "yes" : "no",
     itemsAdded: [
       { id: "1", value: "", checked: false },
       { id: "2", value: "", checked: false },

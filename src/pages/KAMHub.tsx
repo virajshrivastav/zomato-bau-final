@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { useRestaurants } from "@/hooks/useRestaurants";
+import { useDriveSheets } from "@/hooks/useDriveSheets";
 import { ChevronRight, Store, Home, Loader2 } from "lucide-react";
 
 // Helper function to determine status based on restaurant data
@@ -31,7 +31,7 @@ const getRestaurantStatus = (
 const KAMHub = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { data: restaurants, isLoading, error } = useRestaurants();
+  const { data: restaurants, isLoading, error } = useDriveSheets();
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filter restaurants based on search
