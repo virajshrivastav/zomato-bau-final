@@ -341,7 +341,7 @@ const RestaurantDetail = () => {
         </div>
 
         {/* Comments Section */}
-        <CommentsSection resId={resId} />
+        <CommentsSection resId={id || ""} />
       </div>
     </div>
   );
