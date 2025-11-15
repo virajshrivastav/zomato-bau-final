@@ -2,6 +2,7 @@
 
 **Last Updated:** 2025-11-15
 **Current Phase:** Sprint 3 IN PROGRESS 🚀 | Frontend Testing + Vercel Deployment Ready!
+**New Feature:** Performance Metrics Page - ✅ All Decisions Confirmed, Ready to Implement 📊
 
 ---
 
@@ -256,15 +257,68 @@ All Sprint 1 issues resolved. System stable and working as expected.
 
 ##  Next Immediate Steps
 
-1.  Review Sprint 2 documentation
-2.  Create import script (scripts/import_drive_data_full.py)
-3.  Test with small batch (100 restaurants)
-4.  Run full import
-5.  Verify data integrity
-6.  Update frontend for "Active Drives: 0" display
-7.  Test with multiple KAMs
-8.  Re-enable RLS
+### Sprint 3 (Current)
+1. ✅ Testing documentation complete
+2. ✅ Code pushed to GitHub
+3. 🎯 Deploy to Vercel
+4. ⏳ User acceptance testing
+
+### Performance Metrics Feature (New)
+1. 📝 Documentation complete (5 comprehensive guides)
+2. 🎯 Ready for implementation (4-6 hours estimated)
+3. ⏸️ Awaiting user input on:
+   - Strategize button functionality
+   - Chart types and visualizations
+   - Access control for Zonal Heads
+
+**See:** `PERFORMANCE-METRICS-README.md` for complete documentation
+
+---
+
+## 📊 New Feature: Performance Metrics Page
+
+### Status: ✅ All Decisions Confirmed | 🚀 Ready to Implement
+
+**Purpose:** Display KAM-specific drive summaries (NCN, N2R, Items) with metrics and visualizations
+
+**Documentation Created:**
+1. `PERFORMANCE-METRICS-README.md` - Navigation hub
+2. `PERFORMANCE-METRICS-IMPLEMENTATION-PLAN.md` - High-level plan
+3. `PERFORMANCE-METRICS-TECHNICAL-SPEC.md` - Technical details
+4. `PERFORMANCE-METRICS-QUICK-START.md` - Step-by-step guide
+5. `PERFORMANCE-METRICS-PENDING-INPUTS.md` - Decisions tracking
+6. `PERFORMANCE-METRICS-FINAL-DECISIONS.md` - Confirmed scope
+7. `PERFORMANCE-METRICS-CHECKLIST.md` - Implementation tracker
+
+**✅ Confirmed Decisions:**
+- ✅ Database approach (3 new summary tables)
+- ✅ Daily CSV updates (manual import)
+- ✅ KAM-only access (filter by email)
+- ✅ **Charts for all drives** (NCN: 2 charts, N2R: 1 chart, Items: 2 charts)
+- ✅ Strategize button (placeholder, non-functional)
+- ✅ Zonal Head view (separate feature, not in MVP)
+
+**Data Sources:**
+- NCN Coverage Summary.csv (129 KAMs)
+- N2R Summary.csv (61 KAMs)
+- Items Summary.csv (62 KAMs)
+
+**Implementation Time:** 6-8 hours (MVP with charts)
+
+**MVP Includes:**
+- 3 database tables (ncn_summary, n2r_summary, items_summary)
+- Import script for CSV data
+- React hooks with KAM filtering
+- 5 charts total (Bar charts for NCN/N2R, Line charts for Items)
+- Strategize button placeholder
+- Loading/error states
+
+**Next Steps:**
+1. Start Phase 1: Database setup
+2. Follow PERFORMANCE-METRICS-QUICK-START.md
+3. Track progress with PERFORMANCE-METRICS-CHECKLIST.md
 
 ---
 
 **For detailed Sprint 2 strategy, see:** [SPRINT-2-CLEAN-DATA-STRATEGY.md](SPRINT-2-CLEAN-DATA-STRATEGY.md)
+**For Performance Metrics, see:** [PERFORMANCE-METRICS-README.md](PERFORMANCE-METRICS-README.md)

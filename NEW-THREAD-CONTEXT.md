@@ -1,8 +1,8 @@
 # 🔄 NEW THREAD - QUICK CONTEXT
 
 **Project:** Zomato BAU KAM Dashboard
-**Current Sprint:** Sprint 2 - Full Data Import
-**Status:** ✅ COMPLETE - All 6,610 restaurants imported successfully!
+**Current Sprint:** Sprint 3 - Frontend Integration
+**Status:** ✅ PHASE 3 COMPLETE - Performance Metrics UI Implemented!
 **Date:** 2025-11-15
 
 ---
@@ -11,149 +11,181 @@
 
 **✅ All 6,610 restaurants imported successfully!**
 
-### Execution Summary
-- ✅ **Method:** Automatic execution using Supabase service role key
-- ✅ **Script:** `scripts/execute_batches_supabase.py`
-- ✅ **Files Executed:** 80 batch files (NCN, N2R, Items)
-- ✅ **Statements:** 13,110+ UPDATE statements
-- ✅ **Duration:** 10.86 minutes
-- ✅ **Success Rate:** 99.99% (79/80 batches, 13,110/13,111 statements)
-
-### Verification Results
-| Metric | Expected | Actual | Status |
-|--------|----------|--------|--------|
-| Total restaurants | 6,610 | 6,610 | ✅ |
-| With NCN data | ~5,539 | 5,537 | ✅ |
-| With N2R data | ~5,663 | 5,663 | ✅ |
-| With Items data | ~1,909 | 1,909 | ✅ |
-| With all 3 drives | ~1,880 | 1,880 | ✅ |
-| With 0 drives | ~458 | 458 | ✅ |
-
-### Next Steps
-1. Test frontend with full data (`npm run dev`)
-2. Verify restaurant detail pages show correct drive data
-3. Performance testing with 6,610 restaurants
-4. Enable Row Level Security (RLS) for production
-
----
-
-## 📚 WHAT HAPPENED IN THIS SPRINT
-
-### Sprint 2 Journey
-
-#### Phase 1: Test Import (100 Restaurants) ✅
-- ✅ Generated SQL files for 100 restaurants
+### ✅ Phase 1: Database Setup (COMPLETE)
+- ✅ Created schema: `supabase/performance_metrics_schema.sql`
+- ✅ 3 tables created: `ncn_summary`, `n2r_summary`, `items_summary`
+- ✅ Indexes on `kam_email` for fast lookups
 - ✅ Executed in Supabase SQL Editor
-- ✅ Verified base codes formatted correctly ("40% upto 80rs")
-- ✅ Frontend tested and working
 
-#### Phase 2: Full Import Preparation ✅
-- ✅ Generated SQL files for all 6,610 restaurants
-- ✅ Split into 20 parts (5 files each for base, NCN, N2R, Items)
-- ❌ **Problem:** Files too large for Supabase SQL Editor
-- ✅ **Solution:** Further split into 80 batch files
+### ✅ Phase 2: Data Import (COMPLETE)
+- ✅ Created import script: `scripts/import_performance_metrics.py`
+- ✅ Parsed 3 CSV files from `performance-metrics/` folder
+- ✅ Generated SQL files in `sql_output/`
+- ✅ Imported 144 records total:
+  - NCN: 53 KAMs (unique emails, duplicates merged via ON CONFLICT)
+  - N2R: 46 KAMs
+  - Items: 45 KAMs
+- ✅ Data verified in Supabase
 
-#### Phase 3: Automatic Execution Script ✅
-- ✅ Created `scripts/execute_batches_supabase.py`
-- ✅ Uses Supabase service role key for direct API access
-- ✅ Parses UPDATE statements and executes via Supabase client
-- ✅ Progress tracking and error handling
-- ✅ Executed all 80 batches in 10.86 minutes
+### ✅ Phase 3: Frontend Integration (COMPLETE)
+- ✅ Created TypeScript types (`src/types/performanceMetrics.ts`)
+- ✅ Created React hooks (`src/hooks/usePerformanceMetrics.ts`)
+- ✅ Updated KAMAnalytics page with metric cards:
+  - ✅ NCN Drive: Stepper/Base coverage (LA/MM/UM), Flash Sale, BOGO, Overall metrics
+  - ✅ N2R Drive: OV Conversion metrics (LA/MM/UM)
+  - ✅ Items Drive: Weekly trends (OV Coverage & Items Count)
+- ✅ Added loading and error states
+- ✅ Added Strategize button (placeholder, non-functional)
+- ✅ Graceful handling for KAMs not in specific drives (shows "No data available")
 
-#### Phase 4: Verification ✅
-- ✅ All 6,610 restaurants imported
-- ✅ NCN data: 5,537 restaurants (expected ~5,539)
-- ✅ N2R data: 5,663 restaurants (expected ~5,663)
-- ✅ Items data: 1,909 restaurants (expected ~1,909)
-- ✅ Perfect match with expectations!
+### 🔄 Phase 4: Charts Implementation (NEXT)
+- [ ] NCN Chart 1: Stepper vs Base Bar Chart (grouped bars for LA/MM/UM)
+- [ ] NCN Chart 2: Other Metrics Horizontal Bar (Flash Sale, BOGO, Overall)
+- [ ] N2R Chart: Conversion Rates Bar Chart (color-coded by performance)
+- [ ] Items Chart 1: OV Coverage Line Chart (Baseline → W41-44)
+- [ ] Items Chart 2: Items Count Line Chart (Baseline → W41-44)
+
+### ⏸️ Phase 5: Testing & Verification (PENDING)
+- [ ] Test with multiple KAM emails
+- [ ] Verify data accuracy against CSV files
+- [ ] Responsive design check
+- [ ] Chart interactions and tooltips
 
 ---
 
-## 🗂️ PROJECT STRUCTURE
+## 📚 WHAT IS PERFORMANCE METRICS FEATURE?
+
+### Purpose
+Display KAM-level performance summaries for all drives (NCN, N2R, Items <=159) with visualizations.
+
+### Data Source
+- **CSV Files:** 3 files in `performance-metrics/` folder
+  - NCN Coverage Summary (129 rows, 53 unique KAMs)
+  - N2R Summary (61 rows, 46 unique KAMs)
+  - Input Summary (62 rows, 45 unique KAMs)
+- **Update Frequency:** Daily (manual CSV replacement)
+- **Access:** KAM-only (filtered by logged-in KAM email)
+
+### Key Features
+1. **Drive-wise Summaries:**
+   - NCN: 5 metrics (Stepper/Base coverage, Flash Sale, BOGO, Overall)
+   - N2R: 3 OV Conversion metrics (LA, MM, UM)
+   - Items: OV Coverage + Items Count (weekly trends)
+
+2. **Visualizations:**
+   - 5 charts total (bar charts, line charts for trends)
+   - Responsive design
+   - Interactive tooltips
+
+3. **Strategize Button:**
+   - Placeholder for now (non-functional)
+   - Will be enhanced later with recommendations
+
+### Technical Implementation
+- **Database:** 3 summary tables in Supabase
+- **Import:** Python script parses CSVs → generates SQL → executes in Supabase
+- **Frontend:** React hooks + TypeScript types + Chart components
+
+---
+
+## 🗂️ PERFORMANCE METRICS FILE STRUCTURE
 
 ```
 zomato-new/
-├── kam-data.txt                          # SOURCE OF TRUTH (6,610 restaurants)
-├── drive-data/
-│   ├── NCN-codes.csv                     # ~5,539 restaurants
-│   ├── N2R-Codes.csv                     # ~5,663 restaurants
-│   └── Items-159LL.csv                   # ~1,909 restaurants
+├── performance-metrics/                  # 📁 CSV SOURCE FILES
+│   ├── Dashboard Context data Drives - NCN Coverage Summary .csv
+│   ├── Dashboard Context data Drives - N2R Summary.csv
+│   └── Dashboard Context data Drives - Input Summary.csv
 ├── scripts/
-│   ├── import_drive_data_full.py         # Generates SQL files
-│   ├── split_all_large_files.py          # Splits SQL into 80 batches
-│   ├── execute_batches_supabase.py       # ✅ Automatic execution (USED)
-│   └── verify_import.py                  # ✅ Verification script
+│   ├── import_performance_metrics.py     # ✅ Import script (CREATED)
+│   ├── execute_schema.py                 # Schema display helper
+│   ├── execute_ncn_remaining.py          # NCN verification script
+│   └── check_csv_duplicates.py           # CSV analysis script
 ├── supabase/
-│   └── drive_sheets_data_schema.sql      # Database schema (350 columns)
-├── insert_base_restaurants_part1-5.sql   # ✅ EXECUTED (5 files)
-├── update_ncn_fields_part*_batch*.sql    # ✅ EXECUTED (40 batches)
-├── update_n2r_fields_part*_batch*.sql    # ✅ EXECUTED (30 batches)
-├── update_items_fields_part*_batch*.sql  # ✅ EXECUTED (10 batches)
-├── .env.local                            # Contains service role key
-├── AUTOMATIC-EXECUTION-GUIDE.md          # 📖 Guide for automatic execution
-├── SOLUTION-AUTOMATIC-UPLOAD.md          # 📖 Technical explanation
-└── START-HERE.md                         # 📖 Main execution guide
+│   └── performance_metrics_schema.sql    # ✅ Schema (EXECUTED)
+├── sql_output/                           # 📁 GENERATED SQL FILES
+│   ├── insert_ncn_summary.sql            # ✅ EXECUTED (53 records)
+│   ├── insert_n2r_summary.sql            # ✅ EXECUTED (46 records)
+│   └── insert_items_summary.sql          # ✅ EXECUTED (45 records)
+├── src/
+│   ├── types/
+│   │   └── performanceMetrics.ts         # ✅ CREATED
+│   ├── hooks/
+│   │   └── usePerformanceMetrics.ts      # ✅ CREATED
+│   └── pages/
+│       └── KAMAnalytics.tsx              # � TO BE UPDATED
+└── PERFORMANCE-METRICS-*.md              # 📖 Documentation (7 files)
 ```
 
 ---
 
 ## 🔑 KEY CONCEPTS
 
-### Clean Data Strategy
-1. **kam-data.txt** = SOURCE OF TRUTH (base layer)
-2. **Drive CSVs** = Enrichment layers (overlay on base)
-3. **Import Order:** INSERT base first, then UPDATE with drive data
+### Database Schema
+- **3 Summary Tables:** One per drive (NCN, N2R, Items)
+- **Primary Key:** `kam_email` (ensures one record per KAM)
+- **ON CONFLICT:** Duplicates are merged (updates existing record)
+- **Data Types:** All metrics stored as TEXT to preserve formatting (e.g., "45%", "▲ 5%")
 
 ### Data Flow
 ```
-kam-data.txt (6,625 restaurants)
-    ↓ INSERT
-drive_sheets_data table (100 restaurants in test mode)
-    ↓ UPDATE
-Add NCN data (100 restaurants)
-    ↓ UPDATE
-Add N2R data (100 restaurants)
-    ↓ UPDATE
-Add Items data (57 restaurants)
+CSV Files (performance-metrics/)
+    ↓ Parse
+Python Script (import_performance_metrics.py)
+    ↓ Generate
+SQL Files (sql_output/)
+    ↓ Execute
+Supabase Tables (ncn_summary, n2r_summary, items_summary)
+    ↓ Fetch
+React Hooks (usePerformanceMetrics)
+    ↓ Display
+KAMAnalytics Page (Charts + Metrics)
 ```
 
-### Test Mode vs Full Import
-- **Test Mode:** `--limit 100` flag (current state)
-- **Full Import:** No flag (6,625 restaurants)
+### Why 53 NCN Records (not 98)?
+- CSV has 98 INSERT statements but only 53 unique `kam_email` values
+- `ON CONFLICT (kam_email) DO UPDATE` merges duplicates
+- This is **correct behavior** - one record per KAM
 
 ---
 
-## 📊 ACTUAL RESULTS (Full Import Complete)
+## 📊 IMPORT RESULTS (Performance Metrics)
 
-✅ **All data imported successfully!**
+✅ **Phase 2 Complete - Data imported successfully!**
 
-| Metric | Expected | Actual | Match |
-|--------|----------|--------|-------|
-| Total restaurants | 6,610 | 6,610 | ✅ Perfect |
-| With NCN data | ~5,539 | 5,537 | ✅ Perfect |
-| With N2R data | ~5,663 | 5,663 | ✅ Perfect |
-| With Items data | ~1,909 | 1,909 | ✅ Perfect |
-| With all 3 drives | ~1,880 | 1,880 | ✅ Perfect |
-| With 0 drives | ~458 | 458 | ✅ Perfect |
+| Table | Records Imported | Status |
+|-------|------------------|--------|
+| ncn_summary | 53 | ✅ Complete |
+| n2r_summary | 46 | ✅ Complete |
+| items_summary | 45 | ✅ Complete |
+| **Total** | **144** | ✅ Complete |
+
+### Verification Query Used:
+```sql
+SELECT 'ncn_summary' as table_name, COUNT(*) as row_count FROM ncn_summary
+UNION ALL
+SELECT 'n2r_summary', COUNT(*) FROM n2r_summary
+UNION ALL
+SELECT 'items_summary', COUNT(*) FROM items_summary;
+```
 
 ---
 
 ## 🛠️ USEFUL COMMANDS
 
-### Verify Import
+### Regenerate SQL files (if CSV updated)
 ```bash
-python scripts/verify_import.py
+python scripts/import_performance_metrics.py
 ```
 
-### Re-run Automatic Import (if needed)
+### View schema
 ```bash
-python scripts/execute_batches_supabase.py
+python scripts/execute_schema.py
 ```
 
-### Regenerate SQL files (if needed)
+### Check for duplicates in CSV
 ```bash
-# Full import (6,610 restaurants)
-python scripts/import_drive_data_full.py
+python scripts/check_csv_duplicates.py
 ```
 
 ### Start frontend
@@ -162,7 +194,7 @@ npm run dev
 ```
 
 ### Test Login
-- Email: any @zomato.com email
+- Email: `bhuwneshwari.dhouni@zomato.com` (or any KAM email from CSV)
 - Password: `1234`
 
 ---
@@ -170,77 +202,78 @@ npm run dev
 ## 📖 DETAILED DOCUMENTATION
 
 For complete details, see:
-- **`SPRINT-2-READY-TO-EXECUTE.md`** - Step-by-step execution guide
-- **`SPRINT-2-CLEAN-DATA-STRATEGY.md`** - Data import strategy
-- **`DATABASE-TO-FRONTEND-COMPLETE-GUIDE.md`** - How data flows to UI
+- **`PERFORMANCE-METRICS-FINAL-DECISIONS.md`** - All confirmed decisions
+- **`PERFORMANCE-METRICS-QUICK-START.md`** - Step-by-step implementation guide
+- **`PERFORMANCE-METRICS-TECHNICAL-SPEC.md`** - Database schema, types, hooks
+- **`PERFORMANCE-METRICS-IMPLEMENTATION-PLAN.md`** - High-level plan with phases
+- **`PERFORMANCE-METRICS-PENDING-INPUTS.md`** - Deferred features (Strategize button, etc.)
 
 ---
 
 ## ⚠️ CRITICAL RULES
 
 1. **NEVER edit package files manually** - Use package managers (npm, pip, etc.)
-2. **ALWAYS execute SQL files in order** - Don't skip or reorder
-3. **kam-data.txt is SOURCE OF TRUTH** - All restaurants must exist there first
-4. **NULL values are expected** - Restaurants not in a drive will have NULL fields
-5. **Test before full import** - Verify 100 restaurants work before importing 6,625
+2. **CSV files are source of truth** - Update CSVs, then re-run import script
+3. **kam_email is PRIMARY KEY** - Duplicates are merged automatically
+4. **All metrics are TEXT** - Preserves formatting like "45%", "▲ 5%"
+5. **Daily CSV updates** - Replace CSV files, re-run import script
 
 ---
 
 ## 🎯 SUCCESS CRITERIA
 
-### Sprint 2 - Full Import ✅ COMPLETED
-- ✅ All 6,610 restaurants imported
-- ✅ All restaurants have KAM assignments
-- ✅ Drive data correctly enriched (5,537 NCN, 5,663 N2R, 1,909 Items)
-- ✅ Verification queries show perfect match with expectations
-- ✅ Automatic execution script working flawlessly
-- ✅ Base codes formatted as "40% upto 80rs"
-- ✅ Import completed in 10.86 minutes (vs 40-50 minutes manual)
-- ✅ 99.99% success rate (13,110/13,111 statements)
+### Phase 1: Database Setup ✅ COMPLETED
+- ✅ Schema created with 3 tables
+- ✅ Indexes on kam_email
+- ✅ Executed in Supabase
+
+### Phase 2: Data Import ✅ COMPLETED
+- ✅ Import script created
+- ✅ CSV parsing working
+- ✅ SQL generation working
+- ✅ 144 records imported (53 NCN, 46 N2R, 45 Items)
+- ✅ Data verified in Supabase
+
+### Phase 3: Frontend Integration � NEXT
+- [ ] TypeScript types created
+- [ ] React hooks created
+- [ ] KAMAnalytics page updated
+- [ ] 5 charts implemented
+- [ ] Strategize button added (placeholder)
+
+### Phase 4: Testing & Polish ⏸️ PENDING
+- [ ] Test with multiple KAMs
+- [ ] Verify data accuracy
+- [ ] Responsive design
+- [ ] Chart interactions
 
 ---
 
-## 🚀 NEXT STEPS (Sprint 3 and Beyond)
+## 📋 Quick Reference
 
-1. ✅ Execute test import (100 restaurants) - **COMPLETED**
-2. ✅ Verify data in Supabase - **COMPLETED**
-3. ✅ Test frontend with imported data - **COMPLETED**
-4. ✅ Run full import (6,610 restaurants) - **COMPLETED**
-5. ✅ Final verification - **COMPLETED**
-6. 🎯 **NEXT:** Performance testing with full dataset
-7. 🎯 Test frontend with 6,610 restaurants
-8. 🎯 Enable Row Level Security (RLS)
-9. 🎯 Multi-user testing
-10. 🎯 Production deployment
+### Database Tables
+- `ncn_summary` - 53 records (NCN drive metrics)
+- `n2r_summary` - 46 records (N2R drive metrics)
+- `items_summary` - 45 records (Items drive metrics)
 
----
+### Key Columns
+**NCN:** la_base_coverage, mm_base_coverage, um_base_coverage, la_stepper_coverage, mm_stepper_coverage, um_stepper_coverage, delta_la, delta_mm, delta_um, flash_sale_coverage, bogo_ov_coverage, overall_ov_coverage, overall_res_coverage
 
-## 📋 Quick Commands Reference
+**N2R:** la_ov_conversion, mm_ov_conversion, um_ov_conversion
 
-### Verify Import
-```bash
-python scripts/verify_import.py
-```
+**Items:** ov_baseline, ov_week41-44, ov_delta, ov_wow, items_baseline, items_week41-44, items_delta, items_wow
 
-### Start Frontend
-```bash
-npm run dev
-```
-
-### Test Login Credentials
-- Email: any @zomato.com email (e.g., `bhuwneshwari.dhouni@zomato.com`)
-- Password: `1234`
-
-### Re-run Import (if needed)
-```bash
-python scripts/execute_batches_supabase.py
-```
+### Test KAM Emails
+- `bhuwneshwari.dhouni@zomato.com`
+- `rinkel.shah@zomato.com`
+- `shiwani.jha@zomato.com`
 
 ---
 
-## 🎊 SPRINT 2 COMPLETE!
+## 🚀 NEXT: PHASE 3 - FRONTEND INTEGRATION
 
-**All 6,610 restaurants with full drive data imported successfully!**
-
-**Next:** Test the frontend and verify performance with full dataset.
+**Ready to create:**
+1. TypeScript types (`src/types/performanceMetrics.ts`)
+2. React hooks (`src/hooks/usePerformanceMetrics.ts`)
+3. Update KAMAnalytics page with charts and metrics
 
