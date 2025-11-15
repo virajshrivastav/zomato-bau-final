@@ -1,28 +1,45 @@
 import { ManagementCard } from "@/components/temp/ui/ManagementCard";
-import { Comment } from "@/types/restaurantTemp";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageSquare, Send } from "lucide-react";
+import { MessageSquare, Send, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useRestaurantComments, useAddComment } from "@/hooks/useRestaurantComments";
+import { useToast } from "@/hooks/use-toast";
 
 interface CommentsSectionProps {
-  comments: Comment[];
+  resId: string;
 }
 
-export const CommentsSection = ({ comments: initialComments }: CommentsSectionProps) => {
-  const [comments, setComments] = useState(initialComments);
+export const CommentsSection = ({ resId }: CommentsSectionProps) => {
   const [newComment, setNewComment] = useState("");
+  const { toast } = useToast();
 
-  const handleAddComment = () => {
-    if (newComment.trim()) {
-      const comment: Comment = {
-        id: Date.now().toString(),
-        author: "Current User (KAM)",
-        text: newComment,
-        timestamp: new Date().toISOString(),
-      };
-      setComments([comment, ...comments]);
+  // Fetch comments from database
+  const { data: comments = [], isLoading, error } = useRestaurantComments(resId);
+
+  // Add comment mutation
+  const addCommentMutation = useAddComment();
+
+  const handleAddComment = async () => {
+    if (!newComment.trim()) return;
+
+    try {
+      await addCommentMutation.mutateAsync({
+        res_id: resId,
+        comment_text: newComment,
+      });
       setNewComment("");
+      toast({
+        title: "Comment added",
+        description: "Your comment has been saved successfully.",
+      });
+    } catch (error) {
+      console.error("Failed to add comment:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add comment. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -45,6 +62,28 @@ export const CommentsSection = ({ comments: initialComments }: CommentsSectionPr
     }
   };
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <ManagementCard title="Comments & Notes" subtitle="KAM Workflow & Communication">
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+        </div>
+      </ManagementCard>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <ManagementCard title="Comments & Notes" subtitle="KAM Workflow & Communication">
+        <div className="text-center py-12 bg-destructive/10 rounded-lg border border-destructive/20">
+          <p className="text-sm text-destructive">Failed to load comments</p>
+        </div>
+      </ManagementCard>
+    );
+  }
+
   return (
     <ManagementCard title="Comments & Notes" subtitle="KAM Workflow & Communication">
       {/* Add New Comment */}
@@ -60,11 +99,15 @@ export const CommentsSection = ({ comments: initialComments }: CommentsSectionPr
           <Button
             type="button"
             onClick={handleAddComment}
-            disabled={!newComment.trim()}
+            disabled={!newComment.trim() || addCommentMutation.isPending}
             size="sm"
             className="shadow-sm hover:shadow-md transition-all"
           >
-            <Send className="w-4 h-4 mr-2" />
+            {addCommentMutation.isPending ? (
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <Send className="w-4 h-4 mr-2" />
+            )}
             Add Comment
           </Button>
         </div>
@@ -80,18 +123,20 @@ export const CommentsSection = ({ comments: initialComments }: CommentsSectionPr
             >
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-primary-foreground text-sm font-bold flex-shrink-0 shadow-sm">
-                  {comment.author.split(" ")[0][0]}
-                  {comment.author.split(" ")[1]?.[0] || ""}
+                  {comment.author_name?.split(" ")[0][0] || comment.author_email[0].toUpperCase()}
+                  {comment.author_name?.split(" ")[1]?.[0] || ""}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-sm font-semibold text-foreground">{comment.author}</span>
+                    <span className="text-sm font-semibold text-foreground">
+                      {comment.author_name || comment.author_email}
+                    </span>
                     <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
-                      {formatTimestamp(comment.timestamp)}
+                      {formatTimestamp(comment.created_at)}
                     </span>
                   </div>
                   <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">
-                    {comment.text}
+                    {comment.comment_text}
                   </p>
                 </div>
               </div>

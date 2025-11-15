@@ -15,7 +15,6 @@ import {
   NCNData,
   N2RData,
   ItemsData,
-  Comment,
 } from "@/types/restaurantTemp";
 import { parseStepperCode } from "@/utils/parseStepperCode";
 import { parseBaseCode } from "@/utils/parseBaseCode";
@@ -315,23 +314,13 @@ const RestaurantDetail = () => {
     approached: restaurant.items_approached?.toLowerCase() === "yes" ? "yes" : "no",
     converted: restaurant.items_converted?.toLowerCase() === "yes" ? "yes" : "no",
     itemsAdded: [
-      { id: "1", value: "", checked: false },
-      { id: "2", value: "", checked: false },
-      { id: "3", value: "", checked: false },
-      { id: "4", value: "", checked: false },
-      { id: "5", value: "", checked: false },
+      { id: "1", value: "", price: "", checked: false },
+      { id: "2", value: "", price: "", checked: false },
+      { id: "3", value: "", price: "", checked: false },
+      { id: "4", value: "", price: "", checked: false },
+      { id: "5", value: "", price: "", checked: false },
     ],
   };
-
-  // Comments Data - TODO: Fetch from database
-  const commentsData: Comment[] = [
-    {
-      id: "1",
-      author: user?.email || "KAM",
-      text: "Initial contact made with restaurant owner.",
-      timestamp: new Date(Date.now() - 86400000).toISOString(),
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-background pb-8">
@@ -352,7 +341,7 @@ const RestaurantDetail = () => {
         </div>
 
         {/* Comments Section */}
-        <CommentsSection comments={commentsData} />
+        <CommentsSection resId={resId} />
       </div>
     </div>
   );

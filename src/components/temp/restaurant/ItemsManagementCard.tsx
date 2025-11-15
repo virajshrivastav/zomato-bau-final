@@ -28,6 +28,13 @@ export const ItemsManagementCard = ({ data: initialData }: ItemsManagementCardPr
     });
   };
 
+  const handleItemPriceChange = (id: string, price: string) => {
+    setData({
+      ...data,
+      itemsAdded: data.itemsAdded.map((item) => (item.id === id ? { ...item, price } : item)),
+    });
+  };
+
   const handleItemCheckedChange = (id: string) => {
     setData({
       ...data,
@@ -98,13 +105,21 @@ export const ItemsManagementCard = ({ data: initialData }: ItemsManagementCardPr
         <div className="space-y-2">
           {data.itemsAdded.map((item, index) => (
             <div key={item.id} className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">{index + 1}.</span>
+              <span className="text-sm text-muted-foreground w-4">{index + 1}.</span>
               <Input
                 type="text"
                 value={item.value}
                 onChange={(e) => handleItemAddedChange(item.id, e.target.value)}
-                placeholder="Enter item name"
+                placeholder="Item name"
                 className="flex-1 h-8 text-sm"
+                autoComplete="off"
+              />
+              <Input
+                type="text"
+                value={item.price}
+                onChange={(e) => handleItemPriceChange(item.id, e.target.value)}
+                placeholder="Price"
+                className="w-20 h-8 text-sm"
                 autoComplete="off"
               />
               <Checkbox

@@ -91,7 +91,8 @@ export interface N2RData {
 // Items <= 159 Interfaces
 export interface ItemAddedField {
   id: string;
-  value: string;
+  value: string; // Item name
+  price: string; // Item price
   checked: boolean;
 }
 

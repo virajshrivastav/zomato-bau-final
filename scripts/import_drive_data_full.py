@@ -266,6 +266,10 @@ def load_ncn_data(kam_mapping):
 
         ncn_data[res_id] = {
             'res_id': res_id,
+            # Basic Info (from NCN CSV)
+            'cuisine': safe_str(row['Cuisine']),
+            'locality': safe_str(row['Locality']),
+
             # Priorities
             'ncn_p1': safe_str(row['P1']),
             'ncn_p2': safe_str(row['P2']),
@@ -365,6 +369,8 @@ def generate_ncn_update_sql(ncn_data):
     for res_id, data in ncn_data.items():
         sql = f"""UPDATE drive_sheets_data
 SET
+    cuisine = {escape_sql(data['cuisine'])},
+    locality = {escape_sql(data['locality'])},
     ncn_p1 = {escape_sql(data['ncn_p1'])},
     ncn_p2 = {escape_sql(data['ncn_p2'])},
     ncn_p3 = {escape_sql(data['ncn_p3'])},

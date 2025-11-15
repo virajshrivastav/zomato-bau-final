@@ -146,6 +146,13 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                       {/* Percentage-based code (base code) */}
                       {code.percentage !== undefined ? (
                         <>
+                          {/* Display formatted base code prominently */}
+                          <div className="mb-2 p-1.5 bg-primary/10 rounded border border-primary/20">
+                            <span className="text-xs font-bold text-primary">
+                              {code.percentage}% upto {code.maxAmount}rs
+                            </span>
+                          </div>
+                          {/* Editable inputs */}
                           <div className="flex items-center gap-1">
                             <span className="text-[10px]">Flat</span>
                             <Input
@@ -279,6 +286,13 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                       {/* Percentage-based code (base code) */}
                       {code.percentage !== undefined ? (
                         <>
+                          {/* Display formatted base code prominently */}
+                          <div className="mb-2 p-1.5 bg-primary/10 rounded border border-primary/20">
+                            <span className="text-xs font-bold text-primary">
+                              {code.percentage}% upto {code.maxAmount}rs
+                            </span>
+                          </div>
+                          {/* Editable inputs */}
                           <div className="flex items-center gap-1">
                             <span className="text-[10px]">Flat</span>
                             <Input
@@ -412,6 +426,13 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                       {/* Percentage-based code (base code) */}
                       {code.percentage !== undefined ? (
                         <>
+                          {/* Display formatted base code prominently */}
+                          <div className="mb-2 p-1.5 bg-primary/10 rounded border border-primary/20">
+                            <span className="text-xs font-bold text-primary">
+                              {code.percentage}% upto {code.maxAmount}rs
+                            </span>
+                          </div>
+                          {/* Editable inputs */}
                           <div className="flex items-center gap-1">
                             <span className="text-[10px]">Flat</span>
                             <Input

@@ -29,6 +29,14 @@ How to run the automatic data import script for all 6,610 restaurants.
 - Troubleshooting
 - Verification
 
+#### **SUPABASE-DATA-IMPORT-GUIDE.md**
+General guide for importing data to Supabase using Python (for any IDE).
+- Supabase Python client setup
+- Service role key configuration
+- SQL parsing and execution patterns
+- Batch processing examples
+- Security best practices
+
 #### **DATABASE-TO-FRONTEND-COMPLETE-GUIDE.md**
 Complete technical guide for data flow from database to frontend.
 - Database schema
@@ -127,6 +135,7 @@ zomato-new/
 ├── PROJECT-STATUS.md                      # Current project status
 ├── SPRINT-2-COMPLETION-SUMMARY.md         # Latest sprint summary
 ├── AUTOMATIC-EXECUTION-GUIDE.md           # How to run imports
+├── SUPABASE-DATA-IMPORT-GUIDE.md          # General Supabase import guide
 ├── DATABASE-TO-FRONTEND-COMPLETE-GUIDE.md # Technical guide
 ├── SYSTEM-ARCHITECTURE-DIAGRAM.md         # Architecture overview
 ├── DOCUMENTATION-UPDATED.md               # Recent updates log
@@ -177,7 +186,7 @@ zomato-new/
 
 ---
 
-**Total Root Files:** 9 (including this index)  
-**Archived Files:** 38  
+**Total Root Files:** 11 (including this index)
+**Archived Files:** 37
 **Organization Date:** 2025-11-15
 
