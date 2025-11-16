@@ -75,3 +75,4 @@ pic.jpg
 # Old component versions
 *-old.tsx
 *-old.ts
+.vercel

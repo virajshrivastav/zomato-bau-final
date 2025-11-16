@@ -7,8 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDriveSheets } from "@/hooks/useDriveSheets";
-import { usePerformanceMetrics } from "@/hooks/usePerformanceMetrics";
-import { ChevronRight, Store, Home, Loader2 } from "lucide-react";
+import { ChevronRight, Store, ArrowLeft, Loader2, BarChart3 } from "lucide-react";
 
 // Helper function to determine status based on restaurant data
 const getRestaurantStatus = (
@@ -33,12 +32,6 @@ const KAMHub = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { data: restaurants, isLoading, error } = useDriveSheets();
-  const {
-    ncn,
-    n2r,
-    items,
-    isLoading: isLoadingPerformance,
-  } = usePerformanceMetrics(user?.email || "");
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filter restaurants based on search
@@ -92,10 +85,10 @@ const KAMHub = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => navigate("/")}
+                onClick={() => navigate(-1)}
                 className="hover:bg-muted"
               >
-                <Home className="h-5 w-5" />
+                <ArrowLeft className="h-5 w-5" />
               </Button>
               <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold">
                 {getUserInitials(user?.email)}
@@ -208,80 +201,25 @@ const KAMHub = () => {
               </div>
             </div>
 
-            {/* Right Column - Performance Metrics */}
+            {/* Right Column - Performance Metrics Button */}
             <div className="lg:col-span-1">
-              <Card className="sticky top-24">
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-6">
-                    <div>
-                      <h3 className="text-xl font-bold text-foreground">Performance Metrics</h3>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Your key drive indicators
-                      </p>
-                    </div>
-                    <Button
-                      onClick={() => navigate("/kam-analytics")}
-                      variant="ghost"
-                      size="sm"
-                      className="text-xs text-primary hover:text-primary"
-                    >
-                      View Full Analytics
-                    </Button>
-                  </div>
-
-                  {isLoadingPerformance ? (
-                    <div className="flex items-center justify-center py-8">
-                      <Loader2 className="w-6 h-6 animate-spin text-primary" />
-                    </div>
-                  ) : (
-                    <>
-                      {/* NCN Metric */}
-                      <div className="mb-6 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-semibold text-foreground">NCN</span>
-                          <span className="text-2xl font-bold text-foreground">
-                            {ncn.data?.overall_ov_coverage || "N/A"}
-                          </span>
-                        </div>
-                        <p className="text-xs text-muted-foreground">New Customers to New</p>
-                      </div>
-
-                      {/* N2R Metric */}
-                      <div className="mb-6 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-semibold text-foreground">N2R</span>
-                          <span className="text-2xl font-bold text-foreground">
-                            {n2r.data?.la_ov_conversion || "N/A"}
-                          </span>
-                        </div>
-                        <p className="text-xs text-muted-foreground">New to Regular</p>
-                      </div>
-
-                      {/* Items <=159 Metric */}
-                      <div className="mb-6 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-semibold text-foreground">Items ≤159</span>
-                          <span className="text-2xl font-bold text-foreground">
-                            {items.data?.ov_coverage_delta || "N/A"}
-                          </span>
-                        </div>
-                        <p className="text-xs text-muted-foreground">Items Drive Performance</p>
-                      </div>
-
-                      {/* Active Drives Metric */}
-                      <div className="p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-semibold text-foreground">Active</span>
-                          <span className="text-2xl font-bold text-foreground">
-                            {[ncn.data, n2r.data, items.data].filter(Boolean).length}
-                          </span>
-                        </div>
-                        <p className="text-xs text-muted-foreground">Total Active Drives</p>
-                      </div>
-                    </>
-                  )}
+              <Button
+                onClick={() => navigate("/kam-analytics")}
+                className="w-full h-auto p-6 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 group sticky top-24"
+                size="lg"
+              >
+                <div className="p-4 bg-white/10 rounded-full group-hover:scale-110 transition-transform duration-300">
+                  <BarChart3 className="h-8 w-8" />
                 </div>
-              </Card>
+                <div className="text-center">
+                  <h3 className="text-xl font-bold mb-1">Performance Metrics</h3>
+                  <p className="text-sm opacity-90">View your analytics & rankings</p>
+                </div>
+                <div className="flex items-center gap-2 text-sm font-medium opacity-90 group-hover:gap-3 transition-all">
+                  <span>View Details</span>
+                  <ChevronRight className="h-4 w-4" />
+                </div>
+              </Button>
             </div>
           </div>
         </div>

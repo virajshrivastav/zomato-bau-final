@@ -1,6 +1,6 @@
 import { MetricCard } from "@/components/temp/ui/MetricCard";
 import { RestaurantMetrics } from "@/types/restaurantTemp";
-import { Grid3x3, TrendingUp, IndianRupee, Smartphone } from "lucide-react";
+import { Grid3x3, TrendingUp, IndianRupee, Smartphone, Percent } from "lucide-react";
 
 interface MetricsRowProps {
   metrics: RestaurantMetrics;
@@ -11,6 +11,9 @@ export const MetricsRow = ({ metrics }: MetricsRowProps) => {
   const formattedAdsBR = metrics.adsBRCM
     ? `₹${parseFloat(metrics.adsBRCM).toLocaleString("en-IN")}`
     : "N/A";
+
+  // Format Commission for display
+  const formattedCommission = metrics.commission ? `${metrics.commission}%` : "N/A";
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -28,11 +31,11 @@ export const MetricsRow = ({ metrics }: MetricsRowProps) => {
         description="Zomato Vouchered Discount Per Order"
       />
       <MetricCard
-        title="ADS Achievement"
-        value={metrics.adsAvgAchievement || "N/A"}
-        icon={IndianRupee}
+        title="Commission"
+        value={formattedCommission}
+        icon={Percent}
         variant="warning"
-        description="Average ADS Achievement"
+        description={metrics.lastChangeDate || "Last Change Date: N/A"}
       />
       <MetricCard
         title="ADS BR (CM)"

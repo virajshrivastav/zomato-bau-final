@@ -1,7 +1,9 @@
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import LeaderboardBar from "@/components/LeaderboardBar";
 import PodiumDisplay from "@/components/PodiumDisplay";
-import { Sparkles, Target, TrendingUp } from "lucide-react";
+import { Sparkles, Target, TrendingUp, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface ZonalHead {
   name: string;
@@ -11,6 +13,8 @@ interface ZonalHead {
 }
 
 const LiveSprints = () => {
+  const navigate = useNavigate();
+
   const participants: ZonalHead[] = [
     { name: "Arjun Mehta", achievement: 95, rank: 1, zone: "East Zone" },
     { name: "Sneha Kapoor", achievement: 80, rank: 2, zone: "East Zone" },
@@ -28,6 +32,26 @@ const LiveSprints = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20">
+      {/* Navigation Header */}
+      <header className="bg-card border-b border-border sticky top-0 z-50 shadow-sm">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate(-1)}
+              className="hover:bg-muted"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            <div>
+              <h1 className="text-xl font-bold text-foreground">Live Sprints</h1>
+              <p className="text-xs text-muted-foreground">Real-time performance tracking</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
       {/* Header Section */}
       <div className="bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 border-b-4 border-primary/20">
         <div className="container mx-auto px-6 py-8">

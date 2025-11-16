@@ -77,6 +77,8 @@ const RestaurantDetail = () => {
     },
     adsAvgAchievement: restaurant.ads_avg_achievement || undefined,
     adsBRCM: restaurant.ads_br_cm || undefined,
+    commission: restaurant.current_commission || undefined,
+    lastChangeDate: restaurant.last_change_date || undefined,
     toingFlag: (restaurant.toing_flag as "Live" | "Not Live") || "Not Live",
   };
 

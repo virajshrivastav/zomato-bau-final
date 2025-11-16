@@ -23,6 +23,33 @@ interface UpdateCommentParams {
 }
 
 /**
+ * Sync comments to Google Sheets via Vercel API
+ * Non-blocking: failures are logged but don't affect user experience
+ */
+async function syncCommentsToGoogleSheets(resId: string) {
+  try {
+    const response = await fetch("/api/sync-sheets", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ resId, drive: "comments" }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error(`[Sheets Sync] Failed for ${resId} (comments):`, error);
+    } else {
+      const result = await response.json();
+      console.log(`[Sheets Sync] Success for ${resId} (comments):`, result);
+    }
+  } catch (error) {
+    // Non-blocking: log error but don't throw
+    console.error(`[Sheets Sync] Error for ${resId} (comments):`, error);
+  }
+}
+
+/**
  * Hook to fetch comments for a specific restaurant
  */
 export function useRestaurantComments(resId: string) {
@@ -82,6 +109,9 @@ export function useAddComment() {
       queryClient.invalidateQueries({
         queryKey: ["restaurant-comments", data.res_id],
       });
+
+      // Sync to Google Sheets (non-blocking)
+      syncCommentsToGoogleSheets(data.res_id);
     },
   });
 }
@@ -113,6 +143,9 @@ export function useUpdateComment() {
       queryClient.invalidateQueries({
         queryKey: ["restaurant-comments", data.res_id],
       });
+
+      // Sync to Google Sheets (non-blocking)
+      syncCommentsToGoogleSheets(data.res_id);
     },
   });
 }
@@ -124,7 +157,7 @@ export function useDeleteComment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async ({ id, res_id }: { id: string; res_id: string }) => {
       const { error } = await supabase.from("restaurant_comments").delete().eq("id", id);
 
       if (error) {
@@ -132,13 +165,16 @@ export function useDeleteComment() {
         throw error;
       }
 
-      return id;
+      return { id, res_id };
     },
-    onSuccess: (_, id) => {
+    onSuccess: (data) => {
       // Invalidate all comment queries
       queryClient.invalidateQueries({
         queryKey: ["restaurant-comments"],
       });
+
+      // Sync to Google Sheets (non-blocking)
+      syncCommentsToGoogleSheets(data.res_id);
     },
   });
 }

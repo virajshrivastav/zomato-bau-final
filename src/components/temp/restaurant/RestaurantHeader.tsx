@@ -42,7 +42,7 @@ export const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
             type="button"
             variant="ghost"
             size="icon"
-            onClick={() => navigate("/kam-hub")}
+            onClick={() => navigate(-1)}
             className="hover:bg-muted flex-shrink-0 mt-1"
           >
             <ArrowLeft className="h-5 w-5" />

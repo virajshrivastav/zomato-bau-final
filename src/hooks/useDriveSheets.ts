@@ -20,6 +20,10 @@ export interface DriveSheetData {
   ads_br_cm: string | null; // ADS Booked Revenue Current Month
   toing_flag: string | null;
 
+  // Commission Data
+  current_commission: string | null; // Current commission percentage
+  last_change_date: string | null; // Last commission change date
+
   // KAM Notes & Comments
   kam_notes: string | null; // General comments/notes from KAMs (synced with Google Sheets)
 

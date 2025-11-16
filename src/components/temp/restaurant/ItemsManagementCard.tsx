@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ToggleButtonGroup } from "@/components/temp/ui/ToggleButtonGroup";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useUpdateItemsApproached,
   useUpdateItemsConverted,
@@ -21,6 +21,11 @@ interface ItemsManagementCardProps {
 export const ItemsManagementCard = ({ data: initialData, resId }: ItemsManagementCardProps) => {
   const [data, setData] = useState(initialData);
   const { toast } = useToast();
+
+  // Sync local state with prop changes (e.g., after refetch on sign in)
+  useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // Mutation hooks
   const updateApproached = useUpdateItemsApproached();

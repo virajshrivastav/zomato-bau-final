@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useUpdateNCNApproached,
   useUpdateNCNConverted,
@@ -22,6 +22,11 @@ interface NCNManagementCardProps {
 export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCardProps) => {
   const [data, setData] = useState(initialData);
   const { toast } = useToast();
+
+  // Sync local state with prop changes (e.g., after refetch on sign in)
+  useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // Mutation hooks
   const updateApproached = useUpdateNCNApproached();

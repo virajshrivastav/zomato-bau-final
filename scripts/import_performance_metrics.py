@@ -23,7 +23,7 @@ import pandas as pd
 from datetime import datetime
 
 # File paths
-NCN_CSV = "performance-metrics/Dashboard Context data Drives - NCN Coverage Summary .csv"
+NCN_CSV = "performance-metrics/Dashboard Context data Drives - NCN Coverage Summary  (1)new.csv"
 N2R_CSV = "performance-metrics/Dashboard Context data Drives - N2R Summary.csv"
 ITEMS_CSV = "performance-metrics/Dashboard Context data Drives - Input Summary.csv"
 
@@ -87,7 +87,7 @@ def parse_ncn_csv():
             'kam_name': safe_str(row.iloc[1]).split('@')[0] if '@' in safe_str(row.iloc[1]) else 'NULL',
             'tl_email': safe_str(row.iloc[2]),  # Column C
             'team': safe_str(row.iloc[3]),  # Column D
-            
+
             # Stepper/Base Coverage (Columns E-J)
             'la_base_coverage': safe_str(row.iloc[4]),
             'mm_base_coverage': safe_str(row.iloc[5]),
@@ -95,22 +95,22 @@ def parse_ncn_csv():
             'la_stepper_coverage': safe_str(row.iloc[7]),
             'mm_stepper_coverage': safe_str(row.iloc[8]),
             'um_stepper_coverage': safe_str(row.iloc[9]),
-            
+
             # Delta (Columns K-M)
             'delta_la': safe_str(row.iloc[10]),
             'delta_mm': safe_str(row.iloc[11]),
             'delta_um': safe_str(row.iloc[12]),
-            
+
             # Other metrics (Columns O, Q, T, U)
             'flash_sale_coverage': safe_str(row.iloc[14]),  # Column O
             'bogo_ov_coverage': safe_str(row.iloc[16]),  # Column Q
             'overall_ov_coverage': safe_str(row.iloc[19]),  # Column T
             'overall_res_coverage': safe_str(row.iloc[20]),  # Column U
-            
-            # BOGO sub-metrics (Columns V-X)
-            'bogo_get150': safe_str(row.iloc[22]),  # Column W (GET150)
-            'bogo_take150': safe_str(row.iloc[23]),  # Column X (TAKE150)
-            'bogo_binge150': safe_str(row.iloc[24]),  # Column Y (BINGE150)
+
+            # BOGO sub-metrics not present in current CSV
+            'bogo_get150': 'NULL',
+            'bogo_take150': 'NULL',
+            'bogo_binge150': 'NULL',
         }
         data.append(record)
 

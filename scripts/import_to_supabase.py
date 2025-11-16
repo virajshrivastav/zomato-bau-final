@@ -27,7 +27,7 @@ if not url or not key:
 supabase: Client = create_client(url, key)
 
 # File paths
-NCN_CSV = "performance-metrics/Dashboard Context data Drives - NCN Coverage Summary .csv"
+NCN_CSV = "performance-metrics/Dashboard Context data Drives - NCN Coverage Summary  (1)new.csv"
 N2R_CSV = "performance-metrics/Dashboard Context data Drives - N2R Summary.csv"
 ITEMS_CSV = "performance-metrics/Dashboard Context data Drives - Input Summary.csv"
 
@@ -87,9 +87,10 @@ def parse_ncn_csv():
             'bogo_ov_coverage': safe_str(row.iloc[16]),
             'overall_ov_coverage': safe_str(row.iloc[19]),
             'overall_res_coverage': safe_str(row.iloc[20]),
-            'bogo_get150': safe_str(row.iloc[22]),
-            'bogo_take150': safe_str(row.iloc[23]),
-            'bogo_binge150': safe_str(row.iloc[24]),
+            # BOGO sub-metrics not present in current CSV
+            'bogo_get150': None,
+            'bogo_take150': None,
+            'bogo_binge150': None,
         }
         data_dict[kam_email] = record  # This will overwrite duplicates with latest
 

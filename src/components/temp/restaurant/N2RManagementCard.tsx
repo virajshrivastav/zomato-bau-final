@@ -1,7 +1,7 @@
 import { ManagementCard } from "@/components/temp/ui/ManagementCard";
 import { ToggleButtonGroup } from "@/components/temp/ui/ToggleButtonGroup";
 import { N2RData } from "@/types/restaurantTemp";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUpdateN2RApproached, useUpdateN2RConverted } from "@/hooks/useDriveSheetMutations";
 import { useToast } from "@/hooks/use-toast";
 
@@ -13,6 +13,11 @@ interface N2RManagementCardProps {
 export const N2RManagementCard = ({ data: initialData, resId }: N2RManagementCardProps) => {
   const [data, setData] = useState(initialData);
   const { toast } = useToast();
+
+  // Sync local state with prop changes (e.g., after refetch on sign in)
+  useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // Mutation hooks
   const updateApproached = useUpdateN2RApproached();

@@ -278,6 +278,7 @@ src/
 - **[DATABASE-TO-FRONTEND-COMPLETE-GUIDE.md](DATABASE-TO-FRONTEND-COMPLETE-GUIDE.md)** - Data flow architecture
 - **[SYSTEM-ARCHITECTURE-DIAGRAM.md](SYSTEM-ARCHITECTURE-DIAGRAM.md)** - System design overview
 - **[AUTHENTICATION_SETUP_COMPLETE.md](AUTHENTICATION_SETUP_COMPLETE.md)** - Auth setup guide
+- **[NAVIGATION_INTERFACES_AUDIT.md](docs/NAVIGATION_INTERFACES_AUDIT.md)** - Navigation audit (reference only)
 
 ### 📊 Sprint Reports
 - **[SPRINT-1-COMPLETION-REPORT.md](SPRINT-1-COMPLETION-REPORT.md)** - Sprint 1 results (100% accuracy)

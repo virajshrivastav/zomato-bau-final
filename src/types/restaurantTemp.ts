@@ -20,6 +20,8 @@ export interface RestaurantMetrics {
   };
   adsAvgAchievement?: string; // Average ADS Achievement % from database
   adsBRCM?: string; // ADS Booked Revenue Current Month
+  commission?: string; // Current commission percentage
+  lastChangeDate?: string; // Last commission change date
   toingFlag: "Live" | "Not Live"; // Replaces cuisine in metrics
 }
 

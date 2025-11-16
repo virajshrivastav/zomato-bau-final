@@ -4,6 +4,50 @@ import { useAuth } from "@/contexts/AuthContext";
 import { NCNSelectedCodes, ItemAdded } from "./useDriveSheets";
 
 // ============================================================================
+// Google Sheets Sync Helper
+// ============================================================================
+
+/**
+ * Sync restaurant data to Google Sheets via Vercel API
+ * Non-blocking: failures are logged but don't affect user experience
+ */
+async function syncToGoogleSheets(resId: string, drive: "ncn" | "n2r" | "items") {
+  try {
+    console.log(`[Sheets Sync] Starting sync for ${resId} (${drive})...`);
+
+    const response = await fetch("/api/sync-sheets", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ resId, drive }),
+    });
+
+    console.log(`[Sheets Sync] Response status: ${response.status} ${response.statusText}`);
+
+    if (!response.ok) {
+      const error = await response
+        .json()
+        .catch(() => ({ message: "Failed to parse error response" }));
+      console.error(`[Sheets Sync] ❌ Failed for ${resId} (${drive}):`, {
+        status: response.status,
+        statusText: response.statusText,
+        error,
+      });
+    } else {
+      const result = await response.json();
+      console.log(`[Sheets Sync] ✅ Success for ${resId} (${drive}):`, result);
+    }
+  } catch (error) {
+    // Non-blocking: log error but don't throw
+    console.error(`[Sheets Sync] ❌ Network/Exception error for ${resId} (${drive}):`, {
+      message: error instanceof Error ? error.message : String(error),
+      error,
+    });
+  }
+}
+
+// ============================================================================
 // NCN Drive Mutations
 // ============================================================================
 
@@ -33,6 +77,9 @@ export function useUpdateNCNApproached() {
       // Invalidate queries to refetch updated data
       queryClient.invalidateQueries({ queryKey: ["drive_sheet", variables.resId] });
       queryClient.invalidateQueries({ queryKey: ["drive_sheets"] });
+
+      // Sync to Google Sheets (non-blocking)
+      syncToGoogleSheets(variables.resId, "ncn");
     },
   });
 }
@@ -68,6 +115,9 @@ export function useUpdateNCNConverted() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["drive_sheet", variables.resId] });
       queryClient.invalidateQueries({ queryKey: ["drive_sheets"] });
+
+      // Sync to Google Sheets (non-blocking)
+      syncToGoogleSheets(variables.resId, "ncn");
     },
   });
 }
@@ -103,6 +153,9 @@ export function useUpdateNCNSelectedCodes() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["drive_sheet", variables.resId] });
       queryClient.invalidateQueries({ queryKey: ["drive_sheets"] });
+
+      // Sync to Google Sheets (non-blocking)
+      syncToGoogleSheets(variables.resId, "ncn");
     },
   });
 }
@@ -136,6 +189,9 @@ export function useUpdateN2RApproached() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["drive_sheet", variables.resId] });
       queryClient.invalidateQueries({ queryKey: ["drive_sheets"] });
+
+      // Sync to Google Sheets (non-blocking)
+      syncToGoogleSheets(variables.resId, "n2r");
     },
   });
 }
@@ -171,6 +227,9 @@ export function useUpdateN2RConverted() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["drive_sheet", variables.resId] });
       queryClient.invalidateQueries({ queryKey: ["drive_sheets"] });
+
+      // Sync to Google Sheets (non-blocking)
+      syncToGoogleSheets(variables.resId, "n2r");
     },
   });
 }
@@ -204,6 +263,9 @@ export function useUpdateItemsApproached() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["drive_sheet", variables.resId] });
       queryClient.invalidateQueries({ queryKey: ["drive_sheets"] });
+
+      // Sync to Google Sheets (non-blocking)
+      syncToGoogleSheets(variables.resId, "items");
     },
   });
 }
@@ -239,6 +301,9 @@ export function useUpdateItemsConverted() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["drive_sheet", variables.resId] });
       queryClient.invalidateQueries({ queryKey: ["drive_sheets"] });
+
+      // Sync to Google Sheets (non-blocking)
+      syncToGoogleSheets(variables.resId, "items");
     },
   });
 }
@@ -268,6 +333,9 @@ export function useUpdateItemsAdded() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["drive_sheet", variables.resId] });
       queryClient.invalidateQueries({ queryKey: ["drive_sheets"] });
+
+      // Sync to Google Sheets (non-blocking)
+      syncToGoogleSheets(variables.resId, "items");
     },
   });
 }
