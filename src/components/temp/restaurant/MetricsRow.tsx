@@ -1,14 +1,19 @@
 import { MetricCard } from "@/components/temp/ui/MetricCard";
 import { RestaurantMetrics } from "@/types/restaurantTemp";
-import { Grid3x3, TrendingUp, DollarSign, Smartphone } from "lucide-react";
+import { Grid3x3, TrendingUp, IndianRupee, Smartphone } from "lucide-react";
 
 interface MetricsRowProps {
   metrics: RestaurantMetrics;
 }
 
 export const MetricsRow = ({ metrics }: MetricsRowProps) => {
+  // Format ADS BR for display
+  const formattedAdsBR = metrics.adsBRCM
+    ? `₹${parseFloat(metrics.adsBRCM).toLocaleString("en-IN")}`
+    : "N/A";
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
       <MetricCard
         title="Active Drives"
         value={metrics.activeDrives}
@@ -23,12 +28,18 @@ export const MetricsRow = ({ metrics }: MetricsRowProps) => {
         description="Zero Value Delivery Per Order"
       />
       <MetricCard
-        title="ADS Budget"
-        value={`₹${metrics.adsBudget.total.toLocaleString()}`}
-        icon={DollarSign}
+        title="ADS Achievement"
+        value={metrics.adsAvgAchievement || "N/A"}
+        icon={IndianRupee}
         variant="warning"
-        progress={metrics.adsBudget.percentage}
-        description={`₹${metrics.adsBudget.utilized.toLocaleString()} utilized`}
+        description="Average ADS Achievement"
+      />
+      <MetricCard
+        title="ADS BR (CM)"
+        value={formattedAdsBR}
+        icon={IndianRupee}
+        variant="success"
+        description="Booked Revenue Current Month"
       />
       <MetricCard
         title="TOING Flag"

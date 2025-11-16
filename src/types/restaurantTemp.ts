@@ -18,6 +18,8 @@ export interface RestaurantMetrics {
     utilized: number;
     percentage: number;
   };
+  adsAvgAchievement?: string; // Average ADS Achievement % from database
+  adsBRCM?: string; // ADS Booked Revenue Current Month
   toingFlag: "Live" | "Not Live"; // Replaces cuisine in metrics
 }
 

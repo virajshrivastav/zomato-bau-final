@@ -148,6 +148,11 @@ const KAMHub = () => {
                       ? parseFloat(restaurant.sept_ov).toFixed(0)
                       : "N/A";
 
+                    // Format ADS BR (Booked Revenue)
+                    const adsBR = restaurant.ads_br_cm
+                      ? `₹${parseFloat(restaurant.ads_br_cm).toLocaleString("en-IN")}`
+                      : null;
+
                     return (
                       <Card
                         key={restaurant.res_id}
@@ -183,6 +188,13 @@ const KAMHub = () => {
                                 <span className="font-medium">{orderVolume}</span>
                                 <span className="text-xs">Sept OV</span>
                               </div>
+                              {adsBR && (
+                                <div className="flex items-center gap-1">
+                                  <span>•</span>
+                                  <span className="font-medium text-green-600">{adsBR}</span>
+                                  <span className="text-xs">ADS BR</span>
+                                </div>
+                              )}
                             </div>
                           </div>
                           <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />

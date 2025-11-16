@@ -64,7 +64,7 @@ const RestaurantDetail = () => {
     cuisine: restaurant.cuisine || "N/A",
     phone: undefined,
     email: restaurant.am_email,
-    toingFlag: "Not Live",
+    toingFlag: (restaurant.toing_flag as "Live" | "Not Live") || "Not Live",
   };
 
   const metricsData: RestaurantMetrics = {
@@ -75,7 +75,9 @@ const RestaurantDetail = () => {
       utilized: 32000,
       percentage: 64,
     },
-    toingFlag: "Not Live",
+    adsAvgAchievement: restaurant.ads_avg_achievement || undefined,
+    adsBRCM: restaurant.ads_br_cm || undefined,
+    toingFlag: (restaurant.toing_flag as "Live" | "Not Live") || "Not Live",
   };
 
   // NCN Data - Use real data from drive_sheets_data

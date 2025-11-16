@@ -15,6 +15,11 @@ export interface DriveSheetData {
   account_type: string | null;
   sept_ov: string | null;
 
+  // ADs & Toing Data
+  ads_avg_achievement: string | null;
+  ads_br_cm: string | null; // ADS Booked Revenue Current Month
+  toing_flag: string | null;
+
   // NCN Data
   ncn_p1: string | null;
   ncn_p2: string | null;
