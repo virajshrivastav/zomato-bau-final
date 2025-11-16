@@ -5,13 +5,77 @@ import { DashboardCard } from "@/components/DashboardCard";
 import { MetricItem } from "@/components/MetricItem";
 import { StatusPill } from "@/components/StatusPill";
 import { TrendingUp, MapPin, Users, Clock, Zap, ArrowRight, LogOut, Store } from "lucide-react";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const MainDashboard = () => {
   const navigate = useNavigate();
+  const [showAllKAMs, setShowAllKAMs] = useState(false);
 
   const handleSignOut = () => {
     navigate("/");
   };
+
+  // Complete KAM list with GM Coverage
+  const allKAMs = [
+    { email: "shirdi.narayan@zomato.com", name: "Shirdi Narayan", score: 78.2 },
+    { email: "rinkel.shah@zomato.com", name: "Rinkel Shah", score: 64.6 },
+    { email: "puneet.bablani@zomato.com", name: "Puneet Bablani", score: 49.8 },
+    { email: "pandey.adarsh@zomato.com", name: "Pandey Adarsh", score: 47.2 },
+    { email: "veda.bhatt@zomato.com", name: "Veda Bhatt", score: 47.2 },
+    { email: "rakesh.hati@zomato.com", name: "Rakesh Hati", score: 42.8 },
+    { email: "shefali.deshmukh@zomato.com", name: "Shefali Deshmukh", score: 39.3 },
+    { email: "shounak.prabhukeluskar@zomato.com", name: "Shounak Prabhukeluskar", score: 39.3 },
+    { email: "paridhi.shrivastava@zomato.com", name: "Paridhi Shrivastava", score: 39.2 },
+    { email: "shrawani.wankhade@zomato.com", name: "Shrawani Wankhade", score: 38.7 },
+    { email: "bhuwneshwari.dhouni@zomato.com", name: "Bhuwneshwari Dhouni", score: 38.5 },
+    { email: "pranav.salvi@zomato.com", name: "Pranav Salvi", score: 38.2 },
+    { email: "pacharne.hemraj@zomato.com", name: "Pacharne Hemraj", score: 36.9 },
+    { email: "shiv.udasi@zomato.com", name: "Shiv Udasi", score: 36.6 },
+    { email: "kunal.surulkar@zomato.com", name: "Kunal Surulkar", score: 36.5 },
+    { email: "priya.joseph@zomato.com", name: "Priya Joseph", score: 35.6 },
+    { email: "shriniwas.bewoor@zomato.com", name: "Shriniwas Bewoor", score: 34.6 },
+    { email: "shiwani.jha@zomato.com", name: "Shiwani Jha", score: 33.3 },
+    { email: "dimple.sadrani@zomato.com", name: "Dimple Sadrani", score: 33.3 },
+    { email: "sanket.kadam@zomato.com", name: "Sanket Kadam", score: 32.7 },
+    { email: "shakshy.meel@zomato.com", name: "Shakshy Meel", score: 32.6 },
+    { email: "vaishnavi.wani@zomato.com", name: "Vaishnavi Wani", score: 31.1 },
+    { email: "rohit.shelar@zomato.com", name: "Rohit Shelar", score: 30.5 },
+    { email: "pranavi.parab@zomato.com", name: "Pranavi Parab", score: 30.2 },
+    { email: "saksham.bassi@zomato.com", name: "Saksham Bassi", score: 29.5 },
+    { email: "harshit.chhabra@zomato.com", name: "Harshit Chhabra", score: 29.1 },
+    { email: "tanush.pasari@zomato.com", name: "Tanush Pasari", score: 29.0 },
+    { email: "siddesh.jagtap@zomato.com", name: "Siddesh Jagtap", score: 27.3 },
+    { email: "anudeep.pawar@zomato.com", name: "Anudeep Pawar", score: 24.6 },
+    { email: "rashika.dokania@zomato.com", name: "Rashika Dokania", score: 23.7 },
+    { email: "gupta.ansh@zomato.com", name: "Gupta Ansh", score: 22.1 },
+    { email: "utkarsh.narnaware@zomato.com", name: "Utkarsh Narnaware", score: 22.0 },
+    { email: "rakesh.chachada@zomato.com", name: "Rakesh Chachada", score: 21.8 },
+    { email: "paliwal.grasim@zomato.com", name: "Paliwal Grasim", score: 21.5 },
+    { email: "aditya.d@zomato.com", name: "Aditya D", score: 20.9 },
+    { email: "uddesh.pillay@zomato.com", name: "Uddesh Pillay", score: 19.2 },
+    { email: "rutuja.jangam@zomato.com", name: "Rutuja Jangam", score: 18.8 },
+    { email: "juili.satao@zomato.com", name: "Juili Satao", score: 18.0 },
+    { email: "kevin.kotak@zomato.com", name: "Kevin Kotak", score: 17.4 },
+    { email: "sakshi.pare@zomato.com", name: "Sakshi Pare", score: 16.8 },
+    { email: "upadhyay.satyam@zomato.com", name: "Upadhyay Satyam", score: 15.6 },
+    { email: "khushi.kariya@zomato.com", name: "Khushi Kariya", score: 14.9 },
+    { email: "anirudha.gupta@zomato.com", name: "Anirudha Gupta", score: 12.0 },
+    { email: "desale.tejaswini@zomato.com", name: "Desale Tejaswini", score: 11.6 },
+    { email: "bicky.rai@zomato.com", name: "Bicky Rai", score: 9.7 },
+    { email: "deepika.chittella@zomato.com", name: "Deepika Chittella", score: 7.8 },
+    { email: "prerna.kadam@zomato.com", name: "Prerna Kadam", score: 4.1 },
+    { email: "parish.rathod@zomato.com", name: "Parish Rathod", score: 3.7 },
+  ];
+
+  // Top 6 KAMs for display
+  const topKAMs = allKAMs.slice(0, 6);
 
   return (
     <div className="min-h-screen bg-background">
@@ -48,27 +112,72 @@ const MainDashboard = () => {
             <CardHeader>
               <CardTitle className="text-base">Current / Live Drives</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              {[
-                { name: "NCN", score: 85, rank: 1 },
-                { name: "MRP", score: 72, rank: 2 },
-                { name: "N2R", score: 58, rank: 3 },
-              ].map((drive) => (
-                <div
-                  key={drive.name}
-                  className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-semibold text-muted-foreground">
-                      {drive.rank}
-                    </span>
-                    <span className="font-medium">{drive.name}</span>
-                  </div>
-                  <StatusPill autoVariant value={drive.score}>
-                    {drive.score}%
-                  </StatusPill>
+            <CardContent className="space-y-4">
+              {/* NCN Drive */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-semibold text-muted-foreground">1</span>
+                  <span className="font-medium">NCN - No Cooking November</span>
                 </div>
-              ))}
+                <div className="pl-7 space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">Overall OV Coverage</span>
+                    <StatusPill autoVariant value={37.42} className="text-xs">
+                      37.42%
+                    </StatusPill>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">Overall Res Coverage</span>
+                    <StatusPill autoVariant value={31.77} className="text-xs">
+                      31.77%
+                    </StatusPill>
+                  </div>
+                </div>
+              </div>
+
+              {/* N2R Drive */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-semibold text-muted-foreground">2</span>
+                  <span className="font-medium">N2R - New To Restaurant</span>
+                </div>
+                <div className="pl-7 space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">LA OV Conversion</span>
+                    <StatusPill autoVariant value={31.3} className="text-xs">
+                      31.3%
+                    </StatusPill>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">MM OV Conversion</span>
+                    <StatusPill autoVariant value={25.3} className="text-xs">
+                      25.3%
+                    </StatusPill>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">UM OV Conversion</span>
+                    <StatusPill autoVariant value={18.2} className="text-xs">
+                      18.2%
+                    </StatusPill>
+                  </div>
+                </div>
+              </div>
+
+              {/* Items >=159 Drive */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-semibold text-muted-foreground">3</span>
+                  <span className="font-medium">Items &gt;=159</span>
+                </div>
+                <div className="pl-7 space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">Conversion %</span>
+                    <StatusPill autoVariant value={14.34} className="text-xs">
+                      14.34%
+                    </StatusPill>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
@@ -79,17 +188,17 @@ const MainDashboard = () => {
                 <MapPin className="w-4 h-4" />
                 City View
               </CardTitle>
-              <CardDescription>Performance by City</CardDescription>
+              <CardDescription>Grow Max Coverage - Top 7 Cities</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               {[
-                { name: "Pune", score: 90 },
-                { name: "Mumbai", score: 80 },
-                { name: "Hyderabad", score: 75 },
-                { name: "Bangalore", score: 25 },
-                { name: "Delhi", score: 85 },
-                { name: "Kolkata", score: 70 },
-                { name: "Chennai", score: 65 },
+                { name: "Chennai", score: 55.5 },
+                { name: "Delhi", score: 52.1 },
+                { name: "Kolkata", score: 52.0 },
+                { name: "Mumbai", score: 49.3 },
+                { name: "Bengaluru", score: 45.2 },
+                { name: "Hyderabad", score: 35.2 },
+                { name: "Pune", score: 33.3 },
               ].map((city) => (
                 <div key={city.name} className="flex items-center justify-between">
                   <span className="text-sm">{city.name}</span>
@@ -108,15 +217,16 @@ const MainDashboard = () => {
                 <MapPin className="w-4 h-4" />
                 Zone View
               </CardTitle>
-              <CardDescription>Performance by Zone</CardDescription>
+              <CardDescription>Grow Max Coverage - All Teams in Pune</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               {[
-                { name: "East", score: 70 },
-                { name: "North-West", score: 25 },
-                { name: "South", score: 60 },
-                { name: "Central", score: 80 },
-                { name: "PCMC", score: 75 },
+                { name: "CKA", score: 44.6 },
+                { name: "Central Pune", score: 35.61 },
+                { name: "East Pune", score: 27.73 },
+                { name: "North West Pune", score: 27.4 },
+                { name: "PCMC", score: 22.61 },
+                { name: "South Pune", score: 23.83 },
               ].map((zone) => (
                 <div key={zone.name} className="flex items-center justify-between">
                   <span className="text-sm">{zone.name}</span>
@@ -132,19 +242,11 @@ const MainDashboard = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-base">KAM View</CardTitle>
-              <CardDescription>Key Account Managers</CardDescription>
+              <CardDescription>Grow Max Coverage - Top KAMs in Pune</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              {[
-                { name: "Shiv", score: 50 },
-                { name: "Amdeep", score: 70 },
-                { name: "Shrawani", score: 70 },
-                { name: "Rutuja", score: 20 },
-                { name: "Viraj", score: 85 },
-                { name: "Rohit", score: 65 },
-                { name: "Jaswant", score: 75 },
-              ].map((kam) => (
-                <div key={kam.name} className="flex items-center justify-between">
+              {topKAMs.map((kam) => (
+                <div key={kam.email} className="flex items-center justify-between">
                   <span className="text-sm">{kam.name}</span>
                   <StatusPill autoVariant value={kam.score}>
                     {kam.score}%
@@ -152,11 +254,11 @@ const MainDashboard = () => {
                 </div>
               ))}
               <Button
-                onClick={() => navigate("/zonal-head-view")}
+                onClick={() => setShowAllKAMs(true)}
                 variant="link"
                 className="text-primary p-0 h-auto gap-1"
               >
-                View all KAMs
+                View More
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </CardContent>
@@ -173,11 +275,11 @@ const MainDashboard = () => {
             <CardContent className="pb-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-medium">Ads Drive</h4>
-                  <p className="text-xs text-muted-foreground mt-0.5">Jan 15, 2025</p>
+                  <h4 className="text-sm font-medium">MRP Drive</h4>
+                  <p className="text-xs text-muted-foreground mt-0.5">Sept 2025</p>
                 </div>
-                <StatusPill autoVariant value={92} className="text-xs">
-                  92%
+                <StatusPill autoVariant value={45} className="text-xs">
+                  45%
                 </StatusPill>
               </div>
             </CardContent>
@@ -191,8 +293,8 @@ const MainDashboard = () => {
             <CardContent className="pb-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-medium">Image Drive</h4>
-                  <p className="text-xs text-muted-foreground mt-0.5">Feb 20, 2025</p>
+                  <h4 className="text-sm font-medium">End Game</h4>
+                  <p className="text-xs text-muted-foreground mt-0.5">Dec 2025</p>
                 </div>
                 <StatusPill type="neutral" className="text-xs">
                   Scheduled
@@ -228,6 +330,37 @@ const MainDashboard = () => {
           </CardContent>
         </Card>
       </main>
+
+      {/* View All KAMs Dialog */}
+      <Dialog open={showAllKAMs} onOpenChange={setShowAllKAMs}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>All KAMs - Grow Max Coverage</DialogTitle>
+            <DialogDescription>Complete list of KAMs in Pune with GM Coverage %</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2 mt-4">
+            {allKAMs.map((kam, index) => (
+              <div
+                key={kam.email}
+                className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-semibold text-muted-foreground w-8">
+                    {index + 1}
+                  </span>
+                  <div>
+                    <p className="text-sm font-medium">{kam.name}</p>
+                    <p className="text-xs text-muted-foreground">{kam.email}</p>
+                  </div>
+                </div>
+                <StatusPill autoVariant value={kam.score}>
+                  {kam.score}%
+                </StatusPill>
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
