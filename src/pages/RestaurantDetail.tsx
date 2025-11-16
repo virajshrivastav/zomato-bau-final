@@ -81,6 +81,14 @@ const RestaurantDetail = () => {
   };
 
   // NCN Data - Use real data from drive_sheets_data
+  // Helper to check if a code is selected
+  const isCodeSelected = (codeId: string, segment: "la" | "mm" | "um") => {
+    const selectedCodes = restaurant.ncn_selected_codes;
+    if (!selectedCodes || typeof selectedCodes !== "object") return false;
+    const segmentCodes = selectedCodes[segment];
+    return Array.isArray(segmentCodes) && segmentCodes.includes(codeId);
+  };
+
   const ncnData: NCNData = {
     priorities: [
       restaurant.ncn_p1,
@@ -90,7 +98,7 @@ const RestaurantDetail = () => {
       restaurant.ncn_p5,
       restaurant.ncn_p6,
     ].filter(Boolean) as string[], // Remove null values
-    activePromosLink: "#",
+    activePromosLink: `https://admin.zomans.com/epicentre/marketing-planner/outlet-details?resId=${restaurant.res_id}`,
     suggestedPromos: {
       bogo: {
         items: restaurant.ncn_locality_x_cuisine?.split(", ").slice(0, 3) || [],
@@ -114,7 +122,7 @@ const RestaurantDetail = () => {
               percentage: parsed.percentage,
               maxAmount: parsed.maxAmount,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("la-base", "la"),
             }
           );
         })(),
@@ -126,7 +134,7 @@ const RestaurantDetail = () => {
               flatOff: parsed.flatOff,
               mov: parsed.mov,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("la-step1", "la"),
             }
           );
         })(),
@@ -138,7 +146,7 @@ const RestaurantDetail = () => {
               flatOff: parsed.flatOff,
               mov: parsed.mov,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("la-step2", "la"),
             }
           );
         })(),
@@ -150,7 +158,7 @@ const RestaurantDetail = () => {
               flatOff: parsed.flatOff,
               mov: parsed.mov,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("la-step3", "la"),
             }
           );
         })(),
@@ -166,7 +174,7 @@ const RestaurantDetail = () => {
               percentage: parsed.percentage,
               maxAmount: parsed.maxAmount,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("mm-base", "mm"),
             }
           );
         })(),
@@ -178,7 +186,7 @@ const RestaurantDetail = () => {
               flatOff: parsed.flatOff,
               mov: parsed.mov,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("mm-step1", "mm"),
             }
           );
         })(),
@@ -190,7 +198,7 @@ const RestaurantDetail = () => {
               flatOff: parsed.flatOff,
               mov: parsed.mov,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("mm-step2", "mm"),
             }
           );
         })(),
@@ -202,7 +210,7 @@ const RestaurantDetail = () => {
               flatOff: parsed.flatOff,
               mov: parsed.mov,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("mm-step3", "mm"),
             }
           );
         })(),
@@ -218,7 +226,7 @@ const RestaurantDetail = () => {
               percentage: parsed.percentage,
               maxAmount: parsed.maxAmount,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("um-base", "um"),
             }
           );
         })(),
@@ -230,7 +238,7 @@ const RestaurantDetail = () => {
               flatOff: parsed.flatOff,
               mov: parsed.mov,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("um-step1", "um"),
             }
           );
         })(),
@@ -242,7 +250,7 @@ const RestaurantDetail = () => {
               flatOff: parsed.flatOff,
               mov: parsed.mov,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("um-step2", "um"),
             }
           );
         })(),
@@ -254,14 +262,19 @@ const RestaurantDetail = () => {
               flatOff: parsed.flatOff,
               mov: parsed.mov,
               status: "Picked" as const,
-              selected: false,
+              selected: isCodeSelected("um-step3", "um"),
             }
           );
         })(),
       ].filter(Boolean),
     },
-    approached: restaurant.ncn_approached?.toLowerCase() === "yes" ? "yes" : "no",
-    converted: restaurant.ncn_converted_stepper?.toLowerCase() === "yes" ? "yes" : "no",
+    // Use KAM action columns (new) if available, fallback to old columns
+    approached:
+      restaurant.ncn_approached_by_kam ||
+      (restaurant.ncn_approached?.toLowerCase() === "yes" ? "yes" : "no"),
+    converted:
+      restaurant.ncn_converted_by_kam ||
+      (restaurant.ncn_converted_stepper?.toLowerCase() === "yes" ? "yes" : "no"),
   };
 
   // N2R Data - Use real data from drive_sheets_data
@@ -299,8 +312,11 @@ const RestaurantDetail = () => {
       mm: parseInt(restaurant.n2r_mm_min_coupons || "0"),
       um: parseInt(restaurant.n2r_um_min_coupons || "0"),
     },
-    approached: restaurant.n2r_approached?.toLowerCase() === "yes" ? "yes" : "no",
-    converted: "no", // N2R doesn't have converted field in CSV
+    // Use KAM action columns (new) if available, fallback to old columns
+    approached:
+      restaurant.n2r_approached_by_kam ||
+      (restaurant.n2r_approached?.toLowerCase() === "yes" ? "yes" : "no"),
+    converted: restaurant.n2r_converted_by_kam || "no",
   };
 
   // Items Data - Use real data from drive_sheets_data
@@ -319,15 +335,29 @@ const RestaurantDetail = () => {
     posFlag: restaurant.items_pos_flag || "N/A",
     pg7to10: restaurant.items_pg_7_10_contribution || "0%",
     dishSuggestions: dishSuggestions,
-    approached: restaurant.items_approached?.toLowerCase() === "yes" ? "yes" : "no",
-    converted: restaurant.items_converted?.toLowerCase() === "yes" ? "yes" : "no",
-    itemsAdded: [
-      { id: "1", value: "", price: "", checked: false },
-      { id: "2", value: "", price: "", checked: false },
-      { id: "3", value: "", price: "", checked: false },
-      { id: "4", value: "", price: "", checked: false },
-      { id: "5", value: "", price: "", checked: false },
-    ],
+    // Use KAM action columns (new) if available, fallback to old columns
+    approached:
+      restaurant.items_approached_by_kam ||
+      (restaurant.items_approached?.toLowerCase() === "yes" ? "yes" : "no"),
+    converted:
+      restaurant.items_converted_by_kam ||
+      (restaurant.items_converted?.toLowerCase() === "yes" ? "yes" : "no"),
+    // Load items from database if available, otherwise use empty template
+    // Map from database format (name) to UI format (value)
+    itemsAdded: restaurant.items_added
+      ? restaurant.items_added.map((item: any) => ({
+          id: item.id,
+          value: item.name, // Database uses 'name', UI uses 'value'
+          price: item.price,
+          checked: item.checked,
+        }))
+      : [
+          { id: "1", value: "", price: "", checked: false },
+          { id: "2", value: "", price: "", checked: false },
+          { id: "3", value: "", price: "", checked: false },
+          { id: "4", value: "", price: "", checked: false },
+          { id: "5", value: "", price: "", checked: false },
+        ],
   };
 
   return (
@@ -343,9 +373,9 @@ const RestaurantDetail = () => {
 
         {/* Three-Column Layout - Drive Modules */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <NCNManagementCard data={ncnData} />
-          <N2RManagementCard data={n2rData} />
-          <ItemsManagementCard data={itemsData} />
+          <NCNManagementCard data={ncnData} resId={id || ""} />
+          <N2RManagementCard data={n2rData} resId={id || ""} />
+          <ItemsManagementCard data={itemsData} resId={id || ""} />
         </div>
 
         {/* Comments Section */}

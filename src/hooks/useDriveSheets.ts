@@ -20,6 +20,9 @@ export interface DriveSheetData {
   ads_br_cm: string | null; // ADS Booked Revenue Current Month
   toing_flag: string | null;
 
+  // KAM Notes & Comments
+  kam_notes: string | null; // General comments/notes from KAMs (synced with Google Sheets)
+
   // NCN Data
   ncn_p1: string | null;
   ncn_p2: string | null;
@@ -82,8 +85,42 @@ export interface DriveSheetData {
   items_converted: string | null;
   items_locality_x_cuisine: string | null;
 
+  // KAM Action Tracking - NCN Drive
+  ncn_approached_by_kam: string | null; // KAM set approached status (yes/no)
+  ncn_converted_by_kam: string | null; // KAM set conversion status (yes/wip/no)
+  ncn_selected_codes: NCNSelectedCodes | null; // KAM selected codes (JSON)
+
+  // KAM Action Tracking - N2R Drive
+  n2r_approached_by_kam: string | null; // KAM set approached status (yes/no)
+  n2r_converted_by_kam: string | null; // KAM set conversion status (yes/wip/no)
+
+  // KAM Action Tracking - Items Drive
+  items_approached_by_kam: string | null; // KAM set approached status (yes/no)
+  items_converted_by_kam: string | null; // KAM set conversion status (yes/wip/no)
+  items_added: ItemAdded[] | null; // KAM added items (JSON array)
+
+  // Audit Trail
+  last_updated_by: string | null; // Email of KAM who made last update
+  last_updated_at: string | null; // Timestamp of last update
+
   created_at?: string;
   updated_at?: string;
+}
+
+// Type definitions for JSONB columns
+export interface NCNSelectedCodes {
+  la: string[]; // LA codes selected
+  mm: string[]; // MM codes selected
+  um: string[]; // UM codes selected
+  flash_sale: string[]; // Flash sale codes selected
+  bogo: string[]; // BOGO codes selected
+}
+
+export interface ItemAdded {
+  id: string;
+  name: string;
+  price: string;
+  checked: boolean;
 }
 
 /**

@@ -11,91 +11,43 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, Download, ArrowUpDown } from "lucide-react";
+import { Search, Download, ArrowUpDown, Loader2 } from "lucide-react";
 import PerformanceBadge from "./PerformanceBadge";
 import { cn } from "@/lib/utils";
+import { useZonalStats } from "@/hooks/useZonalStats";
 
 interface KAMPerformance {
   name: string;
+  email: string;
   drivePerformance: string;
   conversionAvg: string;
   approachRate: string;
   totalDrives: number;
+  adsAchievement: string;
   rank: number;
 }
-
-// MOCK DATA - This will be replaced with real data from useZonalStats() hook when data stabilizes
-const kamData: KAMPerformance[] = [
-  {
-    name: "Viraj",
-    drivePerformance: "9/10",
-    conversionAvg: "85%",
-    approachRate: "88%",
-    totalDrives: 48,
-    rank: 1,
-  },
-  {
-    name: "Amdeep",
-    drivePerformance: "9/10",
-    conversionAvg: "80%",
-    approachRate: "85%",
-    totalDrives: 45,
-    rank: 2,
-  },
-  {
-    name: "Khushi",
-    drivePerformance: "9/10",
-    conversionAvg: "81%",
-    approachRate: "87%",
-    totalDrives: 42,
-    rank: 3,
-  },
-  {
-    name: "Shrawani",
-    drivePerformance: "8/10",
-    conversionAvg: "76%",
-    approachRate: "80%",
-    totalDrives: 38,
-    rank: 4,
-  },
-  {
-    name: "Jaswant",
-    drivePerformance: "8/10",
-    conversionAvg: "75%",
-    approachRate: "82%",
-    totalDrives: 40,
-    rank: 5,
-  },
-  {
-    name: "Shiv",
-    drivePerformance: "8/10",
-    conversionAvg: "75%",
-    approachRate: "82%",
-    totalDrives: 40,
-    rank: 6,
-  },
-  {
-    name: "Rutuja",
-    drivePerformance: "7/10",
-    conversionAvg: "72%",
-    approachRate: "78%",
-    totalDrives: 35,
-    rank: 7,
-  },
-  {
-    name: "Rohit",
-    drivePerformance: "7/10",
-    conversionAvg: "65%",
-    approachRate: "75%",
-    totalDrives: 32,
-    rank: 8,
-  },
-];
 
 const KAMPerformanceTable = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortField, setSortField] = useState<keyof KAMPerformance | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+
+  // Fetch real KAM data from database
+  const { data: zonalStats, isLoading, error } = useZonalStats();
+
+  // Transform zonal stats into KAM performance data
+  const kamData: KAMPerformance[] = zonalStats
+    ? zonalStats.map((stat, index) => ({
+        name: stat.kam_name,
+        email: stat.kam_email,
+        drivePerformance: `${stat.active_drives}/${stat.total_restaurants}`,
+        conversionAvg: "N/A", // TODO: Calculate from drive data
+        approachRate: "N/A", // TODO: Calculate from drive data
+        totalDrives: stat.active_drives,
+        adsAchievement: stat.ads_avg_achievement || "N/A",
+        rank: index + 1,
+      }))
+    : [];
 
   const handleSort = (field: keyof KAMPerformance) => {
     if (sortField === field) {
@@ -145,6 +97,7 @@ const KAMPerformanceTable = () => {
       "Conversion Avg.",
       "Approach Rate",
       "Total Drives",
+      "Avg. Ads Achievement",
     ];
     const rows = sortedData.map((kam) => [
       kam.rank,
@@ -153,6 +106,7 @@ const KAMPerformanceTable = () => {
       kam.conversionAvg,
       kam.approachRate,
       kam.totalDrives,
+      kam.adsAchievement,
     ]);
 
     const csvContent = [headers.join(","), ...rows.map((row) => row.join(","))].join("\n");
@@ -164,6 +118,30 @@ const KAMPerformanceTable = () => {
     a.download = "kam-performance.csv";
     a.click();
   };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <Card className="overflow-hidden">
+        <div className="p-12 flex flex-col items-center justify-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-muted-foreground">Loading KAM performance data...</p>
+        </div>
+      </Card>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <Card className="overflow-hidden">
+        <div className="p-12 flex flex-col items-center justify-center gap-4">
+          <p className="text-destructive">Error loading KAM data</p>
+          <p className="text-sm text-muted-foreground">{error.message}</p>
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <Card className="overflow-hidden">
@@ -234,13 +212,22 @@ const KAMPerformanceTable = () => {
                     <ArrowUpDown className="h-4 w-4" />
                   </div>
                 </TableHead>
+                <TableHead
+                  className="font-semibold text-foreground cursor-pointer hover:text-primary"
+                  onClick={() => handleSort("adsAchievement")}
+                >
+                  <div className="flex items-center gap-1">
+                    Avg. Ads Achievement
+                    <ArrowUpDown className="h-4 w-4" />
+                  </div>
+                </TableHead>
                 <TableHead className="font-semibold text-foreground">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {sortedData.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                     No KAMs found
                   </TableCell>
                 </TableRow>
@@ -295,8 +282,11 @@ const KAMPerformanceTable = () => {
                       </Badge>
                     </TableCell>
                     <TableCell>
+                      <span className="font-medium">{kam.adsAchievement}</span>
+                    </TableCell>
+                    <TableCell>
                       <PerformanceBadge
-                        value={parsePercentage(kam.conversionAvg)}
+                        value={kam.conversionAvg === "N/A" ? 0 : parsePercentage(kam.conversionAvg)}
                         type="percentage"
                       />
                     </TableCell>

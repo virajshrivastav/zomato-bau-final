@@ -21,11 +21,11 @@ export const MetricsRow = ({ metrics }: MetricsRowProps) => {
         variant="primary"
       />
       <MetricCard
-        title="ZVD.PO"
+        title="ZVD PO"
         value={metrics.zvdPo}
         icon={TrendingUp}
         variant="success"
-        description="Zero Value Delivery Per Order"
+        description="Zomato Vouchered Discount Per Order"
       />
       <MetricCard
         title="ADS Achievement"

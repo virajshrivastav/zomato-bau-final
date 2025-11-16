@@ -73,22 +73,22 @@ export interface ItemsSummary {
   team: string | null;
 
   // OV Coverage weekly data (Columns BZ:CV)
-  ov_coverage_baseline: string | null;
-  ov_coverage_week_41: string | null;
-  ov_coverage_week_42: string | null;
-  ov_coverage_week_43: string | null;
-  ov_coverage_week_44: string | null;
-  ov_coverage_delta: string | null;
-  ov_coverage_wow: string | null;
+  ov_baseline: string | null;
+  ov_week41: string | null;
+  ov_week42: string | null;
+  ov_week43: string | null;
+  ov_week44: string | null;
+  ov_delta: string | null;
+  ov_wow: string | null;
 
   // Items count weekly data (Columns DV:ER)
-  items_count_baseline: string | null;
-  items_count_week_41: string | null;
-  items_count_week_42: string | null;
-  items_count_week_43: string | null;
-  items_count_week_44: string | null;
-  items_count_delta: string | null;
-  items_count_wow: string | null;
+  items_baseline: string | null;
+  items_week41: string | null;
+  items_week42: string | null;
+  items_week43: string | null;
+  items_week44: string | null;
+  items_delta: string | null;
+  items_wow: string | null;
 
   updated_at: string;
 }

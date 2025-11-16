@@ -46,14 +46,35 @@ const KAMAnalytics = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  // Debug logging
+  console.log("🔍 KAMAnalytics - User:", user);
+  console.log("🔍 KAMAnalytics - User Email:", user?.email);
+
   // Fetch performance metrics for the logged-in KAM
   const { ncn, n2r, items, isLoading, error } = usePerformanceMetrics(user?.email || "");
+
+  // Debug logging for queries
+  console.log("📊 NCN Query:", { isLoading: ncn.isLoading, data: ncn.data, error: ncn.error });
+  console.log("📊 N2R Query:", { isLoading: n2r.isLoading, data: n2r.data, error: n2r.error });
+  console.log("📊 Items Query:", {
+    isLoading: items.isLoading,
+    data: items.data,
+    error: items.error,
+  });
+  console.log("📊 Overall Loading:", isLoading);
 
   // Helper function to parse percentage strings to numbers
   const parsePercentage = (value: string | null): number => {
     if (!value) return 0;
     const match = value.match(/(\d+\.?\d*)/);
     return match ? parseFloat(match[1]) : 0;
+  };
+
+  // Helper function to parse number strings to integers
+  const parseNumber = (value: string | null): number => {
+    if (!value) return 0;
+    const match = value.match(/(\d+)/);
+    return match ? parseInt(match[1]) : 0;
   };
 
   // Helper function to check if there's actual data (not all N/A)
@@ -585,9 +606,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Baseline</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">
-                          {items.data.ov_coverage_baseline || "N/A"}
-                        </p>
+                        <p className="text-lg font-bold">{items.data.ov_baseline || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -595,9 +614,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Week 41</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">
-                          {items.data.ov_coverage_week_41 || "N/A"}
-                        </p>
+                        <p className="text-lg font-bold">{items.data.ov_week41 || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -605,9 +622,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Week 42</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">
-                          {items.data.ov_coverage_week_42 || "N/A"}
-                        </p>
+                        <p className="text-lg font-bold">{items.data.ov_week42 || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -615,9 +630,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Week 43</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">
-                          {items.data.ov_coverage_week_43 || "N/A"}
-                        </p>
+                        <p className="text-lg font-bold">{items.data.ov_week43 || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -625,9 +638,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Week 44</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">
-                          {items.data.ov_coverage_week_44 || "N/A"}
-                        </p>
+                        <p className="text-lg font-bold">{items.data.ov_week44 || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -635,7 +646,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Delta</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">{items.data.ov_coverage_delta || "N/A"}</p>
+                        <p className="text-lg font-bold">{items.data.ov_delta || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -643,18 +654,18 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">WoW</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">{items.data.ov_coverage_wow || "N/A"}</p>
+                        <p className="text-lg font-bold">{items.data.ov_wow || "N/A"}</p>
                       </CardContent>
                     </Card>
                   </div>
 
                   {/* OV Coverage Line Chart - Only show if there's actual data */}
                   {hasActualData(
-                    items.data.ov_coverage_baseline,
-                    items.data.ov_coverage_week_41,
-                    items.data.ov_coverage_week_42,
-                    items.data.ov_coverage_week_43,
-                    items.data.ov_coverage_week_44
+                    items.data.ov_baseline,
+                    items.data.ov_week41,
+                    items.data.ov_week42,
+                    items.data.ov_week43,
+                    items.data.ov_week44
                   ) && (
                     <Card className="mt-6">
                       <CardHeader>
@@ -668,23 +679,23 @@ const KAMAnalytics = () => {
                             data={[
                               {
                                 week: "Baseline",
-                                coverage: parsePercentage(items.data.ov_coverage_baseline),
+                                coverage: parsePercentage(items.data.ov_baseline),
                               },
                               {
                                 week: "W41",
-                                coverage: parsePercentage(items.data.ov_coverage_week_41),
+                                coverage: parsePercentage(items.data.ov_week41),
                               },
                               {
                                 week: "W42",
-                                coverage: parsePercentage(items.data.ov_coverage_week_42),
+                                coverage: parsePercentage(items.data.ov_week42),
                               },
                               {
                                 week: "W43",
-                                coverage: parsePercentage(items.data.ov_coverage_week_43),
+                                coverage: parsePercentage(items.data.ov_week43),
                               },
                               {
                                 week: "W44",
-                                coverage: parsePercentage(items.data.ov_coverage_week_44),
+                                coverage: parsePercentage(items.data.ov_week44),
                               },
                             ]}
                             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
@@ -737,9 +748,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Baseline</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">
-                          {items.data.items_count_baseline || "N/A"}
-                        </p>
+                        <p className="text-lg font-bold">{items.data.items_baseline || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -747,9 +756,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Week 41</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">
-                          {items.data.items_count_week_41 || "N/A"}
-                        </p>
+                        <p className="text-lg font-bold">{items.data.items_week41 || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -757,9 +764,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Week 42</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">
-                          {items.data.items_count_week_42 || "N/A"}
-                        </p>
+                        <p className="text-lg font-bold">{items.data.items_week42 || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -767,9 +772,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Week 43</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">
-                          {items.data.items_count_week_43 || "N/A"}
-                        </p>
+                        <p className="text-lg font-bold">{items.data.items_week43 || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -777,9 +780,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Week 44</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">
-                          {items.data.items_count_week_44 || "N/A"}
-                        </p>
+                        <p className="text-lg font-bold">{items.data.items_week44 || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -787,7 +788,7 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">Delta</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">{items.data.items_count_delta || "N/A"}</p>
+                        <p className="text-lg font-bold">{items.data.items_delta || "N/A"}</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -795,18 +796,18 @@ const KAMAnalytics = () => {
                         <CardTitle className="text-xs text-muted-foreground">WoW</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-bold">{items.data.items_count_wow || "N/A"}</p>
+                        <p className="text-lg font-bold">{items.data.items_wow || "N/A"}</p>
                       </CardContent>
                     </Card>
                   </div>
 
                   {/* Items Count Line Chart - Only show if there's actual data */}
                   {hasActualData(
-                    items.data.items_count_baseline,
-                    items.data.items_count_week_41,
-                    items.data.items_count_week_42,
-                    items.data.items_count_week_43,
-                    items.data.items_count_week_44
+                    items.data.items_baseline,
+                    items.data.items_week41,
+                    items.data.items_week42,
+                    items.data.items_week43,
+                    items.data.items_week44
                   ) && (
                     <Card className="mt-6">
                       <CardHeader>
@@ -820,23 +821,23 @@ const KAMAnalytics = () => {
                             data={[
                               {
                                 week: "Baseline",
-                                count: parsePercentage(items.data.items_count_baseline),
+                                count: parseNumber(items.data.items_baseline),
                               },
                               {
                                 week: "W41",
-                                count: parsePercentage(items.data.items_count_week_41),
+                                count: parseNumber(items.data.items_week41),
                               },
                               {
                                 week: "W42",
-                                count: parsePercentage(items.data.items_count_week_42),
+                                count: parseNumber(items.data.items_week42),
                               },
                               {
                                 week: "W43",
-                                count: parsePercentage(items.data.items_count_week_43),
+                                count: parseNumber(items.data.items_week43),
                               },
                               {
                                 week: "W44",
-                                count: parsePercentage(items.data.items_count_week_44),
+                                count: parseNumber(items.data.items_week44),
                               },
                             ]}
                             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}

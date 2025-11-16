@@ -94,10 +94,28 @@ const Auth = () => {
 
   const handleManagerAccess = (e: React.FormEvent) => {
     e.preventDefault();
-    // Validate manager code
-    const validCodes = ["ZONAL-2025", "MANAGER-2025", "ADMIN-2025"];
+    // Team Lead emails from kam-data.txt
+    const validManagerEmails = [
+      "prahaas.muchandi@zomato.com",
+      "divya.gugle@zomato.com",
+      "snehil.maheshkar@zomato.com",
+      "pratik.tare@zomato.com",
+      "samrudhh.bhave@zomato.com",
+      "tejas.bora@zomato.com",
+    ];
 
-    if (validCodes.includes(managerCode.toUpperCase())) {
+    // Common password for all managers
+    const managerPassword = "zomato2025";
+
+    // Parse input as email:password format
+    const [inputEmail, inputPassword] = managerCode.split(":");
+
+    if (
+      inputEmail &&
+      inputPassword &&
+      validManagerEmails.includes(inputEmail.toLowerCase().trim()) &&
+      inputPassword === managerPassword
+    ) {
       toast({
         title: "Manager access granted",
         description: "Redirecting to Zonal Head View...",
@@ -105,8 +123,8 @@ const Auth = () => {
       navigate("/zonal-head-view");
     } else {
       toast({
-        title: "Invalid code",
-        description: "Please enter a valid manager code",
+        title: "Invalid credentials",
+        description: "Please enter valid manager email and password",
         variant: "destructive",
       });
     }
@@ -139,7 +157,7 @@ const Auth = () => {
               </div>
             </div>
             <h1 className="text-4xl font-bold text-foreground">BAU Dashboard</h1>
-            <p className="text-muted-foreground">Business as usual operations management</p>
+            <p className="text-muted-foreground">Made In Z. Pune</p>
           </div>
 
           {/* Sign In / Sign Up Tabs */}
@@ -246,17 +264,6 @@ const Auth = () => {
                           "Sign In"
                         )}
                       </Button>
-                      <div className="bg-muted/50 rounded-lg p-3 border border-border">
-                        <p className="text-xs text-muted-foreground text-center font-medium">
-                          Test Credentials
-                        </p>
-                        <p className="text-xs text-center mt-1">
-                          <span className="font-mono">shiv.kumar@zomato.com</span>
-                        </p>
-                        <p className="text-xs text-center">
-                          <span className="font-mono">zomato123</span>
-                        </p>
-                      </div>
                     </form>
 
                     {/* Development Mode Indicator */}
@@ -333,13 +340,15 @@ const Auth = () => {
                 <Zap className="w-5 h-5 text-primary" />
                 Manager Access
               </CardTitle>
-              <CardDescription>Enter your manager code for quick access</CardDescription>
+              <CardDescription>
+                Enter your manager email and password (format: email:password)
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleManagerAccess} className="space-y-4">
                 <Input
                   type="text"
-                  placeholder="Manager access code"
+                  placeholder="email@zomato.com:password"
                   value={managerCode}
                   onChange={(e) => setManagerCode(e.target.value)}
                   className="font-mono"
@@ -347,11 +356,6 @@ const Auth = () => {
                 <Button type="submit" variant="outline" className="w-full">
                   Access Dashboard
                 </Button>
-                <div className="bg-muted/50 rounded-lg p-3 border border-border">
-                  <p className="text-xs text-muted-foreground text-center">
-                    💡 Hint: Try <span className="font-mono font-semibold">ZONAL-2025</span>
-                  </p>
-                </div>
               </form>
             </CardContent>
           </Card>

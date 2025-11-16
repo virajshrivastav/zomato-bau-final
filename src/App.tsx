@@ -12,6 +12,7 @@ import RestaurantDetail from "./pages/RestaurantDetail";
 import KAMAnalytics from "./pages/KAMAnalytics";
 import ZonalHeadView from "./pages/ZonalHeadView";
 import LiveSprints from "./pages/LiveSprints";
+import DebugPerformanceMetrics from "./pages/DebugPerformanceMetrics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

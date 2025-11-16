@@ -5,22 +5,81 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Loader2 } from "lucide-react";
 import { useState } from "react";
+import {
+  useUpdateNCNApproached,
+  useUpdateNCNConverted,
+  useUpdateNCNSelectedCodes,
+} from "@/hooks/useDriveSheetMutations";
+import { useToast } from "@/hooks/use-toast";
 
 interface NCNManagementCardProps {
   data: NCNData;
+  resId: string;
 }
 
-export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps) => {
+export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCardProps) => {
   const [data, setData] = useState(initialData);
+  const { toast } = useToast();
+
+  // Mutation hooks
+  const updateApproached = useUpdateNCNApproached();
+  const updateConverted = useUpdateNCNConverted();
+  const updateSelectedCodes = useUpdateNCNSelectedCodes();
 
   const handleApproachedChange = (value: string) => {
-    setData({ ...data, approached: value as "yes" | "no" });
+    const approached = value as "yes" | "no";
+    setData({ ...data, approached });
+
+    // Save to database
+    updateApproached.mutate(
+      { resId, approached },
+      {
+        onSuccess: () => {
+          toast({
+            title: "Saved",
+            description: "NCN approached status updated",
+          });
+        },
+        onError: (error) => {
+          toast({
+            title: "Error",
+            description: `Failed to save: ${error.message}`,
+            variant: "destructive",
+          });
+          // Revert on error
+          setData({ ...data, approached: initialData.approached });
+        },
+      }
+    );
   };
 
   const handleConvertedChange = (value: string) => {
-    setData({ ...data, converted: value as "yes" | "wip" | "no" });
+    const converted = value as "yes" | "wip" | "no";
+    setData({ ...data, converted });
+
+    // Save to database
+    updateConverted.mutate(
+      { resId, converted },
+      {
+        onSuccess: () => {
+          toast({
+            title: "Saved",
+            description: "NCN converted status updated",
+          });
+        },
+        onError: (error) => {
+          toast({
+            title: "Error",
+            description: `Failed to save: ${error.message}`,
+            variant: "destructive",
+          });
+          // Revert on error
+          setData({ ...data, converted: initialData.converted });
+        },
+      }
+    );
   };
 
   return (
@@ -543,16 +602,48 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
           <Button
             type="button"
             className="w-full mt-4 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg transition-all"
+            disabled={updateSelectedCodes.isPending}
             onClick={() => {
-              const selectedCodes = [
-                ...data.stepperAndBaseCodes.la.filter((c) => c.selected),
-                ...data.stepperAndBaseCodes.mm.filter((c) => c.selected),
-                ...data.stepperAndBaseCodes.um.filter((c) => c.selected),
-              ];
-              alert(`Activating ${selectedCodes.length} codes`);
+              // Extract selected code IDs for each segment
+              const selectedCodes = {
+                la: data.stepperAndBaseCodes.la.filter((c) => c.selected).map((c) => c.id),
+                mm: data.stepperAndBaseCodes.mm.filter((c) => c.selected).map((c) => c.id),
+                um: data.stepperAndBaseCodes.um.filter((c) => c.selected).map((c) => c.id),
+                flash_sale: [], // TODO: Add flash sale codes when available
+                bogo: [], // TODO: Add BOGO codes when available
+              };
+
+              // Save to database
+              updateSelectedCodes.mutate(
+                { resId, selectedCodes },
+                {
+                  onSuccess: () => {
+                    const totalSelected =
+                      selectedCodes.la.length + selectedCodes.mm.length + selectedCodes.um.length;
+                    toast({
+                      title: "Codes Saved",
+                      description: `${totalSelected} codes saved successfully`,
+                    });
+                  },
+                  onError: (error) => {
+                    toast({
+                      title: "Error",
+                      description: `Failed to save codes: ${error.message}`,
+                      variant: "destructive",
+                    });
+                  },
+                }
+              );
             }}
           >
-            Activate Selected Codes
+            {updateSelectedCodes.isPending ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              "Activate Selected Codes"
+            )}
           </Button>
         </div>
       </div>

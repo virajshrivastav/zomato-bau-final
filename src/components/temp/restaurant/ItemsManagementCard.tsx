@@ -4,21 +4,81 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ToggleButtonGroup } from "@/components/temp/ui/ToggleButtonGroup";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import {
+  useUpdateItemsApproached,
+  useUpdateItemsConverted,
+  useUpdateItemsAdded,
+} from "@/hooks/useDriveSheetMutations";
+import { useToast } from "@/hooks/use-toast";
 
 interface ItemsManagementCardProps {
   data: ItemsData;
+  resId: string;
 }
 
-export const ItemsManagementCard = ({ data: initialData }: ItemsManagementCardProps) => {
+export const ItemsManagementCard = ({ data: initialData, resId }: ItemsManagementCardProps) => {
   const [data, setData] = useState(initialData);
+  const { toast } = useToast();
+
+  // Mutation hooks
+  const updateApproached = useUpdateItemsApproached();
+  const updateConverted = useUpdateItemsConverted();
+  const updateItemsAdded = useUpdateItemsAdded();
 
   const handleApproachedChange = (value: string) => {
-    setData({ ...data, approached: value as "yes" | "no" });
+    const approached = value as "yes" | "no";
+    setData({ ...data, approached });
+
+    // Save to database
+    updateApproached.mutate(
+      { resId, approached },
+      {
+        onSuccess: () => {
+          toast({
+            title: "Saved",
+            description: "Items approached status updated",
+          });
+        },
+        onError: (error) => {
+          toast({
+            title: "Error",
+            description: `Failed to save: ${error.message}`,
+            variant: "destructive",
+          });
+          // Revert on error
+          setData({ ...data, approached: initialData.approached });
+        },
+      }
+    );
   };
 
   const handleConvertedChange = (value: string) => {
-    setData({ ...data, converted: value as "yes" | "wip" | "no" });
+    const converted = value as "yes" | "wip" | "no";
+    setData({ ...data, converted });
+
+    // Save to database
+    updateConverted.mutate(
+      { resId, converted },
+      {
+        onSuccess: () => {
+          toast({
+            title: "Saved",
+            description: "Items converted status updated",
+          });
+        },
+        onError: (error) => {
+          toast({
+            title: "Error",
+            description: `Failed to save: ${error.message}`,
+            variant: "destructive",
+          });
+          // Revert on error
+          setData({ ...data, converted: initialData.converted });
+        },
+      }
+    );
   };
 
   const handleItemAddedChange = (id: string, value: string) => {
@@ -136,14 +196,46 @@ export const ItemsManagementCard = ({ data: initialData }: ItemsManagementCardPr
       <Button
         type="button"
         className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg transition-all"
+        disabled={updateItemsAdded.isPending}
         onClick={() => {
-          const addedItems = data.itemsAdded.filter((item) => item.checked && item.value);
-          alert(
-            `Submitting ${addedItems.length} items:\n${addedItems.map((i) => i.value).join("\n")}`
+          // Convert items to the format expected by the database
+          const items = data.itemsAdded.map((item) => ({
+            id: item.id,
+            name: item.value,
+            price: item.price,
+            checked: item.checked,
+          }));
+
+          // Save to database
+          updateItemsAdded.mutate(
+            { resId, items },
+            {
+              onSuccess: () => {
+                const addedItems = items.filter((item) => item.checked && item.name);
+                toast({
+                  title: "Items Saved",
+                  description: `${addedItems.length} items saved successfully`,
+                });
+              },
+              onError: (error) => {
+                toast({
+                  title: "Error",
+                  description: `Failed to save items: ${error.message}`,
+                  variant: "destructive",
+                });
+              },
+            }
           );
         }}
       >
-        Submit Items
+        {updateItemsAdded.isPending ? (
+          <>
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            Saving...
+          </>
+        ) : (
+          "Submit Items"
+        )}
       </Button>
     </ManagementCard>
   );

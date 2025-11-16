@@ -2,22 +2,23 @@ import ZonalHeader from "@/components/ZonalHeader";
 import KPICard from "@/components/KPICard";
 import KAMPerformanceTable from "@/components/KAMPerformanceTable";
 import { Users, TrendingUp, Target, Activity } from "lucide-react";
+import { useZonalStats } from "@/hooks/useZonalStats";
 
 /**
  * Zonal Head View Page
  *
- * NOTE: This page currently uses MOCK DATA intentionally.
- *
- * Reason: Real team performance data is still evolving. Once data stabilizes,
- * this can be connected to real metrics in 1-2 hours by:
- * 1. Creating database functions for team metrics (KAM performance, rankings, etc.)
- * 2. Creating useZonalStats() hook to fetch real data
- * 3. Replacing the mock KPI values and KAMPerformanceTable data with real data
- *
- * For now, this serves as a UI preview for stakeholders.
+ * Displays aggregated KAM performance metrics and rankings
+ * Uses real data from drive_sheets_data table
  */
 
 const ZonalHeadView = () => {
+  const { data: zonalStats, isLoading } = useZonalStats();
+
+  // Calculate KPI metrics from real data
+  const totalKAMs = zonalStats?.length || 0;
+  const totalActiveDrives = zonalStats?.reduce((sum, kam) => sum + kam.active_drives, 0) || 0;
+  const totalRestaurants = zonalStats?.reduce((sum, kam) => sum + kam.total_restaurants, 0) || 0;
+
   return (
     <div className="min-h-screen bg-background">
       <ZonalHeader />
@@ -35,35 +36,33 @@ const ZonalHeadView = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           <KPICard
             title="Total KAMs"
-            value="8"
+            value={isLoading ? "..." : totalKAMs.toString()}
             icon={Users}
             description="Active account managers"
-            change="+3"
-            changeType="positive"
           />
           <KPICard
-            title="Avg Conversion Rate"
-            value="76.8%"
-            icon={TrendingUp}
-            description="Team average"
-            change="+3.2%"
-            changeType="positive"
-          />
-          <KPICard
-            title="Avg Approach Rate"
-            value="82.4%"
+            title="Total Restaurants"
+            value={isLoading ? "..." : totalRestaurants.toLocaleString()}
             icon={Target}
-            description="Team average"
-            change="+1.8%"
-            changeType="positive"
+            description="Across all KAMs"
           />
           <KPICard
-            title="Total Drives"
-            value="200"
+            title="Active Drives"
+            value={isLoading ? "..." : totalActiveDrives.toLocaleString()}
             icon={Activity}
-            description="This month"
-            change="+12%"
-            changeType="positive"
+            description="Restaurants in drives"
+          />
+          <KPICard
+            title="Coverage Rate"
+            value={
+              isLoading
+                ? "..."
+                : totalRestaurants > 0
+                  ? `${((totalActiveDrives / totalRestaurants) * 100).toFixed(1)}%`
+                  : "0%"
+            }
+            icon={TrendingUp}
+            description="Drive participation"
           />
         </div>
 

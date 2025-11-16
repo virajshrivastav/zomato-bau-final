@@ -2,20 +2,74 @@ import { ManagementCard } from "@/components/temp/ui/ManagementCard";
 import { ToggleButtonGroup } from "@/components/temp/ui/ToggleButtonGroup";
 import { N2RData } from "@/types/restaurantTemp";
 import { useState } from "react";
+import { useUpdateN2RApproached, useUpdateN2RConverted } from "@/hooks/useDriveSheetMutations";
+import { useToast } from "@/hooks/use-toast";
 
 interface N2RManagementCardProps {
   data: N2RData;
+  resId: string;
 }
 
-export const N2RManagementCard = ({ data: initialData }: N2RManagementCardProps) => {
+export const N2RManagementCard = ({ data: initialData, resId }: N2RManagementCardProps) => {
   const [data, setData] = useState(initialData);
+  const { toast } = useToast();
+
+  // Mutation hooks
+  const updateApproached = useUpdateN2RApproached();
+  const updateConverted = useUpdateN2RConverted();
 
   const handleApproachedChange = (value: string) => {
-    setData({ ...data, approached: value as "yes" | "no" });
+    const approached = value as "yes" | "no";
+    setData({ ...data, approached });
+
+    // Save to database
+    updateApproached.mutate(
+      { resId, approached },
+      {
+        onSuccess: () => {
+          toast({
+            title: "Saved",
+            description: "N2R approached status updated",
+          });
+        },
+        onError: (error) => {
+          toast({
+            title: "Error",
+            description: `Failed to save: ${error.message}`,
+            variant: "destructive",
+          });
+          // Revert on error
+          setData({ ...data, approached: initialData.approached });
+        },
+      }
+    );
   };
 
   const handleConvertedChange = (value: string) => {
-    setData({ ...data, converted: value as "yes" | "wip" | "no" });
+    const converted = value as "yes" | "wip" | "no";
+    setData({ ...data, converted });
+
+    // Save to database
+    updateConverted.mutate(
+      { resId, converted },
+      {
+        onSuccess: () => {
+          toast({
+            title: "Saved",
+            description: "N2R converted status updated",
+          });
+        },
+        onError: (error) => {
+          toast({
+            title: "Error",
+            description: `Failed to save: ${error.message}`,
+            variant: "destructive",
+          });
+          // Revert on error
+          setData({ ...data, converted: initialData.converted });
+        },
+      }
+    );
   };
 
   return (

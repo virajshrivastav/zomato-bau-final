@@ -47,6 +47,13 @@ def safe_str(value):
     return str_value
 
 
+def is_valid_email(email):
+    """Check if email is a valid Zomato email."""
+    if email == 'NULL':
+        return False
+    return '@zomato.com' in email.lower()
+
+
 def escape_sql(value):
     """Escape single quotes for SQL and wrap in quotes if not NULL."""
     if value == 'NULL':
@@ -66,9 +73,13 @@ def parse_ncn_csv():
     # Row 3 (index 0 after skip) has: KAM, TL, Team, LA Base, MM Base, UM Base, LA, MM, UM, Delta LA, Delta MM, Delta UM, ..., Flash, BOGO, Overall OV, Overall Res, ..., GET150, TAKE150, BINGE150
     
     data = []
+    skipped_count = 0
     for _, row in df.iterrows():
         kam_email = safe_str(row.iloc[1])  # Column B (index 1)
-        if kam_email == 'NULL':
+
+        # Skip invalid emails
+        if not is_valid_email(kam_email):
+            skipped_count += 1
             continue
         
         record = {
@@ -102,8 +113,10 @@ def parse_ncn_csv():
             'bogo_binge150': safe_str(row.iloc[24]),  # Column Y (BINGE150)
         }
         data.append(record)
-    
-    print(f"✅ Parsed {len(data)} NCN records")
+
+    if skipped_count > 0:
+        print(f"⚠️  Skipped {skipped_count} invalid rows (non-email entries)")
+    print(f"✅ Parsed {len(data)} valid NCN records")
     return data
 
 
@@ -115,9 +128,13 @@ def parse_n2r_csv():
     df = pd.read_csv(N2R_CSV, skiprows=2, encoding='utf-8')
     
     data = []
+    skipped_count = 0
     for _, row in df.iterrows():
         kam_email = safe_str(row.iloc[1])  # Column B
-        if kam_email == 'NULL':
+
+        # Skip invalid emails
+        if not is_valid_email(kam_email):
+            skipped_count += 1
             continue
         
         record = {
@@ -132,8 +149,10 @@ def parse_n2r_csv():
             'um_ov_conversion': safe_str(row.iloc[24]),  # Column Y (UM OV Conversion)
         }
         data.append(record)
-    
-    print(f"✅ Parsed {len(data)} N2R records")
+
+    if skipped_count > 0:
+        print(f"⚠️  Skipped {skipped_count} invalid rows (non-email entries)")
+    print(f"✅ Parsed {len(data)} valid N2R records")
     return data
 
 
@@ -145,9 +164,13 @@ def parse_items_csv():
     df = pd.read_csv(ITEMS_CSV, skiprows=4, encoding='utf-8')
     
     data = []
+    skipped_count = 0
     for _, row in df.iterrows():
         kam_email = safe_str(row.iloc[1])  # Column B
-        if kam_email == 'NULL':
+
+        # Skip invalid emails
+        if not is_valid_email(kam_email):
+            skipped_count += 1
             continue
         
         # OV Coverage columns: BZ:CV (columns 77-83)
@@ -178,8 +201,10 @@ def parse_items_csv():
             'items_wow': safe_str(row.iloc[109]),
         }
         data.append(record)
-    
-    print(f"✅ Parsed {len(data)} Items records")
+
+    if skipped_count > 0:
+        print(f"⚠️  Skipped {skipped_count} invalid rows (non-email entries)")
+    print(f"✅ Parsed {len(data)} valid Items records")
     return data
 
 
