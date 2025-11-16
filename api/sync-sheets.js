@@ -168,13 +168,13 @@ async function syncNCN(sheets, restaurantData) {
   const selectedCodes = restaurantData.ncn_selected_codes || {};
 
   const laCodes = Array.isArray(selectedCodes.la)
-    ? selectedCodes.la.map(id => formatCodeForSheets(id, restaurantData)).join(", ")
+    ? selectedCodes.la.map((id) => formatCodeForSheets(id, restaurantData)).join(", ")
     : "";
   const mmCodes = Array.isArray(selectedCodes.mm)
-    ? selectedCodes.mm.map(id => formatCodeForSheets(id, restaurantData)).join(", ")
+    ? selectedCodes.mm.map((id) => formatCodeForSheets(id, restaurantData)).join(", ")
     : "";
   const umCodes = Array.isArray(selectedCodes.um)
-    ? selectedCodes.um.map(id => formatCodeForSheets(id, restaurantData)).join(", ")
+    ? selectedCodes.um.map((id) => formatCodeForSheets(id, restaurantData)).join(", ")
     : "";
 
   // Prepare row data (9 columns)

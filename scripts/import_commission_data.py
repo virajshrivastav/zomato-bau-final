@@ -4,7 +4,7 @@ Import Commission Data
 This script imports commission and last change date data per restaurant and generates SQL UPDATE statements.
 
 Data Source:
-ADs-and-Toing/Dashboard Context data Drives - comm data (1).csv
+data/ads-commission/Dashboard Context data Drives - comm data (1).csv
    - Column A: res_id
    - Column K: current_commission
    - Column L: last_change_date
@@ -18,7 +18,7 @@ import sys
 import os
 
 # File paths
-COMMISSION_CSV = 'ADs-and-Toing/Dashboard Context data Drives - comm data (1).csv'
+COMMISSION_CSV = 'data/ads-commission/Dashboard Context data Drives - comm data (1).csv'
 COMMISSION_SQL = 'update_commission_data.sql'
 
 

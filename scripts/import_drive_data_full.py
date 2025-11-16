@@ -9,10 +9,10 @@ PHASE 3: Enrich with N2R data (UPDATE only)
 PHASE 4: Enrich with Items data (UPDATE only)
 
 CSV Sources:
-1. kam-data.txt - 6,625 restaurants (base layer)
-2. drive-data/NCN-codes.csv - ~5,541 restaurants (enrichment)
-3. drive-data/N2R-Codes.csv - ~5,668 restaurants (enrichment)
-4. drive-data/Items-159LL.csv - ~1,909 restaurants (enrichment)
+1. archive/data/kam-data.txt - 6,625 restaurants (base layer)
+2. data/drives/NCN-codes.csv - ~5,541 restaurants (enrichment)
+3. data/drives/N2R-Codes.csv - ~5,668 restaurants (enrichment)
+4. data/drives/Items-159LL.csv - ~1,909 restaurants (enrichment)
 
 Output:
 - insert_base_restaurants.sql
@@ -35,10 +35,10 @@ import argparse
 from datetime import datetime
 
 # File paths
-KAM_DATA_FILE = "kam-data.txt"
-NCN_CSV = "drive-data/NCN-codes.csv"
-N2R_CSV = "drive-data/N2R-Codes.csv"
-ITEMS_CSV = "drive-data/Items-159LL.csv"
+KAM_DATA_FILE = "archive/data/kam-data.txt"
+NCN_CSV = "data/drives/NCN-codes.csv"
+N2R_CSV = "data/drives/N2R-Codes.csv"
+ITEMS_CSV = "data/drives/Items-159LL.csv"
 
 # Output SQL files
 OUTPUT_DIR = "."

@@ -1,192 +1,267 @@
 # 📚 Documentation Index
 
-**Last Updated:** 2025-11-15  
+**Last Updated:** 2025-11-16
 **Project:** Zomato BAU KAM Dashboard
+**Documentation Version:** 2.0 (Post-Reorganization)
 
 ---
 
-## 🎯 Quick Start (Read These First)
+## 🎯 Essential Files (Root Directory)
 
 ### 1. **README.md**
-Main project overview, tech stack, and getting started guide.
+Main project overview, tech stack, route structure, and getting started guide.
 
-### 2. **NEW-THREAD-CONTEXT.md**
-Quick context for new conversation threads. Start here when opening a new thread.
+### 2. **PROJECT-STATUS.md**
+Current project status, sprint progress, latest updates, and what's working.
 
-### 3. **PROJECT-STATUS.md**
-Current project status, sprint progress, and what's working.
-
----
-
-## 📖 Essential Documentation
-
-### Core Guides
-
-#### **AUTOMATIC-EXECUTION-GUIDE.md**
-How to run the automatic data import script for all 6,610 restaurants.
-- Prerequisites
-- Step-by-step execution
-- Troubleshooting
-- Verification
-
-#### **SUPABASE-DATA-IMPORT-GUIDE.md**
-General guide for importing data to Supabase using Python (for any IDE).
-- Supabase Python client setup
-- Service role key configuration
-- SQL parsing and execution patterns
-- Batch processing examples
-- Security best practices
-
-#### **DATABASE-TO-FRONTEND-COMPLETE-GUIDE.md**
-Complete technical guide for data flow from database to frontend.
-- Database schema
-- Data fetching patterns
-- React hooks usage
-- Component integration
-
-#### **SYSTEM-ARCHITECTURE-DIAGRAM.md**
-System architecture overview with diagrams.
-- Tech stack
-- Component structure
-- Data flow
-- Authentication flow
+### 3. **DOCS-INDEX.md** (This File)
+Complete documentation index and navigation guide.
 
 ---
 
-## 🎊 Sprint Summaries
+## 📚 Documentation Hub
 
-### **SPRINT-2-COMPLETION-SUMMARY.md**
-Complete summary of Sprint 2 - Full Data Import.
-- Import statistics (6,610 restaurants)
-- Execution performance
-- Key achievements
-- Next steps
-
-### **docs/completed-sprints/SPRINT-1-COMPLETION-REPORT.md**
-Sprint 1 completion report (single restaurant test).
-
----
-
-## 📝 Recent Updates
-
-### **DOCUMENTATION-UPDATED.md**
-Log of recent documentation updates and organization.
-
----
-
-## 📁 Archived Documentation
-
-All historical and obsolete documentation has been organized into:
-
-### **docs/archive/sprint-2-execution-guides/**
-Manual execution guides (now replaced by automatic script):
-- BATCH-FILES-SUMMARY.md
-- EXECUTE-SQL-IN-PARTS.md
-- ITEMS-EXECUTION-CHECKLIST.md
-- MASTER-EXECUTION-CHECKLIST.md
-- N2R-EXECUTION-CHECKLIST.md
-- NCN-EXECUTION-CHECKLIST.md
-- QUICK-EXECUTION-GUIDE.md
-- READY-TO-EXECUTE-SUMMARY.md
-- SQL-SPLIT-SUMMARY.md
-- START-HERE.md
-- SUPABASE-EXECUTION-GUIDE.md
-- EXECUTE-SQL-CLI-GUIDE.md
-- CLI-EXECUTION-READY.md
-- FINAL-CHECKLIST.md
-- SPRINT-2-EXECUTION-CHECKLIST.md
-- SPRINT-2-QUICK-START.md
-- SPRINT-2-READY-TO-EXECUTE.md
-
-### **docs/archive/setup-guides/**
-Completed setup guides:
-- AUTHENTICATION_SETUP_COMPLETE.md
-- CLI_SETUP_GUIDE.md
-- ENVIRONMENT_VARIABLES.md
-- GET_SERVICE_ROLE_KEY.md
-- SETUP.md
-- SUPABASE_USER_SETUP.md
-
-### **docs/archive/obsolete-guides/**
-Obsolete or duplicate documentation:
-- DOCUMENTATION-INDEX.md (old version)
-- DRIVE-DATA-IMPLEMENTATION-PLAN.md
-- IMPORTANT-NOTES.md
-- IMPORTANT-NOTES-SPRINT-2.md
-- NEXT-THREAD-QUICK-START.md
-- PASTE-THIS-IN-NEW-THREAD.md
-- SOLUTION-AUTOMATIC-UPLOAD.md
-- SPRINT-2-CLEAN-DATA-STRATEGY.md
-- SPRINT-2-CONTEXT-SUMMARY.md
-- SPRINT-2-DATA-FLOW-DIAGRAM.md
-- SPRINT-2-GUIDE.md
-- SPRINT-2-IMPORT-SCRIPT-STRUCTURE.md
-- SPRINT-2-TEST-IMPORT-SUCCESS.md
-- THREAD-COMPLETION-SUMMARY.md
+### **docs/README.md** - Start Here!
+Comprehensive documentation navigation with:
+- Quick links to all documentation categories
+- Common tasks guide
+- Documentation standards
+- Recent updates
 
 ---
 
 ## 🗂️ Documentation Structure
 
+### 📖 Technical Guides (`docs/guides/`)
+Core technical documentation for developers:
+- **DATABASE-TO-FRONTEND-COMPLETE-GUIDE.md** - Data flow from DB to UI
+- **SYSTEM-ARCHITECTURE-DIAGRAM.md** - System architecture overview
+- **SUPABASE-DATA-IMPORT-GUIDE.md** - Data import procedures
+- **AUTOMATIC-EXECUTION-GUIDE.md** - Automated import scripts
+- **SUPABASE-TROUBLESHOOTING.md** - Common issues and solutions
+
+### ✨ Features (`docs/features/`)
+Feature-specific documentation organized by module:
+
+#### Performance Metrics (`docs/features/performance-metrics/`)
+- NCN Coverage tracking
+- N2R Conversion metrics
+- Items <=159 monitoring
+- Drive-wise summaries
+- KAM-filtered performance views
+
+#### Google Sheets Integration (`docs/features/google-sheets/`)
+- Real-time sync setup and configuration
+- Google Sheets API integration
+- Sync quick reference guides
+- Troubleshooting and debugging
+
+#### Google OAuth (`docs/features/google-oauth/`)
+- Authentication setup and configuration
+- Domain restriction (@zomato.com)
+- OAuth flow documentation
+- Security policies and best practices
+
+#### ADs & Toing (`docs/features/ads-toing/`)
+- ADs BR data import and management
+- Toing data tracking
+- Historic data analysis
+- Execution guides
+
+#### Commission Data (`docs/features/commission/`)
+- Commission tracking system
+- Data import procedures
+- Commission calculations
+
+#### KAM Hub (`docs/features/kam-hub/`)
+- Rankings system
+- KAM performance tracking
+- Migration guides
+- Hub features documentation
+
+### 🚀 Deployment (`docs/deployment/`)
+Production deployment documentation:
+- Vercel deployment guides
+- Environment configuration
+- Production setup procedures
+- Troubleshooting deployment issues
+- Blank screen fixes
+
+### 🧪 Testing (`docs/testing/`)
+Testing documentation and procedures:
+- **FRONTEND-TEST-PLAN.md** - Comprehensive test plan
+- **TESTING-SUMMARY.md** - Test results and coverage
+- **QUICK-TEST-REFERENCE.md** - Quick testing guide
+- **START-TESTING-NOW.md** - Get started with testing
+- **TEAM-LEADS-AUTH-VERIFICATION.md** - Auth testing
+- **RESTAURANT-6503620-EXPECTED-VALUES.md** - Test data
+- Visual verification guides
+
+### 📊 Sprint Documentation (`docs/sprints/`)
+Sprint summaries and progress tracking:
+- Sprint summaries (Sprint 1, 2, 3)
+- Phase documentation
+- Implementation checklists
+- Execution guides
+- Sign-in and zonal updates
+
+### 📦 Resources (`docs/resources/`)
+Additional resources and materials:
+- PDF documentation
+- Images and diagrams
+- Reference materials
+
+### 📁 Archive (`docs/archive/`)
+Historical and outdated documentation:
+- **context/** - Old context documents
+- **fixes/** - Completed fix documentation
+---
+
+## 📁 Data Files (`data/`)
+
+### Drives Data (`data/drives/`)
+- NCN-codes.csv
+- N2R-Codes.csv
+- Items-159LL.csv
+
+### Performance Metrics (`data/performance/`)
+- NCN Coverage Summary CSV
+- N2R Summary CSV
+- Input Summary CSV
+
+### ADs & Commission (`data/ads-commission/`)
+- ADS BR Exact CSV
+- Ads Historic CSV
+- Commission data CSV
+- Toing data CSV
+
+---
+
+## 📦 Archive (`archive/`)
+
+### SQL Imports (`archive/sql-imports/`)
+All completed SQL import files from Sprint 2:
+- **sprint-2/** - NCN, N2R, Items batch files (138 files)
+- **zvdo/** - ZVDO import files
+- **ads-commission/** - ADs and Commission SQL files
+- **testing/** - Test SQL files
+- **rls-policies/** - Old RLS policy files
+- **generated/** - Generated SQL output
+
+### Data Archive (`archive/data/`)
+- kam-data.txt (original KAM data)
+- Historical data files
+
+### Test Data (`archive/test-data/`)
+- Test JSON and CSV files
+
+---
+
+## 🗂️ Complete Directory Structure
+
 ```
 zomato-new/
-├── README.md                              # Main project README
-├── NEW-THREAD-CONTEXT.md                  # Quick context for new threads
-├── PROJECT-STATUS.md                      # Current project status
-├── SPRINT-2-COMPLETION-SUMMARY.md         # Latest sprint summary
-├── AUTOMATIC-EXECUTION-GUIDE.md           # How to run imports
-├── SUPABASE-DATA-IMPORT-GUIDE.md          # General Supabase import guide
-├── DATABASE-TO-FRONTEND-COMPLETE-GUIDE.md # Technical guide
-├── SYSTEM-ARCHITECTURE-DIAGRAM.md         # Architecture overview
-├── DOCUMENTATION-UPDATED.md               # Recent updates log
-├── DOCS-INDEX.md                          # This file
+├── README.md                    # Main project overview
+├── PROJECT-STATUS.md            # Current status
+├── DOCS-INDEX.md               # This file
 │
-└── docs/
-    ├── completed-sprints/
-    │   ├── SPRINT-1-COMPLETION-REPORT.md
-    │   └── (future sprint reports)
-    │
-    └── archive/
-        ├── sprint-2-execution-guides/     # Manual execution guides
-        ├── setup-guides/                  # Completed setup guides
-        └── obsolete-guides/               # Obsolete documentation
+├── src/                        # Application source code
+├── api/                        # API routes
+├── scripts/                    # Utility scripts
+│   ├── powershell/            # PowerShell scripts
+│   └── *.py                   # Python import scripts
+│
+├── supabase/                   # Database
+│   ├── migrations/            # Database migrations
+│   └── policies/              # RLS policies
+│
+├── data/                       # All data files
+│   ├── drives/                # Drive CSVs
+│   ├── performance/           # Performance CSVs
+│   └── ads-commission/        # ADs & Commission CSVs
+│
+├── docs/                       # All documentation
+│   ├── README.md              # Documentation hub
+│   ├── guides/                # Technical guides
+│   ├── features/              # Feature docs
+│   │   ├── performance-metrics/
+│   │   ├── google-sheets/
+│   │   ├── google-oauth/
+│   │   ├── ads-toing/
+│   │   ├── commission/
+│   │   └── kam-hub/
+│   ├── deployment/            # Deployment guides
+│   ├── testing/               # Testing docs
+│   ├── sprints/               # Sprint summaries
+│   ├── resources/             # PDFs, images
+│   └── archive/               # Historical docs
+│       ├── context/
+│       └── fixes/
+│
+└── archive/                    # Historical artifacts
+    ├── sql-imports/           # All SQL files
+    ├── data/                  # Old data files
+    └── test-data/             # Test files
 ```
 
 ---
 
-## 🎯 What to Read When
+## 🎯 Quick Navigation Guide
 
-### Starting a New Thread
-1. `NEW-THREAD-CONTEXT.md` - Quick context
-2. `PROJECT-STATUS.md` - Current status
+### For Developers
+1. Start with [README.md](../README.md)
+2. Review [docs/guides/](docs/guides/) for technical details
+3. Check [docs/features/](docs/features/) for specific features
+4. See [PROJECT-STATUS.md](../PROJECT-STATUS.md) for current state
 
-### Running Data Import
-1. `AUTOMATIC-EXECUTION-GUIDE.md` - Execution guide
-2. `SPRINT-2-COMPLETION-SUMMARY.md` - What was accomplished
+### For Testing
+1. Read [docs/testing/FRONTEND-TEST-PLAN.md](docs/testing/FRONTEND-TEST-PLAN.md)
+2. Follow [docs/testing/QUICK-TEST-REFERENCE.md](docs/testing/QUICK-TEST-REFERENCE.md)
+3. Check expected values in testing docs
 
-### Understanding the System
-1. `README.md` - Project overview
-2. `SYSTEM-ARCHITECTURE-DIAGRAM.md` - Architecture
-3. `DATABASE-TO-FRONTEND-COMPLETE-GUIDE.md` - Technical details
+### For Deployment
+1. Review [docs/deployment/](docs/deployment/)
+2. Check [PROJECT-STATUS.md](../PROJECT-STATUS.md) for deployment status
+3. Follow Vercel deployment guides
 
-### Checking Progress
-1. `PROJECT-STATUS.md` - Overall status
-2. `SPRINT-2-COMPLETION-SUMMARY.md` - Latest sprint
-3. `docs/completed-sprints/` - Historical sprints
-
----
-
-## ✅ Documentation Principles
-
-1. **Keep root clean** - Only essential docs in root directory
-2. **Archive historical** - Move completed/obsolete docs to archive
-3. **Clear naming** - Descriptive file names
-4. **Logical structure** - Organized by purpose
-5. **Up-to-date** - Regular updates with dates
+### For Data Import
+1. Check [scripts/](../scripts/) for import scripts
+2. Review [data/](../data/) for CSV files
+3. See [docs/guides/](docs/guides/) for import procedures
 
 ---
 
-**Total Root Files:** 11 (including this index)
-**Archived Files:** 37
-**Organization Date:** 2025-11-15
+## 📝 Recent Changes
+
+**2025-11-16:** Major Reorganization
+- ✅ Moved 138 SQL files to archive/sql-imports/
+- ✅ Organized 82 documentation files into docs/ subdirectories
+- ✅ Consolidated data files into data/ folder
+- ✅ Updated all script paths
+- ✅ Created comprehensive documentation structure
+- ✅ Reduced root directory from 85 MD files to 3
+
+**Benefits:**
+- 96% reduction in root directory clutter
+- Clear feature-based organization
+- Easy navigation and discovery
+- Professional structure
+- Scalable for future growth
+
+---
+
+## ✅ Documentation Standards
+
+1. **Organization** - Group related docs in appropriate subdirectories
+2. **Naming** - Use descriptive, UPPERCASE-WITH-DASHES.md format
+3. **Content** - Include title, purpose, date, and status
+4. **Navigation** - Add links to related documentation
+5. **Maintenance** - Archive outdated docs, don't delete
+
+---
+
+**Total Root MD Files:** 3
+**Total Documentation Files:** 80+
+**Total Archived SQL Files:** 138
+**Last Reorganization:** 2025-11-16
 

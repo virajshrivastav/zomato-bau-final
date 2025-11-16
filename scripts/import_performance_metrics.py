@@ -23,9 +23,9 @@ import pandas as pd
 from datetime import datetime
 
 # File paths
-NCN_CSV = "performance-metrics/Dashboard Context data Drives - NCN Coverage Summary  (1)new.csv"
-N2R_CSV = "performance-metrics/Dashboard Context data Drives - N2R Summary.csv"
-ITEMS_CSV = "performance-metrics/Dashboard Context data Drives - Input Summary.csv"
+NCN_CSV = "data/performance/Dashboard Context data Drives - NCN Coverage Summary  (1)new.csv"
+N2R_CSV = "data/performance/Dashboard Context data Drives - N2R Summary.csv"
+ITEMS_CSV = "data/performance/Dashboard Context data Drives - Input Summary.csv"
 
 # Output directory
 OUTPUT_DIR = "sql_output"

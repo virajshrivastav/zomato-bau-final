@@ -4,7 +4,7 @@ Import ADS BR (Booked Revenue) Data
 This script imports ADS BR (Booked Revenue) data per restaurant and generates SQL UPDATE statements.
 
 Data Source:
-ADs-and-Toing/Dashboard Context data Drives - ADS BR Exact.csv
+data/ads-commission/Dashboard Context data Drives - ADS BR Exact.csv
    - Column A: res_id
    - Column B: res_name
    - Column C: am_email
@@ -19,7 +19,7 @@ import sys
 import os
 
 # File paths
-ADS_BR_CSV = 'ADs-and-Toing/Dashboard Context data Drives - ADS BR Exact.csv'
+ADS_BR_CSV = 'data/ads-commission/Dashboard Context data Drives - ADS BR Exact.csv'
 ADS_BR_SQL = 'update_ads_br_data.sql'
 
 

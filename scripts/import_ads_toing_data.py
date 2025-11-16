@@ -4,12 +4,12 @@ Import ADs and Toing Data
 This script imports ADs Historic and Toing Flag data and generates SQL UPDATE statements.
 
 Data Sources:
-1. ADs-and-Toing/Dashboard Context data Drives - Ads Historic (2).csv
+1. data/ads-commission/Dashboard Context data Drives - Ads Historic (2).csv
    - Column A: KAM (email)
    - Column B: Team
    - Column C: AVG. Ach % (2025)
 
-2. ADs-and-Toing/Dashboard Context data Drives - Copy of comm data.csv
+2. data/ads-commission/Dashboard Context data Drives - Copy of comm data.csv
    - Column A: res_id
    - Column B: res_name
    - Column C: am_email
@@ -25,8 +25,8 @@ import sys
 import os
 
 # File paths
-ADS_CSV = 'ADs-and-Toing/Dashboard Context data Drives - Ads Historic (2).csv'
-TOING_CSV = 'ADs-and-Toing/Dashboard Context data Drives - Copy of comm data.csv'
+ADS_CSV = 'data/ads-commission/Dashboard Context data Drives - Ads Historic (2).csv'
+TOING_CSV = 'data/ads-commission/Dashboard Context data Drives - Copy of comm data.csv'
 ADS_SQL = 'update_ads_data.sql'
 TOING_SQL = 'update_toing_data.sql'
 
