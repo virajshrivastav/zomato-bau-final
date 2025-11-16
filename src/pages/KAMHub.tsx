@@ -145,7 +145,7 @@ const KAMHub = () => {
                     const driveCount = restaurant.drive_data?.length || 0;
                     // sept_ov is order volume (number of orders), not rupees
                     const orderVolume = restaurant.sept_ov
-                      ? `${(parseFloat(restaurant.sept_ov) / 1000).toFixed(1)}K`
+                      ? parseFloat(restaurant.sept_ov).toFixed(0)
                       : "N/A";
 
                     return (

@@ -154,7 +154,6 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                           </div>
                           {/* Editable inputs */}
                           <div className="flex items-center gap-1">
-                            <span className="text-[10px]">Flat</span>
                             <Input
                               type="number"
                               value={code.percentage}
@@ -294,7 +293,6 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                           </div>
                           {/* Editable inputs */}
                           <div className="flex items-center gap-1">
-                            <span className="text-[10px]">Flat</span>
                             <Input
                               type="number"
                               value={code.percentage}
@@ -434,7 +432,6 @@ export const NCNManagementCard = ({ data: initialData }: NCNManagementCardProps)
                           </div>
                           {/* Editable inputs */}
                           <div className="flex items-center gap-1">
-                            <span className="text-[10px]">Flat</span>
                             <Input
                               type="number"
                               value={code.percentage}

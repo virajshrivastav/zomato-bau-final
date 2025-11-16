@@ -104,6 +104,8 @@ const RestaurantDetail = () => {
       la: [
         (() => {
           const parsed = parseBaseCode(restaurant.ncn_la_base_code_suggested);
+          console.log("🔍 LA Base Code - Raw:", restaurant.ncn_la_base_code_suggested);
+          console.log("🔍 LA Base Code - Parsed:", parsed);
           return (
             parsed && {
               id: "la-base",
@@ -154,6 +156,8 @@ const RestaurantDetail = () => {
       mm: [
         (() => {
           const parsed = parseBaseCode(restaurant.ncn_mm_base_code_suggested);
+          console.log("🔍 MM Base Code - Raw:", restaurant.ncn_mm_base_code_suggested);
+          console.log("🔍 MM Base Code - Parsed:", parsed);
           return (
             parsed && {
               id: "mm-base",
@@ -204,6 +208,8 @@ const RestaurantDetail = () => {
       um: [
         (() => {
           const parsed = parseBaseCode(restaurant.ncn_um_base_code_suggested);
+          console.log("🔍 UM Base Code - Raw:", restaurant.ncn_um_base_code_suggested);
+          console.log("🔍 UM Base Code - Parsed:", parsed);
           return (
             parsed && {
               id: "um-base",
