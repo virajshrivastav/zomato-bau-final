@@ -14,7 +14,8 @@
     "extract-emails": "node scripts/extract-unique-emails.js",
     "add-users": "node scripts/add-users-to-supabase.js",
     "add-users-cli": "node scripts/add-users-cli.js",
-    "execute-sql": "node scripts/execute-sql-files.js"
+    "execute-sql": "node scripts/execute-sql-files.js",
+    "test:sync-api": "node scripts/test_vercel_api_locally.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
