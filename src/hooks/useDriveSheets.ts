@@ -19,6 +19,7 @@ export interface DriveSheetData {
   ads_avg_achievement: string | null;
   ads_br_cm: string | null; // ADS Booked Revenue Current Month
   toing_flag: string | null;
+  zvd_po: string | null; // ZVD PO (Zomato Value Delivery - Purchase Orders)
 
   // Commission Data
   current_commission: string | null; // Current commission percentage

@@ -2,7 +2,7 @@
  * Vercel Serverless Function: Test Google Sheets Sync Configuration
  * ==================================================================
  * Diagnostic endpoint to test Google Sheets API configuration
- * 
+ *
  * Endpoint: GET /api/test-sync
  */
 
@@ -81,9 +81,9 @@ export default async function handler(req, res) {
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
     const sheets = google.sheets({ version: "v4", auth });
-    
+
     const SHEET_ID = process.env.GOOGLE_SHEET_ID || "1BPV4gNG7bub4RFZgIrk-Yn65YEOkDA-WWTQplMbzWvQ";
-    
+
     // Try to read from the sheet
     const response = await sheets.spreadsheets.get({
       spreadsheetId: SHEET_ID,
@@ -112,12 +112,9 @@ export default async function handler(req, res) {
     }
 
     const supabase = createClient(supabaseUrl, supabaseKey);
-    
+
     // Try to query the database
-    const { data, error } = await supabase
-      .from("drive_sheets_data")
-      .select("res_id")
-      .limit(1);
+    const { data, error } = await supabase.from("drive_sheets_data").select("res_id").limit(1);
 
     if (error) throw error;
 
@@ -135,8 +132,8 @@ export default async function handler(req, res) {
 
   // Overall status
   const allChecks = Object.values(diagnostics.checks);
-  const failedChecks = allChecks.filter(check => check.success === false);
-  
+  const failedChecks = allChecks.filter((check) => check.success === false);
+
   diagnostics.overall = {
     status: failedChecks.length === 0 ? "PASS" : "FAIL",
     totalChecks: allChecks.length,
@@ -145,4 +142,3 @@ export default async function handler(req, res) {
 
   return res.status(200).json(diagnostics);
 }
-

@@ -69,7 +69,7 @@ const RestaurantDetail = () => {
 
   const metricsData: RestaurantMetrics = {
     activeDrives: 3, // NCN, N2R, Items
-    zvdPo: restaurant.sept_ov || "N/A",
+    zvdPo: restaurant.zvd_po || "N/A",
     adsBudget: {
       total: 50000,
       utilized: 32000,

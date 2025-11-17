@@ -1,7 +1,7 @@
 """
-Import ADs and Toing Data
-==========================
-This script imports ADs Historic and Toing Flag data and generates SQL UPDATE statements.
+Import ADs, ZVD PO, and Toing Data
+===================================
+This script imports ADs Historic, ZVD PO, and Toing Flag data and generates SQL UPDATE statements.
 
 Data Sources:
 1. data/ads-commission/Dashboard Context data Drives - Ads Historic (2).csv
@@ -9,15 +9,15 @@ Data Sources:
    - Column B: Team
    - Column C: AVG. Ach % (2025)
 
-2. data/ads-commission/Dashboard Context data Drives - Copy of comm data.csv
+2. Dashboard Context data Drives - comm data (2).csv
    - Column A: res_id
-   - Column B: res_name
-   - Column C: am_email
-   - Column D: TOING Flag ("Live" or "Not Live")
+   - Column J: ZVD PO
+   - Column K: current_commission
+   - Column L: last_change_date
 
 Output:
 - update_ads_data.sql - UPDATE statements for ADs achievement by KAM email
-- update_toing_data.sql - UPDATE statements for Toing flag by restaurant ID
+- update_zvd_po_data.sql - UPDATE statements for ZVD PO by restaurant ID
 """
 
 import pandas as pd
@@ -26,9 +26,9 @@ import os
 
 # File paths
 ADS_CSV = 'data/ads-commission/Dashboard Context data Drives - Ads Historic (2).csv'
-TOING_CSV = 'data/ads-commission/Dashboard Context data Drives - Copy of comm data.csv'
+ZVD_PO_CSV = 'Dashboard Context data Drives - comm data (2).csv'
 ADS_SQL = 'update_ads_data.sql'
-TOING_SQL = 'update_toing_data.sql'
+ZVD_PO_SQL = 'update_zvd_po_data.sql'
 
 
 def safe_str(value):
@@ -84,34 +84,34 @@ def load_ads_data():
     return ads_data
 
 
-def load_toing_data():
+def load_zvd_po_data():
     """
-    Load Toing Flag data.
-    Returns: dict {res_id: toing_flag}
+    Load ZVD PO data from column J.
+    Returns: dict {res_id: zvd_po}
     """
-    print_header("Loading Toing Flag Data")
-    print(f"📂 Reading file: {TOING_CSV}")
-    
-    df = pd.read_csv(TOING_CSV)
-    
-    toing_data = {}
+    print_header("Loading ZVD PO Data")
+    print(f"📂 Reading file: {ZVD_PO_CSV}")
+
+    df = pd.read_csv(ZVD_PO_CSV)
+
+    zvd_po_data = {}
     skipped = 0
-    
+
     for idx, row in df.iterrows():
         res_id = safe_str(row['res_id'])
-        toing_flag = safe_str(row['TOING Flag'])
-        
+        zvd_po = safe_str(row['ZVD PO'])
+
         if res_id == 'NULL':
             skipped += 1
             continue
-        
-        toing_data[res_id] = toing_flag
-    
-    print(f"✅ Loaded {len(toing_data)} restaurant Toing records")
+
+        zvd_po_data[res_id] = zvd_po
+
+    print(f"✅ Loaded {len(zvd_po_data)} restaurant ZVD PO records")
     if skipped > 0:
         print(f"⚠️  Skipped {skipped} rows with missing res_id")
-    
-    return toing_data
+
+    return zvd_po_data
 
 
 def generate_ads_update_sql(ads_data):
@@ -137,55 +137,55 @@ WHERE am_email = {escape_sql(kam_email)};
     return len(ads_data)
 
 
-def generate_toing_update_sql(toing_data):
-    """Generate SQL UPDATE statements for Toing data"""
-    print_header("Generating Toing UPDATE SQL")
-    
+def generate_zvd_po_update_sql(zvd_po_data):
+    """Generate SQL UPDATE statements for ZVD PO data"""
+    print_header("Generating ZVD PO UPDATE SQL")
+
     sql_statements = []
-    
-    for res_id, toing_flag in toing_data.items():
+
+    for res_id, zvd_po in zvd_po_data.items():
         sql = f"""UPDATE drive_sheets_data
-SET toing_flag = {escape_sql(toing_flag)}
+SET zvd_po = {escape_sql(zvd_po)}
 WHERE res_id = {escape_sql(res_id)};
 """
         sql_statements.append(sql)
-    
-    # Write to file
-    with open(TOING_SQL, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(sql_statements))
-    
-    print(f"✅ Generated {len(toing_data)} UPDATE statements")
-    print(f"📄 SQL saved to: {TOING_SQL}")
 
-    return len(toing_data)
+    # Write to file
+    with open(ZVD_PO_SQL, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(sql_statements))
+
+    print(f"✅ Generated {len(zvd_po_data)} UPDATE statements")
+    print(f"📄 SQL saved to: {ZVD_PO_SQL}")
+
+    return len(zvd_po_data)
 
 
 def main():
     """Main execution function"""
-    print_header("ADs and Toing Data Import Script")
+    print_header("ADs and ZVD PO Data Import Script")
 
     try:
         # Load ADs data
         ads_data = load_ads_data()
         ads_count = generate_ads_update_sql(ads_data)
 
-        # Load Toing data
-        toing_data = load_toing_data()
-        toing_count = generate_toing_update_sql(toing_data)
+        # Load ZVD PO data
+        zvd_po_data = load_zvd_po_data()
+        zvd_po_count = generate_zvd_po_update_sql(zvd_po_data)
 
         # Summary
         print_header("IMPORT SUMMARY")
         print(f"✅ ADs Data: {ads_count} KAMs")
-        print(f"✅ Toing Data: {toing_count} restaurants")
+        print(f"✅ ZVD PO Data: {zvd_po_count} restaurants")
 
         print(f"\n📄 Generated SQL Files:")
         print(f"  1. {ADS_SQL}")
-        print(f"  2. {TOING_SQL}")
+        print(f"  2. {ZVD_PO_SQL}")
 
         print(f"\n🎯 Next Steps:")
-        print(f"  1. Execute: supabase/add_ads_toing_columns.sql (add columns)")
+        print(f"  1. Ensure zvd_po column exists in drive_sheets_data table")
         print(f"  2. Execute: {ADS_SQL} (update ADs data)")
-        print(f"  3. Execute: {TOING_SQL} (update Toing data)")
+        print(f"  3. Execute: {ZVD_PO_SQL} (update ZVD PO data)")
         print("=" * 70)
 
     except Exception as e:
