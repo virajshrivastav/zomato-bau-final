@@ -119,10 +119,10 @@ async function importBaseRestaurants() {
 }
 
 async function importCommissionData() {
-  printHeader("STEP 2: Importing Commission & ZVD PO Data");
+  printHeader("STEP 2: Importing Commission, ZVD PO & OV Data");
 
-  const filePath = join(__dirname, "..", "Dashboard Context data Drives - comm data (2).csv");
-  console.log(`📂 Reading file: Dashboard Context data Drives - comm data (2).csv`);
+  const filePath = join(__dirname, "..", "data", "ads-commission", "Dashboard Context data Drives - comm data (1).csv");
+  console.log(`📂 Reading file: data/ads-commission/Dashboard Context data Drives - comm data (1).csv`);
 
   const content = readFileSync(filePath, "utf-8");
   const records = parse(content, {
@@ -148,7 +148,8 @@ async function importCommissionData() {
       res_id: record.res_id.trim(),
       current_commission: record.current_commission || null,
       last_change_date: record.last_change_date || null,
-      zvd_po: record["ZVD PO"] || null, // Column J
+      zvd_po: record.oct_zvdo || record["ZVD PO"] || null, // Column J - oct_zvdo (try both column names)
+      sept_ov: record.oct_ov || null, // Column I - OV data (oct_ov used as sept_ov)
     };
 
     try {
@@ -190,6 +191,14 @@ async function verifyImport() {
 
     console.log(`✅ Total restaurants: ${totalCount} (expected: ~6,610)`);
 
+    // Sept OV data
+    const { count: ovCount } = await supabase
+      .from("drive_sheets_data")
+      .select("*", { count: "exact", head: true })
+      .not("sept_ov", "is", null);
+
+    console.log(`✅ Sept OV data: ${ovCount} (expected: ~6,610)`);
+
     // ZVD PO data
     const { count: zvdCount } = await supabase
       .from("drive_sheets_data")
@@ -209,14 +218,14 @@ async function verifyImport() {
     // Sample data
     const { data: sample } = await supabase
       .from("drive_sheets_data")
-      .select("res_id, res_name, zvd_po, current_commission")
+      .select("res_id, res_name, sept_ov, zvd_po, current_commission")
       .not("zvd_po", "is", null)
       .limit(3);
 
     console.log("\n📋 Sample records:");
     sample?.forEach((r) => {
       console.log(`   ${r.res_id} - ${r.res_name}`);
-      console.log(`      ZVD PO: ${r.zvd_po}, Commission: ${r.current_commission}`);
+      console.log(`      Sept OV: ${r.sept_ov}, ZVD PO: ${r.zvd_po}, Commission: ${r.current_commission}`);
     });
 
     return true;
@@ -227,11 +236,11 @@ async function verifyImport() {
 }
 
 async function main() {
-  printHeader("🚀 QUICK DATA IMPORT - BASE + ZVD PO");
+  printHeader("🚀 QUICK DATA IMPORT - BASE + COMMISSION + ZVD PO + OV");
 
   console.log("\nThis will import:");
   console.log("  1. Base restaurants from kam-data.txt (~6,610)");
-  console.log("  2. Commission & ZVD PO data from comm data CSV (~6,610)");
+  console.log("  2. Commission, ZVD PO & OV data from comm data CSV (~6,610)");
   console.log("\n⏱️  Estimated time: 5-8 minutes");
   console.log("⚠️  Make sure you have a stable internet connection!\n");
 
@@ -244,18 +253,18 @@ async function main() {
       process.exit(1);
     }
 
-    // Step 2: Import commission & ZVD PO data
+    // Step 2: Import commission, ZVD PO & OV data
     await importCommissionData();
 
     // Verify
     await verifyImport();
 
     printHeader("✅ IMPORT COMPLETE");
-    console.log("Base restaurant data and ZVD PO data imported successfully!");
+    console.log("Base restaurant data, Commission, ZVD PO and OV data imported successfully!");
     console.log("\n🎯 Next Steps:");
     console.log("  1. Import NCN, N2R, and Items drive data (if needed)");
     console.log("  2. Test the application");
-    console.log("  3. Verify ZVD PO values are displaying correctly");
+    console.log("  3. Verify ZVD PO and OV values are displaying correctly");
   } catch (error) {
     console.error(`\n❌ ERROR: ${error.message}`);
     console.error(error.stack);
