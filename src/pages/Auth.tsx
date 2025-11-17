@@ -231,7 +231,7 @@ const Auth = () => {
                     <form onSubmit={handleSignIn} className="space-y-4">
                       <div className="space-y-2">
                         <div className="relative">
-                          <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
                           <Input
                             type="email"
                             placeholder="Email address"
@@ -244,7 +244,7 @@ const Auth = () => {
                       </div>
                       <div className="space-y-2">
                         <div className="relative">
-                          <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
                           <Input
                             type="password"
                             placeholder="Password"
@@ -291,7 +291,7 @@ const Auth = () => {
                   <form onSubmit={handleSignUp} className="space-y-4">
                     <div className="space-y-2">
                       <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
                         <Input
                           type="email"
                           placeholder="Email address"
@@ -304,7 +304,7 @@ const Auth = () => {
                     </div>
                     <div className="space-y-2">
                       <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
                         <Input
                           type="password"
                           placeholder="Password (min 6 characters)"

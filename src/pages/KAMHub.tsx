@@ -216,25 +216,33 @@ const KAMHub = () => {
 
             {/* Right Column - Performance Metrics Button */}
             <div className="lg:col-span-1">
-              <Button
+              <div
                 onClick={() => navigate("/kam-analytics")}
-                className="w-full h-auto p-4 sm:p-5 md:p-6 flex flex-col items-center justify-center gap-3 sm:gap-4 bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 group sticky top-20 sm:top-24"
-                size="lg"
+                className="w-full h-auto p-6 rounded-xl bg-gradient-to-br from-primary via-primary/95 to-primary/90 hover:from-primary/95 hover:via-primary/90 hover:to-primary/85 text-white shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group sticky top-20 sm:top-24 border border-white/10"
               >
-                <div className="p-3 sm:p-4 bg-white/10 rounded-full group-hover:scale-110 transition-transform duration-300">
-                  <BarChart3 className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" />
+                <div className="flex flex-col items-center justify-center gap-4">
+                  {/* Icon */}
+                  <div className="p-4 bg-white/15 backdrop-blur-sm rounded-2xl group-hover:scale-110 group-hover:bg-white/20 transition-all duration-300 shadow-inner">
+                    <BarChart3 className="h-8 w-8" />
+                  </div>
+
+                  {/* Content */}
+                  <div className="text-center space-y-2 w-full">
+                    <h3 className="text-xl font-bold leading-tight tracking-tight">
+                      Performance Metrics
+                    </h3>
+                    <p className="text-sm opacity-95 leading-tight font-medium">
+                      View your analytics & rankings
+                    </p>
+                  </div>
+
+                  {/* View Details Link */}
+                  <div className="flex items-center justify-center gap-2 text-sm font-semibold opacity-95 group-hover:gap-3 transition-all mt-1">
+                    <span>View Details</span>
+                    <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
-                <div className="text-center">
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold mb-1">
-                    Performance Metrics
-                  </h3>
-                  <p className="text-xs sm:text-sm opacity-90">View your analytics & rankings</p>
-                </div>
-                <div className="flex items-center gap-2 text-xs sm:text-sm font-medium opacity-90 group-hover:gap-3 transition-all">
-                  <span>View Details</span>
-                  <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
-                </div>
-              </Button>
+              </div>
             </div>
           </div>
         </div>

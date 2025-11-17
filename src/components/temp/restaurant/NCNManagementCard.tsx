@@ -2,7 +2,6 @@ import { ManagementCard } from "@/components/temp/ui/ManagementCard";
 import { ToggleButtonGroup } from "@/components/temp/ui/ToggleButtonGroup";
 import { NCNData } from "@/types/restaurantTemp";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Loader2 } from "lucide-react";
@@ -167,159 +166,212 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
         </div>
 
         {/* Stepper and Base Codes */}
-        <div className="mt-4 p-4 bg-muted/20 rounded-lg border border-border/50">
-          <h5 className="text-sm font-semibold mb-3 text-foreground">Stepper & Base Codes</h5>
+        <div className="mt-4 p-3 bg-[#1a1a1a] rounded-xl border border-border/30">
+          <h5 className="text-xs font-semibold mb-3 text-foreground flex items-center gap-2">
+            <span className="w-0.5 h-4 bg-primary rounded-full"></span>
+            Stepper & Base Codes
+          </h5>
 
           {/* LA / MM / UM Headers */}
-          <div className="grid grid-cols-3 gap-2 mb-3">
-            <div className="text-center text-xs font-bold text-foreground bg-gradient-to-br from-primary/20 to-primary/10 p-2 rounded-md border border-primary/20">
+          <div className="grid grid-cols-3 gap-3 mb-3">
+            <div className="text-center text-sm font-bold text-white bg-gradient-to-br from-[#8B2635] to-[#6B1E2A] py-2 px-3 rounded-lg shadow-sm border border-[#9B3645]/30">
               LA
             </div>
-            <div className="text-center text-xs font-bold text-foreground bg-gradient-to-br from-primary/20 to-primary/10 p-2 rounded-md border border-primary/20">
+            <div className="text-center text-sm font-bold text-white bg-gradient-to-br from-[#8B2635] to-[#6B1E2A] py-2 px-3 rounded-lg shadow-sm border border-[#9B3645]/30">
               MM
             </div>
-            <div className="text-center text-xs font-bold text-foreground bg-gradient-to-br from-primary/20 to-primary/10 p-2 rounded-md border border-primary/20">
+            <div className="text-center text-sm font-bold text-white bg-gradient-to-br from-[#8B2635] to-[#6B1E2A] py-2 px-3 rounded-lg shadow-sm border border-[#9B3645]/30">
               UM
             </div>
           </div>
 
           {/* Codes for each segment */}
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-3">
             {/* LA Codes */}
             <div className="space-y-2">
               {data.stepperAndBaseCodes.la.map((code) => (
-                <div key={code.id} className="p-2 border border-border rounded bg-card text-xs">
-                  <div className="flex items-start gap-1 mb-1">
-                    <Checkbox
-                      id={`la-${code.id}`}
-                      checked={code.selected}
-                      onCheckedChange={() => {
-                        setData({
-                          ...data,
-                          stepperAndBaseCodes: {
-                            ...data.stepperAndBaseCodes,
-                            la: data.stepperAndBaseCodes.la.map((c) =>
-                              c.id === code.id ? { ...c, selected: !c.selected } : c
-                            ),
-                          },
-                        });
-                      }}
-                      className="mt-0.5"
-                    />
-                    <div className="flex-1">
-                      {/* Percentage-based code (base code) */}
-                      {code.percentage !== undefined ? (
-                        <>
-                          {/* Display formatted base code prominently */}
-                          <div className="mb-2 p-1.5 bg-primary/10 rounded border border-primary/20">
-                            <span className="text-xs font-bold text-primary">
-                              {code.percentage}% upto {code.maxAmount}rs
-                            </span>
-                          </div>
-                          {/* Editable inputs */}
-                          <div className="flex items-center gap-1">
-                            <Input
-                              type="number"
-                              value={code.percentage}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    la: data.stepperAndBaseCodes.la.map((c) =>
-                                      c.id === code.id
-                                        ? { ...c, percentage: Number(e.target.value) }
-                                        : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">%</span>
-                          </div>
-                          <div className="flex items-center gap-1 mt-1">
-                            <span className="text-[10px]">upto</span>
-                            <Input
-                              type="number"
-                              value={code.maxAmount}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    la: data.stepperAndBaseCodes.la.map((c) =>
-                                      c.id === code.id
-                                        ? { ...c, maxAmount: Number(e.target.value) }
-                                        : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">rs</span>
-                          </div>
-                        </>
-                      ) : (
-                        /* Flat discount code (stepper code) */
-                        <>
-                          <div className="flex items-center gap-1">
-                            <span className="text-[10px]">Flat</span>
-                            <Input
-                              type="number"
-                              value={code.flatOff}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    la: data.stepperAndBaseCodes.la.map((c) =>
-                                      c.id === code.id
-                                        ? { ...c, flatOff: Number(e.target.value) }
-                                        : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">rs</span>
-                          </div>
-                          <div className="flex items-center gap-1 mt-1">
-                            <span className="text-[10px]">MOV</span>
-                            <Input
-                              type="number"
-                              value={code.mov}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    la: data.stepperAndBaseCodes.la.map((c) =>
-                                      c.id === code.id ? { ...c, mov: Number(e.target.value) } : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">rs</span>
-                          </div>
-                        </>
-                      )}
-                      <Badge
-                        variant={code.status === "Picked" ? "default" : "outline"}
-                        className="text-[9px] h-4 px-1 mt-1"
-                      >
-                        {code.status}
-                      </Badge>
-                    </div>
-                  </div>
+                <div
+                  key={code.id}
+                  className="p-2 rounded-lg bg-[#252525] border border-[#3a3a3a] hover:border-[#4a4a4a] transition-all duration-200"
+                >
+                  {/* Percentage-based code (base code) */}
+                  {code.percentage !== undefined ? (
+                    <>
+                      {/* Radio button + Display in one line */}
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                la: data.stepperAndBaseCodes.la.map((c) =>
+                                  c.id === code.id ? { ...c, selected: !c.selected } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                            code.selected
+                              ? "bg-[#e23744] border-[#e23744]"
+                              : "border-[#e23744] bg-transparent"
+                          }`}
+                        >
+                          {code.selected && (
+                            <svg
+                              className="w-2.5 h-2.5 text-white"
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="3"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          )}
+                        </button>
+                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                          {code.percentage}% upto {code.maxAmount}rs
+                        </span>
+                      </div>
+                      {/* Compact input fields */}
+                      <div className="flex items-center gap-1 mb-1.5">
+                        <Input
+                          type="number"
+                          value={code.percentage}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                la: data.stepperAndBaseCodes.la.map((c) =>
+                                  c.id === code.id
+                                    ? { ...c, percentage: Number(e.target.value) }
+                                    : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">%</span>
+                        <span className="text-[10px] font-medium text-gray-400">upto</span>
+                        <Input
+                          type="number"
+                          value={code.maxAmount}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                la: data.stepperAndBaseCodes.la.map((c) =>
+                                  c.id === code.id ? { ...c, maxAmount: Number(e.target.value) } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                      </div>
+                    </>
+                  ) : (
+                    /* Flat discount code (stepper code) */
+                    <>
+                      {/* Radio button + Display in one line */}
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                la: data.stepperAndBaseCodes.la.map((c) =>
+                                  c.id === code.id ? { ...c, selected: !c.selected } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                            code.selected
+                              ? "bg-[#e23744] border-[#e23744]"
+                              : "border-[#e23744] bg-transparent"
+                          }`}
+                        >
+                          {code.selected && (
+                            <svg
+                              className="w-2.5 h-2.5 text-white"
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="3"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          )}
+                        </button>
+                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                          Flat {code.flatOff}rs
+                        </span>
+                      </div>
+                      {/* Compact input fields */}
+                      <div className="flex items-center gap-1 mb-1">
+                        <span className="text-[10px] font-medium text-gray-400 w-8">Flat</span>
+                        <Input
+                          type="number"
+                          value={code.flatOff}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                la: data.stepperAndBaseCodes.la.map((c) =>
+                                  c.id === code.id ? { ...c, flatOff: Number(e.target.value) } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                      </div>
+                      <div className="flex items-center gap-1 mb-1.5">
+                        <span className="text-[10px] font-medium text-gray-400 w-8">MOV</span>
+                        <Input
+                          type="number"
+                          value={code.mov}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                la: data.stepperAndBaseCodes.la.map((c) =>
+                                  c.id === code.id ? { ...c, mov: Number(e.target.value) } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                      </div>
+                    </>
+                  )}
+                  <Badge
+                    variant={code.status === "Picked" ? "default" : "outline"}
+                    className="text-[9px] h-4 px-2 bg-[#e23744] hover:bg-[#e23744] border-none text-white font-semibold"
+                  >
+                    {code.status}
+                  </Badge>
                 </div>
               ))}
             </div>
@@ -327,138 +379,188 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
             {/* MM Codes */}
             <div className="space-y-2">
               {data.stepperAndBaseCodes.mm.map((code) => (
-                <div key={code.id} className="p-2 border border-border rounded bg-card text-xs">
-                  <div className="flex items-start gap-1 mb-1">
-                    <Checkbox
-                      id={`mm-${code.id}`}
-                      checked={code.selected}
-                      onCheckedChange={() => {
-                        setData({
-                          ...data,
-                          stepperAndBaseCodes: {
-                            ...data.stepperAndBaseCodes,
-                            mm: data.stepperAndBaseCodes.mm.map((c) =>
-                              c.id === code.id ? { ...c, selected: !c.selected } : c
-                            ),
-                          },
-                        });
-                      }}
-                      className="mt-0.5"
-                    />
-                    <div className="flex-1">
-                      {/* Percentage-based code (base code) */}
-                      {code.percentage !== undefined ? (
-                        <>
-                          {/* Display formatted base code prominently */}
-                          <div className="mb-2 p-1.5 bg-primary/10 rounded border border-primary/20">
-                            <span className="text-xs font-bold text-primary">
-                              {code.percentage}% upto {code.maxAmount}rs
-                            </span>
-                          </div>
-                          {/* Editable inputs */}
-                          <div className="flex items-center gap-1">
-                            <Input
-                              type="number"
-                              value={code.percentage}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    mm: data.stepperAndBaseCodes.mm.map((c) =>
-                                      c.id === code.id
-                                        ? { ...c, percentage: Number(e.target.value) }
-                                        : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">%</span>
-                          </div>
-                          <div className="flex items-center gap-1 mt-1">
-                            <span className="text-[10px]">upto</span>
-                            <Input
-                              type="number"
-                              value={code.maxAmount}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    mm: data.stepperAndBaseCodes.mm.map((c) =>
-                                      c.id === code.id
-                                        ? { ...c, maxAmount: Number(e.target.value) }
-                                        : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">rs</span>
-                          </div>
-                        </>
-                      ) : (
-                        /* Flat discount code (stepper code) */
-                        <>
-                          <div className="flex items-center gap-1">
-                            <span className="text-[10px]">Flat</span>
-                            <Input
-                              type="number"
-                              value={code.flatOff}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    mm: data.stepperAndBaseCodes.mm.map((c) =>
-                                      c.id === code.id
-                                        ? { ...c, flatOff: Number(e.target.value) }
-                                        : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">rs</span>
-                          </div>
-                          <div className="flex items-center gap-1 mt-1">
-                            <span className="text-[10px]">MOV</span>
-                            <Input
-                              type="number"
-                              value={code.mov}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    mm: data.stepperAndBaseCodes.mm.map((c) =>
-                                      c.id === code.id ? { ...c, mov: Number(e.target.value) } : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">rs</span>
-                          </div>
-                        </>
-                      )}
-                      <Badge
-                        variant={code.status === "Picked" ? "default" : "outline"}
-                        className="text-[9px] h-4 px-1 mt-1"
-                      >
-                        {code.status}
-                      </Badge>
-                    </div>
-                  </div>
+                <div
+                  key={code.id}
+                  className="p-2 rounded-lg bg-[#252525] border border-[#3a3a3a] hover:border-[#4a4a4a] transition-all duration-200"
+                >
+                  {/* Percentage-based code (base code) */}
+                  {code.percentage !== undefined ? (
+                    <>
+                      {/* Radio button + Display in one line */}
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                mm: data.stepperAndBaseCodes.mm.map((c) =>
+                                  c.id === code.id ? { ...c, selected: !c.selected } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                            code.selected
+                              ? "bg-[#e23744] border-[#e23744]"
+                              : "border-[#e23744] bg-transparent"
+                          }`}
+                        >
+                          {code.selected && (
+                            <svg
+                              className="w-2.5 h-2.5 text-white"
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="3"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          )}
+                        </button>
+                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                          {code.percentage}% upto {code.maxAmount}rs
+                        </span>
+                      </div>
+                      {/* Compact input fields */}
+                      <div className="flex items-center gap-1 mb-1.5">
+                        <Input
+                          type="number"
+                          value={code.percentage}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                mm: data.stepperAndBaseCodes.mm.map((c) =>
+                                  c.id === code.id
+                                    ? { ...c, percentage: Number(e.target.value) }
+                                    : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">%</span>
+                        <span className="text-[10px] font-medium text-gray-400">upto</span>
+                        <Input
+                          type="number"
+                          value={code.maxAmount}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                mm: data.stepperAndBaseCodes.mm.map((c) =>
+                                  c.id === code.id ? { ...c, maxAmount: Number(e.target.value) } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                      </div>
+                    </>
+                  ) : (
+                    /* Flat discount code (stepper code) */
+                    <>
+                      {/* Radio button + Display in one line */}
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                mm: data.stepperAndBaseCodes.mm.map((c) =>
+                                  c.id === code.id ? { ...c, selected: !c.selected } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                            code.selected
+                              ? "bg-[#e23744] border-[#e23744]"
+                              : "border-[#e23744] bg-transparent"
+                          }`}
+                        >
+                          {code.selected && (
+                            <svg
+                              className="w-2.5 h-2.5 text-white"
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="3"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          )}
+                        </button>
+                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                          Flat {code.flatOff}rs
+                        </span>
+                      </div>
+                      {/* Compact input fields */}
+                      <div className="flex items-center gap-1 mb-1">
+                        <span className="text-[10px] font-medium text-gray-400 w-8">Flat</span>
+                        <Input
+                          type="number"
+                          value={code.flatOff}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                mm: data.stepperAndBaseCodes.mm.map((c) =>
+                                  c.id === code.id ? { ...c, flatOff: Number(e.target.value) } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                      </div>
+                      <div className="flex items-center gap-1 mb-1.5">
+                        <span className="text-[10px] font-medium text-gray-400 w-8">MOV</span>
+                        <Input
+                          type="number"
+                          value={code.mov}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                mm: data.stepperAndBaseCodes.mm.map((c) =>
+                                  c.id === code.id ? { ...c, mov: Number(e.target.value) } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                      </div>
+                    </>
+                  )}
+                  <Badge
+                    variant={code.status === "Picked" ? "default" : "outline"}
+                    className="text-[9px] h-4 px-2 bg-[#e23744] hover:bg-[#e23744] border-none text-white font-semibold"
+                  >
+                    {code.status}
+                  </Badge>
                 </div>
               ))}
             </div>
@@ -466,138 +568,188 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
             {/* UM Codes */}
             <div className="space-y-2">
               {data.stepperAndBaseCodes.um.map((code) => (
-                <div key={code.id} className="p-2 border border-border rounded bg-card text-xs">
-                  <div className="flex items-start gap-1 mb-1">
-                    <Checkbox
-                      id={`um-${code.id}`}
-                      checked={code.selected}
-                      onCheckedChange={() => {
-                        setData({
-                          ...data,
-                          stepperAndBaseCodes: {
-                            ...data.stepperAndBaseCodes,
-                            um: data.stepperAndBaseCodes.um.map((c) =>
-                              c.id === code.id ? { ...c, selected: !c.selected } : c
-                            ),
-                          },
-                        });
-                      }}
-                      className="mt-0.5"
-                    />
-                    <div className="flex-1">
-                      {/* Percentage-based code (base code) */}
-                      {code.percentage !== undefined ? (
-                        <>
-                          {/* Display formatted base code prominently */}
-                          <div className="mb-2 p-1.5 bg-primary/10 rounded border border-primary/20">
-                            <span className="text-xs font-bold text-primary">
-                              {code.percentage}% upto {code.maxAmount}rs
-                            </span>
-                          </div>
-                          {/* Editable inputs */}
-                          <div className="flex items-center gap-1">
-                            <Input
-                              type="number"
-                              value={code.percentage}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    um: data.stepperAndBaseCodes.um.map((c) =>
-                                      c.id === code.id
-                                        ? { ...c, percentage: Number(e.target.value) }
-                                        : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">%</span>
-                          </div>
-                          <div className="flex items-center gap-1 mt-1">
-                            <span className="text-[10px]">upto</span>
-                            <Input
-                              type="number"
-                              value={code.maxAmount}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    um: data.stepperAndBaseCodes.um.map((c) =>
-                                      c.id === code.id
-                                        ? { ...c, maxAmount: Number(e.target.value) }
-                                        : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">rs</span>
-                          </div>
-                        </>
-                      ) : (
-                        /* Flat discount code (stepper code) */
-                        <>
-                          <div className="flex items-center gap-1">
-                            <span className="text-[10px]">Flat</span>
-                            <Input
-                              type="number"
-                              value={code.flatOff}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    um: data.stepperAndBaseCodes.um.map((c) =>
-                                      c.id === code.id
-                                        ? { ...c, flatOff: Number(e.target.value) }
-                                        : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">rs</span>
-                          </div>
-                          <div className="flex items-center gap-1 mt-1">
-                            <span className="text-[10px]">MOV</span>
-                            <Input
-                              type="number"
-                              value={code.mov}
-                              onChange={(e) => {
-                                setData({
-                                  ...data,
-                                  stepperAndBaseCodes: {
-                                    ...data.stepperAndBaseCodes,
-                                    um: data.stepperAndBaseCodes.um.map((c) =>
-                                      c.id === code.id ? { ...c, mov: Number(e.target.value) } : c
-                                    ),
-                                  },
-                                });
-                              }}
-                              className="h-5 w-12 text-[10px] px-1"
-                              autoComplete="off"
-                            />
-                            <span className="text-[10px]">rs</span>
-                          </div>
-                        </>
-                      )}
-                      <Badge
-                        variant={code.status === "Picked" ? "default" : "outline"}
-                        className="text-[9px] h-4 px-1 mt-1"
-                      >
-                        {code.status}
-                      </Badge>
-                    </div>
-                  </div>
+                <div
+                  key={code.id}
+                  className="p-2 rounded-lg bg-[#252525] border border-[#3a3a3a] hover:border-[#4a4a4a] transition-all duration-200"
+                >
+                  {/* Percentage-based code (base code) */}
+                  {code.percentage !== undefined ? (
+                    <>
+                      {/* Radio button + Display in one line */}
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                um: data.stepperAndBaseCodes.um.map((c) =>
+                                  c.id === code.id ? { ...c, selected: !c.selected } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                            code.selected
+                              ? "bg-[#e23744] border-[#e23744]"
+                              : "border-[#e23744] bg-transparent"
+                          }`}
+                        >
+                          {code.selected && (
+                            <svg
+                              className="w-2.5 h-2.5 text-white"
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="3"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          )}
+                        </button>
+                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                          {code.percentage}% upto {code.maxAmount}rs
+                        </span>
+                      </div>
+                      {/* Compact input fields */}
+                      <div className="flex items-center gap-1 mb-1.5">
+                        <Input
+                          type="number"
+                          value={code.percentage}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                um: data.stepperAndBaseCodes.um.map((c) =>
+                                  c.id === code.id
+                                    ? { ...c, percentage: Number(e.target.value) }
+                                    : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">%</span>
+                        <span className="text-[10px] font-medium text-gray-400">upto</span>
+                        <Input
+                          type="number"
+                          value={code.maxAmount}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                um: data.stepperAndBaseCodes.um.map((c) =>
+                                  c.id === code.id ? { ...c, maxAmount: Number(e.target.value) } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                      </div>
+                    </>
+                  ) : (
+                    /* Flat discount code (stepper code) */
+                    <>
+                      {/* Radio button + Display in one line */}
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                um: data.stepperAndBaseCodes.um.map((c) =>
+                                  c.id === code.id ? { ...c, selected: !c.selected } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                            code.selected
+                              ? "bg-[#e23744] border-[#e23744]"
+                              : "border-[#e23744] bg-transparent"
+                          }`}
+                        >
+                          {code.selected && (
+                            <svg
+                              className="w-2.5 h-2.5 text-white"
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="3"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          )}
+                        </button>
+                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                          Flat {code.flatOff}rs
+                        </span>
+                      </div>
+                      {/* Compact input fields */}
+                      <div className="flex items-center gap-1 mb-1">
+                        <span className="text-[10px] font-medium text-gray-400 w-8">Flat</span>
+                        <Input
+                          type="number"
+                          value={code.flatOff}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                um: data.stepperAndBaseCodes.um.map((c) =>
+                                  c.id === code.id ? { ...c, flatOff: Number(e.target.value) } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                      </div>
+                      <div className="flex items-center gap-1 mb-1.5">
+                        <span className="text-[10px] font-medium text-gray-400 w-8">MOV</span>
+                        <Input
+                          type="number"
+                          value={code.mov}
+                          onChange={(e) => {
+                            setData({
+                              ...data,
+                              stepperAndBaseCodes: {
+                                ...data.stepperAndBaseCodes,
+                                um: data.stepperAndBaseCodes.um.map((c) =>
+                                  c.id === code.id ? { ...c, mov: Number(e.target.value) } : c
+                                ),
+                              },
+                            });
+                          }}
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          autoComplete="off"
+                        />
+                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                      </div>
+                    </>
+                  )}
+                  <Badge
+                    variant={code.status === "Picked" ? "default" : "outline"}
+                    className="text-[9px] h-4 px-2 bg-[#e23744] hover:bg-[#e23744] border-none text-white font-semibold"
+                  >
+                    {code.status}
+                  </Badge>
                 </div>
               ))}
             </div>
@@ -606,7 +758,7 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
           {/* Activate Button */}
           <Button
             type="button"
-            className="w-full mt-4 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg transition-all"
+            className="w-full mt-3 text-xs h-9 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg transition-all"
             disabled={updateSelectedCodes.isPending}
             onClick={() => {
               // Extract selected code IDs for each segment
