@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDriveSheets } from "@/hooks/useDriveSheets";
 import { ChevronRight, Store, ArrowLeft, Loader2, BarChart3 } from "lucide-react";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 // Helper function to determine status based on restaurant data
 const getRestaurantStatus = (
@@ -79,58 +80,68 @@ const KAMHub = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="bg-card border-b border-border sticky top-0 z-10 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4 flex-wrap">
-            <div className="flex items-center gap-3">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          <div className="flex items-center justify-between gap-2 sm:gap-4 flex-wrap">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 sm:flex-initial">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => navigate(-1)}
-                className="hover:bg-muted"
+                className="hover:bg-muted flex-shrink-0"
               >
-                <ArrowLeft className="h-5 w-5" />
+                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
-              <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold">
+              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold text-xs sm:text-sm flex-shrink-0">
                 {getUserInitials(user?.email)}
               </div>
-              <div>
-                <p className="text-sm font-medium">{restaurants?.[0]?.kam_name || "KAM"}</p>
-                <p className="text-xs text-muted-foreground">{user?.email}</p>
+              <div className="min-w-0">
+                <p className="text-xs sm:text-sm font-medium truncate">
+                  {restaurants?.[0]?.kam_name || "KAM"}
+                </p>
+                <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
               </div>
             </div>
-            <SearchBar
-              className="flex-1 max-w-xl"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
+              <SearchBar
+                className="flex-1 sm:max-w-xl"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <DarkModeToggle />
+            </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8">
         <div className="max-w-7xl mx-auto">
           {/* Two Column Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 animate-fade-in">
             {/* Left Column - Restaurants */}
             <div className="lg:col-span-2">
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h2 className="text-3xl font-bold text-foreground">Restaurants</h2>
-                  <p className="text-base text-muted-foreground mt-2">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 md:mb-8 gap-3">
+                <div className="min-w-0">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground break-words">
+                    Restaurants
+                  </h2>
+                  <p className="text-sm sm:text-base text-muted-foreground mt-1 sm:mt-2">
                     {filteredRestaurants.length} restaurant
                     {filteredRestaurants.length !== 1 ? "s" : ""} under management
                   </p>
                 </div>
-                <Badge variant="outline" className="gap-2 px-4 py-2 text-sm">
-                  <Store className="h-4 w-4" />
+                <Badge
+                  variant="outline"
+                  className="gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm flex-shrink-0"
+                >
+                  <Store className="h-3 w-3 sm:h-4 sm:w-4" />
                   {filteredRestaurants.length} Total
                 </Badge>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {filteredRestaurants.length === 0 ? (
-                  <Card className="p-12 text-center">
-                    <p className="text-muted-foreground text-lg">
+                  <Card className="p-6 sm:p-8 md:p-12 text-center">
+                    <p className="text-muted-foreground text-sm sm:text-base md:text-lg">
                       {searchQuery ? "No restaurants match your search" : "No restaurants assigned"}
                     </p>
                   </Card>
@@ -151,40 +162,42 @@ const KAMHub = () => {
                     return (
                       <Card
                         key={restaurant.res_id}
-                        className="group p-6 hover:shadow-lg transition-all duration-300 cursor-pointer border-l-4 border-l-transparent hover:border-l-primary animate-slide-up"
+                        className="group p-3 sm:p-4 md:p-6 hover:shadow-lg transition-all duration-300 cursor-pointer border-l-4 border-l-transparent hover:border-l-primary animate-slide-up"
                         style={{ animationDelay: `${index * 50}ms` }}
                         onClick={() => navigate(`/restaurant/${restaurant.res_id}`)}
                       >
-                        <div className="flex items-start justify-between gap-4">
-                          <div className="flex-1 space-y-2">
-                            <div className="flex items-center gap-3 flex-wrap">
-                              <span className="text-lg font-semibold">{restaurant.res_name}</span>
+                        <div className="flex items-start justify-between gap-2 sm:gap-4">
+                          <div className="flex-1 space-y-1.5 sm:space-y-2 min-w-0">
+                            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                              <span className="text-sm sm:text-base md:text-lg font-semibold break-words">
+                                {restaurant.res_name}
+                              </span>
                               <StatusPill status={status} />
                               {driveCount > 1 && (
-                                <Badge variant="secondary" className="text-xs">
+                                <Badge variant="secondary" className="text-xs flex-shrink-0">
                                   {driveCount} drives
                                 </Badge>
                               )}
                             </div>
-                            <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
+                            <div className="flex items-center gap-2 sm:gap-3 md:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
                               {restaurant.locality && (
                                 <div className="flex items-center gap-1">
-                                  <Store className="h-3.5 w-3.5" />
-                                  <span>{restaurant.locality}</span>
+                                  <Store className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0" />
+                                  <span className="break-words">{restaurant.locality}</span>
                                 </div>
                               )}
                               {restaurant.cuisine && (
                                 <div className="flex items-center gap-1">
                                   <span>•</span>
-                                  <span>{restaurant.cuisine}</span>
+                                  <span className="break-words">{restaurant.cuisine}</span>
                                 </div>
                               )}
-                              <div className="flex items-center gap-1">
+                              <div className="flex items-center gap-1 flex-shrink-0">
                                 <span className="font-medium">{orderVolume}</span>
                                 <span className="text-xs">Sept OV</span>
                               </div>
                               {adsBR && (
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center gap-1 flex-shrink-0">
                                   <span>•</span>
                                   <span className="font-medium text-green-600">{adsBR}</span>
                                   <span className="text-xs">ADS BR</span>
@@ -192,7 +205,7 @@ const KAMHub = () => {
                               )}
                             </div>
                           </div>
-                          <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                          <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                         </div>
                       </Card>
                     );
@@ -205,19 +218,21 @@ const KAMHub = () => {
             <div className="lg:col-span-1">
               <Button
                 onClick={() => navigate("/kam-analytics")}
-                className="w-full h-auto p-6 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 group sticky top-24"
+                className="w-full h-auto p-4 sm:p-5 md:p-6 flex flex-col items-center justify-center gap-3 sm:gap-4 bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 group sticky top-20 sm:top-24"
                 size="lg"
               >
-                <div className="p-4 bg-white/10 rounded-full group-hover:scale-110 transition-transform duration-300">
-                  <BarChart3 className="h-8 w-8" />
+                <div className="p-3 sm:p-4 bg-white/10 rounded-full group-hover:scale-110 transition-transform duration-300">
+                  <BarChart3 className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" />
                 </div>
                 <div className="text-center">
-                  <h3 className="text-xl font-bold mb-1">Performance Metrics</h3>
-                  <p className="text-sm opacity-90">View your analytics & rankings</p>
+                  <h3 className="text-base sm:text-lg md:text-xl font-bold mb-1">
+                    Performance Metrics
+                  </h3>
+                  <p className="text-xs sm:text-sm opacity-90">View your analytics & rankings</p>
                 </div>
-                <div className="flex items-center gap-2 text-sm font-medium opacity-90 group-hover:gap-3 transition-all">
+                <div className="flex items-center gap-2 text-xs sm:text-sm font-medium opacity-90 group-hover:gap-3 transition-all">
                   <span>View Details</span>
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
                 </div>
               </Button>
             </div>

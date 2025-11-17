@@ -1,4 +1,4 @@
-import { cn, getPerformanceBadgeVariant } from "@/lib/utils";
+import { cn, getPerformanceBadgeVariant, getRelativePerformanceBadgeVariant } from "@/lib/utils";
 
 type StatusType = "success" | "warning" | "danger" | "neutral";
 
@@ -16,6 +16,16 @@ interface StatusPillProps {
    * Can be a number or string (e.g., "85%", "₹50K", "72")
    */
   value?: number | string;
+  /**
+   * Enable relative variant calculation (compare within a group)
+   * When true, the variant will be determined by comparing value against allValues
+   */
+  relativeVariant?: boolean;
+  /**
+   * All values in the group for relative comparison
+   * Used when relativeVariant is true
+   */
+  allValues?: number[];
 }
 
 const statusStyles: Record<StatusType, string> = {
@@ -31,11 +41,16 @@ export const StatusPill = ({
   className,
   autoVariant = false,
   value,
+  relativeVariant = false,
+  allValues = [],
 }: StatusPillProps) => {
   // Determine the variant to use
   let variant: StatusType;
 
-  if (autoVariant && value !== undefined) {
+  if (relativeVariant && typeof value === "number" && allValues.length > 0) {
+    // Use relative variant calculation
+    variant = getRelativePerformanceBadgeVariant(value, allValues);
+  } else if (autoVariant && value !== undefined) {
     // Auto-calculate variant based on value
     variant = getPerformanceBadgeVariant(value);
   } else if (type) {
@@ -49,7 +64,7 @@ export const StatusPill = ({
   return (
     <span
       className={cn(
-        "inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 hover:scale-105",
+        "inline-flex items-center px-2 sm:px-2.5 md:px-3 py-1 sm:py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 hover:scale-105 whitespace-nowrap",
         statusStyles[variant],
         className
       )}

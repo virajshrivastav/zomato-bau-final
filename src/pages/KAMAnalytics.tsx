@@ -30,6 +30,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { usePerformanceMetrics } from "@/hooks/usePerformanceMetrics";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 /**
  * KAM Analytics Page - Performance Metrics
@@ -129,6 +130,7 @@ const KAMAnalytics = () => {
               <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold">
                 <Target className="h-5 w-5" />
               </div>
+              <DarkModeToggle />
             </div>
           </div>
         </div>

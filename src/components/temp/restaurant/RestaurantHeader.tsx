@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Phone, Mail, Share2 } from "lucide-react";
 import { RestaurantTempData } from "@/types/restaurantTemp";
 import { useNavigate } from "react-router-dom";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 interface RestaurantHeaderProps {
   restaurant: RestaurantTempData;
@@ -104,6 +105,7 @@ export const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
             <Share2 className="w-4 h-4 mr-2" />
             Share
           </Button>
+          <DarkModeToggle />
         </div>
       </div>
     </div>

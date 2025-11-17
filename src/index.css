@@ -94,6 +94,13 @@ All colors MUST be HSL.
     --bronze: 30 52% 60%;
     --race-blue: 211 100% 50%;
 
+    /* Chart Colors - Vibrant color palette for Performance Metrics */
+    --chart-1: 355 75% 55%; /* Zomato Red */
+    --chart-2: 146 50% 45%; /* Green */
+    --chart-3: 262 52% 47%; /* Purple */
+    --chart-4: 45 93% 47%; /* Orange/Yellow */
+    --chart-5: 4 90% 58%; /* Bright Red */
+
     --sidebar-background: 0 0% 98%;
 
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -158,6 +165,13 @@ All colors MUST be HSL.
     --bronze: 30 52% 60%;
     --race-blue: 211 100% 50%;
 
+    /* Chart Colors - Vibrant color palette for Performance Metrics (Dark Mode) */
+    --chart-1: 355 75% 60%; /* Zomato Red (slightly brighter for dark mode) */
+    --chart-2: 146 50% 50%; /* Green (slightly brighter for dark mode) */
+    --chart-3: 262 52% 55%; /* Purple (slightly brighter for dark mode) */
+    --chart-4: 45 93% 55%; /* Orange/Yellow (slightly brighter for dark mode) */
+    --chart-5: 4 90% 65%; /* Bright Red (slightly brighter for dark mode) */
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -183,5 +197,38 @@ All colors MUST be HSL.
       BlinkMacSystemFont,
       "Segoe UI",
       sans-serif;
+  }
+
+  /* Mobile-specific improvements */
+  @media (max-width: 640px) {
+    html {
+      font-size: 14px;
+    }
+  }
+}
+
+/* Utility classes for better mobile text handling */
+@layer utilities {
+  .text-wrap-balance {
+    text-wrap: balance;
+  }
+
+  .break-word {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }

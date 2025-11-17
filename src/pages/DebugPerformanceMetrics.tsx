@@ -3,6 +3,7 @@ import { usePerformanceMetrics } from "@/hooks/usePerformanceMetrics";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 /**
  * Debug page to check Performance Metrics data loading
@@ -17,7 +18,10 @@ export default function DebugPerformanceMetrics() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Performance Metrics Debug</h1>
-          <Button onClick={() => navigate("/kam-analytics")}>Go to KAM Analytics</Button>
+          <div className="flex items-center gap-3">
+            <DarkModeToggle />
+            <Button onClick={() => navigate("/kam-analytics")}>Go to KAM Analytics</Button>
+          </div>
         </div>
 
         {/* Auth Info */}

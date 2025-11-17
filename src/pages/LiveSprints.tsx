@@ -4,6 +4,7 @@ import LeaderboardBar from "@/components/LeaderboardBar";
 import PodiumDisplay from "@/components/PodiumDisplay";
 import { Sparkles, Target, TrendingUp, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 interface ZonalHead {
   name: string;
@@ -35,19 +36,22 @@ const LiveSprints = () => {
       {/* Navigation Header */}
       <header className="bg-card border-b border-border sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate(-1)}
-              className="hover:bg-muted"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">Live Sprints</h1>
-              <p className="text-xs text-muted-foreground">Real-time performance tracking</p>
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate(-1)}
+                className="hover:bg-muted"
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+              <div>
+                <h1 className="text-xl font-bold text-foreground">Live Sprints</h1>
+                <p className="text-xs text-muted-foreground">Real-time performance tracking</p>
+              </div>
             </div>
+            <DarkModeToggle />
           </div>
         </div>
       </header>

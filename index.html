@@ -15,6 +15,16 @@
       content="Key Account Manager Dashboard for Zomato Drive campaigns"
     />
     <meta property="og:type" content="website" />
+
+    <!-- Prevent flash of unstyled content (FOUC) for dark mode -->
+    <script>
+      try {
+        const theme = localStorage.getItem('zomato-dashboard-theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
   </head>
 
   <body>

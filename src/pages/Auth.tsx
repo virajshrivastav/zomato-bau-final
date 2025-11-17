@@ -8,6 +8,7 @@ import { Mail, Lock, Loader2, Shield } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { ZomatomLogo } from "@/components/ui/zomato-logo";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -136,11 +137,14 @@ const Auth = () => {
       {/* Header */}
       <nav className="bg-card/80 backdrop-blur-lg shadow-lg border-b border-border/50">
         <div className="container mx-auto px-6 py-5">
-          <div className="flex items-center gap-3">
-            <ZomatomLogo size="sm" />
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Drive Dashboard
-            </h2>
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <ZomatomLogo size="sm" />
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Drive Dashboard
+              </h2>
+            </div>
+            <DarkModeToggle />
           </div>
         </div>
       </nav>

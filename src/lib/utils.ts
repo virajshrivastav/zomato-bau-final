@@ -42,3 +42,34 @@ export function getPerformanceBadgeVariant(
   if (numValue >= 40) return "danger";
   return "neutral";
 }
+
+/**
+ * Determines badge variant based on relative position within a group of values
+ * Highest = green, middle = yellow, lowest = red
+ * @param value - Current value to evaluate
+ * @param allValues - Array of all values in the group to compare against
+ * @returns Badge variant type
+ */
+export function getRelativePerformanceBadgeVariant(
+  value: number,
+  allValues: number[]
+): "success" | "warning" | "danger" | "neutral" {
+  if (allValues.length === 0) return "neutral";
+  if (allValues.length === 1) return "success";
+
+  const sortedValues = [...allValues].sort((a, b) => b - a); // Sort descending
+  const max = sortedValues[0];
+  const min = sortedValues[sortedValues.length - 1];
+
+  // If all values are the same
+  if (max === min) return "warning";
+
+  // Calculate thresholds
+  const range = max - min;
+  const upperThreshold = max - range * 0.33; // Top 33%
+  const lowerThreshold = min + range * 0.33; // Bottom 33%
+
+  if (value >= upperThreshold) return "success"; // Green for highest
+  if (value <= lowerThreshold) return "danger"; // Red for lowest
+  return "warning"; // Yellow for middle
+}

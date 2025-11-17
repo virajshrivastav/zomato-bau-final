@@ -363,10 +363,10 @@ const RestaurantDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-8">
-      <div className="max-w-[1600px] mx-auto px-4 md:px-6 lg:px-8 space-y-6 animate-fade-in">
+    <div className="min-h-screen bg-background pb-4 sm:pb-6 md:pb-8">
+      <div className="max-w-[1600px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8 space-y-3 sm:space-y-4 md:space-y-6 animate-fade-in">
         {/* Header */}
-        <div className="pt-6">
+        <div className="pt-3 sm:pt-4 md:pt-6">
           <RestaurantHeader restaurant={restaurantData} />
         </div>
 
@@ -374,7 +374,7 @@ const RestaurantDetail = () => {
         <MetricsRow metrics={metricsData} />
 
         {/* Three-Column Layout - Drive Modules */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
           <NCNManagementCard data={ncnData} resId={id || ""} />
           <N2RManagementCard data={n2rData} resId={id || ""} />
           <ItemsManagementCard data={itemsData} resId={id || ""} />

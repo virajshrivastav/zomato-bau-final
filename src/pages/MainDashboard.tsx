@@ -6,6 +6,7 @@ import { MetricItem } from "@/components/MetricItem";
 import { StatusPill } from "@/components/StatusPill";
 import { MapPin, Users, Clock, Zap, ArrowRight, LogOut, Store } from "lucide-react";
 import { ZomatomLogo } from "@/components/ui/zomato-logo";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 import { useState } from "react";
 import {
   Dialog,
@@ -82,52 +83,88 @@ const MainDashboard = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <ZomatomLogo size="sm" />
-            <div>
-              <h1 className="text-xl font-bold text-foreground">BAU Dashboard</h1>
-              <p className="text-sm text-muted-foreground">Business Operations</p>
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          <div className="flex items-center justify-between gap-2 sm:gap-4 flex-wrap">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <ZomatomLogo size="sm" />
+              <div className="min-w-0">
+                <h1 className="text-base sm:text-lg md:text-xl font-bold text-foreground truncate">
+                  BAU Dashboard
+                </h1>
+                <p className="text-xs sm:text-sm text-muted-foreground truncate">
+                  Business Operations
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button onClick={() => navigate("/live-sprints")} variant="outline" className="gap-2">
-              <Zap className="w-4 h-4" />
-              View Live Sprints
-            </Button>
-            <Button onClick={handleSignOut} variant="ghost" className="gap-2">
-              <LogOut className="w-4 h-4" />
-              Sign Out
-            </Button>
+            <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 flex-shrink-0">
+              <Button
+                onClick={() => navigate("/live-sprints")}
+                variant="outline"
+                className="gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-4"
+                size="sm"
+              >
+                <Zap className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">View Live Sprints</span>
+                <span className="sm:hidden">Sprints</span>
+              </Button>
+              <DarkModeToggle />
+              <Button
+                onClick={handleSignOut}
+                variant="ghost"
+                className="gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-4"
+                size="sm"
+              >
+                <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden md:inline">Sign Out</span>
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6">
+      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
         {/* Top Performance Grid - 4 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6">
           {/* Current/Live Drives */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Current / Live Drives</CardTitle>
+              <CardTitle className="text-sm sm:text-base">Current / Live Drives</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4">
               {/* NCN Drive */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-semibold text-muted-foreground">1</span>
-                  <span className="font-medium">NCN - No Cooking November</span>
+              <div className="space-y-1.5 sm:space-y-2">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <span className="text-xs sm:text-sm font-semibold text-muted-foreground flex-shrink-0">
+                    1
+                  </span>
+                  <span className="font-medium text-xs sm:text-sm break-words">
+                    NCN - No Cooking November
+                  </span>
                 </div>
-                <div className="pl-7 space-y-1.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">Overall OV Coverage</span>
-                    <StatusPill autoVariant value={37.42} className="text-xs">
+                <div className="pl-5 sm:pl-7 space-y-1 sm:space-y-1.5">
+                  <div className="flex items-center justify-between text-xs gap-2">
+                    <span className="text-muted-foreground break-words min-w-0">
+                      Overall OV Coverage
+                    </span>
+                    <StatusPill
+                      relativeVariant
+                      value={37.42}
+                      allValues={[37.42, 31.77]}
+                      className="text-xs flex-shrink-0"
+                    >
                       37.42%
                     </StatusPill>
                   </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">Overall Res Coverage</span>
-                    <StatusPill autoVariant value={31.77} className="text-xs">
+                  <div className="flex items-center justify-between text-xs gap-2">
+                    <span className="text-muted-foreground break-words min-w-0">
+                      Overall Res Coverage
+                    </span>
+                    <StatusPill
+                      relativeVariant
+                      value={31.77}
+                      allValues={[37.42, 31.77]}
+                      className="text-xs flex-shrink-0"
+                    >
                       31.77%
                     </StatusPill>
                   </div>
@@ -135,27 +172,52 @@ const MainDashboard = () => {
               </div>
 
               {/* N2R Drive */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-semibold text-muted-foreground">2</span>
-                  <span className="font-medium">N2R - New To Restaurant</span>
+              <div className="space-y-1.5 sm:space-y-2">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <span className="text-xs sm:text-sm font-semibold text-muted-foreground flex-shrink-0">
+                    2
+                  </span>
+                  <span className="font-medium text-xs sm:text-sm break-words">
+                    N2R - New To Restaurant
+                  </span>
                 </div>
-                <div className="pl-7 space-y-1.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">LA OV Conversion</span>
-                    <StatusPill autoVariant value={31.3} className="text-xs">
+                <div className="pl-5 sm:pl-7 space-y-1 sm:space-y-1.5">
+                  <div className="flex items-center justify-between text-xs gap-2">
+                    <span className="text-muted-foreground break-words min-w-0">
+                      LA OV Conversion
+                    </span>
+                    <StatusPill
+                      relativeVariant
+                      value={31.3}
+                      allValues={[31.3, 25.3, 18.2]}
+                      className="text-xs flex-shrink-0"
+                    >
                       31.3%
                     </StatusPill>
                   </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">MM OV Conversion</span>
-                    <StatusPill autoVariant value={25.3} className="text-xs">
+                  <div className="flex items-center justify-between text-xs gap-2">
+                    <span className="text-muted-foreground break-words min-w-0">
+                      MM OV Conversion
+                    </span>
+                    <StatusPill
+                      relativeVariant
+                      value={25.3}
+                      allValues={[31.3, 25.3, 18.2]}
+                      className="text-xs flex-shrink-0"
+                    >
                       25.3%
                     </StatusPill>
                   </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">UM OV Conversion</span>
-                    <StatusPill autoVariant value={18.2} className="text-xs">
+                  <div className="flex items-center justify-between text-xs gap-2">
+                    <span className="text-muted-foreground break-words min-w-0">
+                      UM OV Conversion
+                    </span>
+                    <StatusPill
+                      relativeVariant
+                      value={18.2}
+                      allValues={[31.3, 25.3, 18.2]}
+                      className="text-xs flex-shrink-0"
+                    >
                       18.2%
                     </StatusPill>
                   </div>
@@ -163,15 +225,22 @@ const MainDashboard = () => {
               </div>
 
               {/* Items >=159 Drive */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-semibold text-muted-foreground">3</span>
-                  <span className="font-medium">Items &gt;=159</span>
+              <div className="space-y-1.5 sm:space-y-2">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <span className="text-xs sm:text-sm font-semibold text-muted-foreground flex-shrink-0">
+                    3
+                  </span>
+                  <span className="font-medium text-xs sm:text-sm break-words">Items &gt;=159</span>
                 </div>
-                <div className="pl-7 space-y-1.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">Conversion %</span>
-                    <StatusPill autoVariant value={14.34} className="text-xs">
+                <div className="pl-5 sm:pl-7 space-y-1 sm:space-y-1.5">
+                  <div className="flex items-center justify-between text-xs gap-2">
+                    <span className="text-muted-foreground break-words min-w-0">Conversion %</span>
+                    <StatusPill
+                      relativeVariant
+                      value={14.34}
+                      allValues={[14.34]}
+                      className="text-xs flex-shrink-0"
+                    >
                       14.34%
                     </StatusPill>
                   </div>
@@ -183,101 +252,133 @@ const MainDashboard = () => {
           {/* City View */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
-                City View
+              <CardTitle className="text-sm sm:text-base flex items-center gap-2">
+                <MapPin className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                <span className="break-words">City View</span>
               </CardTitle>
-              <CardDescription>Grow Max Coverage - Top 7 Cities</CardDescription>
+              <CardDescription className="break-words">
+                Grow Max Coverage - Top 7 Cities
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
-              {[
-                { name: "Chennai", score: 55.5 },
-                { name: "Delhi", score: 52.1 },
-                { name: "Kolkata", score: 52.0 },
-                { name: "Mumbai", score: 49.3 },
-                { name: "Bengaluru", score: 45.2 },
-                { name: "Hyderabad", score: 35.2 },
-                { name: "Pune", score: 33.3 },
-              ].map((city) => (
-                <div key={city.name} className="flex items-center justify-between">
-                  <span className="text-sm">{city.name}</span>
-                  <StatusPill autoVariant value={city.score}>
-                    {city.score}%
-                  </StatusPill>
-                </div>
-              ))}
+            <CardContent className="space-y-2 sm:space-y-3">
+              {(() => {
+                const cities = [
+                  { name: "Chennai", score: 55.5 },
+                  { name: "Delhi", score: 52.1 },
+                  { name: "Kolkata", score: 52.0 },
+                  { name: "Mumbai", score: 49.3 },
+                  { name: "Bengaluru", score: 45.2 },
+                  { name: "Hyderabad", score: 35.2 },
+                  { name: "Pune", score: 33.3 },
+                ];
+                const cityScores = cities.map((c) => c.score);
+                return cities.map((city) => (
+                  <div key={city.name} className="flex items-center justify-between gap-2">
+                    <span className="text-xs sm:text-sm break-words min-w-0">{city.name}</span>
+                    <StatusPill
+                      relativeVariant
+                      value={city.score}
+                      allValues={cityScores}
+                      className="flex-shrink-0"
+                    >
+                      {city.score}%
+                    </StatusPill>
+                  </div>
+                ));
+              })()}
             </CardContent>
           </Card>
 
           {/* Zone View */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
-                Zone View
+              <CardTitle className="text-sm sm:text-base flex items-center gap-2">
+                <MapPin className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                <span className="break-words">Zone View</span>
               </CardTitle>
-              <CardDescription>Grow Max Coverage - All Teams in Pune</CardDescription>
+              <CardDescription className="break-words">
+                Grow Max Coverage - All Teams in Pune
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
-              {[
-                { name: "CKA", score: 44.6 },
-                { name: "Central Pune", score: 35.61 },
-                { name: "East Pune", score: 27.73 },
-                { name: "North West Pune", score: 27.4 },
-                { name: "PCMC", score: 22.61 },
-                { name: "South Pune", score: 23.83 },
-              ].map((zone) => (
-                <div key={zone.name} className="flex items-center justify-between">
-                  <span className="text-sm">{zone.name}</span>
-                  <StatusPill autoVariant value={zone.score}>
-                    {zone.score}%
-                  </StatusPill>
-                </div>
-              ))}
+            <CardContent className="space-y-2 sm:space-y-3">
+              {(() => {
+                const zones = [
+                  { name: "CKA", score: 44.6 },
+                  { name: "Central Pune", score: 35.61 },
+                  { name: "East Pune", score: 27.73 },
+                  { name: "North West Pune", score: 27.4 },
+                  { name: "PCMC", score: 22.61 },
+                  { name: "South Pune", score: 23.83 },
+                ];
+                const zoneScores = zones.map((z) => z.score);
+                return zones.map((zone) => (
+                  <div key={zone.name} className="flex items-center justify-between gap-2">
+                    <span className="text-xs sm:text-sm break-words min-w-0">{zone.name}</span>
+                    <StatusPill
+                      relativeVariant
+                      value={zone.score}
+                      allValues={zoneScores}
+                      className="flex-shrink-0"
+                    >
+                      {zone.score}%
+                    </StatusPill>
+                  </div>
+                ));
+              })()}
             </CardContent>
           </Card>
 
           {/* KAM View */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">KAM View</CardTitle>
-              <CardDescription>Grow Max Coverage - Top KAMs in Pune</CardDescription>
+              <CardTitle className="text-sm sm:text-base">KAM View</CardTitle>
+              <CardDescription className="break-words">
+                Grow Max Coverage - Top KAMs in Pune
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
-              {topKAMs.map((kam) => (
-                <div key={kam.email} className="flex items-center justify-between">
-                  <span className="text-sm">{kam.name}</span>
-                  <StatusPill autoVariant value={kam.score}>
-                    {kam.score}%
-                  </StatusPill>
-                </div>
-              ))}
+            <CardContent className="space-y-2 sm:space-y-3">
+              {(() => {
+                const kamScores = topKAMs.map((k) => k.score);
+                return topKAMs.map((kam) => (
+                  <div key={kam.email} className="flex items-center justify-between gap-2">
+                    <span className="text-xs sm:text-sm break-words min-w-0">{kam.name}</span>
+                    <StatusPill
+                      relativeVariant
+                      value={kam.score}
+                      allValues={kamScores}
+                      className="flex-shrink-0"
+                    >
+                      {kam.score}%
+                    </StatusPill>
+                  </div>
+                ));
+              })()}
               <Button
                 onClick={() => setShowAllKAMs(true)}
                 variant="link"
-                className="text-primary p-0 h-auto gap-1"
+                className="text-primary p-0 h-auto gap-1 text-xs sm:text-sm"
               >
                 View More
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
               </Button>
             </CardContent>
           </Card>
         </div>
 
         {/* Bottom Grid - Aligned with Top Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6">
           {/* Past Drives */}
           <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">Past Drives</CardTitle>
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-sm sm:text-base">Past Drives</CardTitle>
             </CardHeader>
-            <CardContent className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-sm font-medium">MRP Drive</h4>
+            <CardContent className="pb-2 sm:pb-3">
+              <div className="flex items-center justify-between gap-2">
+                <div className="min-w-0">
+                  <h4 className="text-xs sm:text-sm font-medium break-words">MRP Drive</h4>
                   <p className="text-xs text-muted-foreground mt-0.5">Sept 2025</p>
                 </div>
-                <StatusPill autoVariant value={45} className="text-xs">
+                <StatusPill autoVariant value={45} className="text-xs flex-shrink-0">
                   45%
                 </StatusPill>
               </div>
@@ -286,16 +387,16 @@ const MainDashboard = () => {
 
           {/* Upcoming Drives */}
           <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">Upcoming Drives</CardTitle>
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-sm sm:text-base">Upcoming Drives</CardTitle>
             </CardHeader>
-            <CardContent className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-sm font-medium">End Game</h4>
+            <CardContent className="pb-2 sm:pb-3">
+              <div className="flex items-center justify-between gap-2">
+                <div className="min-w-0">
+                  <h4 className="text-xs sm:text-sm font-medium break-words">End Game</h4>
                   <p className="text-xs text-muted-foreground mt-0.5">Dec 2025</p>
                 </div>
-                <StatusPill type="neutral" className="text-xs">
+                <StatusPill type="neutral" className="text-xs flex-shrink-0">
                   Scheduled
                 </StatusPill>
               </div>
@@ -308,22 +409,27 @@ const MainDashboard = () => {
           className="bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border-primary/20 hover:shadow-lg transition-all cursor-pointer group"
           onClick={() => navigate("/kam-hub")}
         >
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center">
-                  <Store className="w-8 h-8 text-primary-foreground" />
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Store className="w-6 h-6 sm:w-8 sm:h-8 text-primary-foreground" />
                 </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-foreground mb-1">My Portfolio</h3>
-                  <p className="text-sm text-muted-foreground">
+                <div className="min-w-0">
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-1 break-words">
+                    My Portfolio
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground break-words">
                     View and manage all restaurants with search and filtering
                   </p>
                 </div>
               </div>
-              <Button size="lg" className="gap-2 group-hover:gap-3 transition-all">
+              <Button
+                size="lg"
+                className="gap-2 group-hover:gap-3 transition-all w-full sm:w-auto text-sm sm:text-base"
+              >
                 View Portfolio
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </Button>
             </div>
           </CardContent>
@@ -334,29 +440,41 @@ const MainDashboard = () => {
       <Dialog open={showAllKAMs} onOpenChange={setShowAllKAMs}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>All KAMs - Grow Max Coverage</DialogTitle>
-            <DialogDescription>Complete list of KAMs in Pune with GM Coverage %</DialogDescription>
+            <DialogTitle className="text-base sm:text-lg md:text-xl">
+              All KAMs - Grow Max Coverage
+            </DialogTitle>
+            <DialogDescription className="text-xs sm:text-sm">
+              Complete list of KAMs in Pune with GM Coverage %
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-2 mt-4">
-            {allKAMs.map((kam, index) => (
-              <div
-                key={kam.email}
-                className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-semibold text-muted-foreground w-8">
-                    {index + 1}
-                  </span>
-                  <div>
-                    <p className="text-sm font-medium">{kam.name}</p>
-                    <p className="text-xs text-muted-foreground">{kam.email}</p>
+            {(() => {
+              const allKamScores = allKAMs.map((k) => k.score);
+              return allKAMs.map((kam, index) => (
+                <div
+                  key={kam.email}
+                  className="flex items-center justify-between p-2 sm:p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors gap-2"
+                >
+                  <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                    <span className="text-xs sm:text-sm font-semibold text-muted-foreground w-6 sm:w-8 flex-shrink-0">
+                      {index + 1}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm font-medium break-words">{kam.name}</p>
+                      <p className="text-xs text-muted-foreground break-all">{kam.email}</p>
+                    </div>
                   </div>
+                  <StatusPill
+                    relativeVariant
+                    value={kam.score}
+                    allValues={allKamScores}
+                    className="flex-shrink-0"
+                  >
+                    {kam.score}%
+                  </StatusPill>
                 </div>
-                <StatusPill autoVariant value={kam.score}>
-                  {kam.score}%
-                </StatusPill>
-              </div>
-            ))}
+              ));
+            })()}
           </div>
         </DialogContent>
       </Dialog>

@@ -1,6 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 const ZonalHeader = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const ZonalHeader = () => {
               <p className="text-sm font-medium text-foreground">Zonal Head</p>
               <p className="text-xs text-muted-foreground">North Region</p>
             </div>
+            <DarkModeToggle />
           </div>
         </div>
       </div>

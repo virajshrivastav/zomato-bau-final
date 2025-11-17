@@ -16,12 +16,16 @@ export const DashboardCard = ({ title, children, className, footer }: DashboardC
         className
       )}
     >
-      <CardHeader className="pb-4 border-b border-border/50">
-        <CardTitle className="text-lg font-bold text-foreground tracking-tight">{title}</CardTitle>
+      <CardHeader className="pb-3 sm:pb-4 border-b border-border/50">
+        <CardTitle className="text-base sm:text-lg font-bold text-foreground tracking-tight break-words">
+          {title}
+        </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-1 pt-4">
+      <CardContent className="space-y-1 pt-3 sm:pt-4">
         {children}
-        {footer && <div className="pt-4 border-t border-border/50 mt-4">{footer}</div>}
+        {footer && (
+          <div className="pt-3 sm:pt-4 border-t border-border/50 mt-3 sm:mt-4">{footer}</div>
+        )}
       </CardContent>
     </Card>
   );
