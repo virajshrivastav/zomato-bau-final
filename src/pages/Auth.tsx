@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Lock, TrendingUp, Loader2, Zap } from "lucide-react";
+import { Mail, Lock, Loader2, Shield } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { ZomatomLogo } from "@/components/ui/zomato-logo";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -136,11 +137,9 @@ const Auth = () => {
       <nav className="bg-card/80 backdrop-blur-lg shadow-lg border-b border-border/50">
         <div className="container mx-auto px-6 py-5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg">
-              <TrendingUp className="w-6 h-6 text-white" />
-            </div>
+            <ZomatomLogo size="sm" />
             <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Zomato Drive Dashboard
+              Drive Dashboard
             </h2>
           </div>
         </div>
@@ -152,9 +151,7 @@ const Auth = () => {
           {/* Title Section */}
           <div className="text-center space-y-2">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-xl">
-                <Zap className="w-7 h-7 text-white" />
-              </div>
+              <ZomatomLogo size="lg" />
             </div>
             <h1 className="text-4xl font-bold text-foreground">BAU Dashboard</h1>
             <p className="text-muted-foreground">Made In Z. Pune</p>
@@ -337,7 +334,7 @@ const Auth = () => {
           <Card className="border-primary/20 bg-gradient-to-br from-card to-primary/5">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-primary" />
+                <Shield className="w-5 h-5 text-primary" />
                 Manager Access
               </CardTitle>
               <CardDescription>

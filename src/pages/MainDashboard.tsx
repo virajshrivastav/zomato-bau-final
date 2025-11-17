@@ -4,7 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { DashboardCard } from "@/components/DashboardCard";
 import { MetricItem } from "@/components/MetricItem";
 import { StatusPill } from "@/components/StatusPill";
-import { TrendingUp, MapPin, Users, Clock, Zap, ArrowRight, LogOut, Store } from "lucide-react";
+import { MapPin, Users, Clock, Zap, ArrowRight, LogOut, Store } from "lucide-react";
+import { ZomatomLogo } from "@/components/ui/zomato-logo";
 import { useState } from "react";
 import {
   Dialog,
@@ -83,9 +84,7 @@ const MainDashboard = () => {
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-primary-foreground" />
-            </div>
+            <ZomatomLogo size="sm" />
             <div>
               <h1 className="text-xl font-bold text-foreground">BAU Dashboard</h1>
               <p className="text-sm text-muted-foreground">Business Operations</p>
