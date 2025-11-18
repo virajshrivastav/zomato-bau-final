@@ -13,6 +13,7 @@ import RestaurantDetail from "./pages/RestaurantDetail";
 import KAMAnalytics from "./pages/KAMAnalytics";
 import ZonalHeadView from "./pages/ZonalHeadView";
 import LiveSprints from "./pages/LiveSprints";
+import BusinessTrends from "./pages/BusinessTrends";
 import DebugPerformanceMetrics from "./pages/DebugPerformanceMetrics";
 import NotFound from "./pages/NotFound";
 
@@ -76,6 +77,14 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <LiveSprints />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/business-trends"
+                element={
+                  <ProtectedRoute>
+                    <BusinessTrends />
                   </ProtectedRoute>
                 }
               />
