@@ -166,7 +166,7 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
         </div>
 
         {/* Stepper and Base Codes */}
-        <div className="mt-4 p-3 bg-[#1a1a1a] rounded-xl border border-border/30">
+        <div className="mt-4 p-3 bg-card rounded-xl border border-border/30">
           <h5 className="text-xs font-semibold mb-3 text-foreground flex items-center gap-2">
             <span className="w-0.5 h-4 bg-primary rounded-full"></span>
             Stepper & Base Codes
@@ -174,13 +174,13 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
 
           {/* LA / MM / UM Headers */}
           <div className="grid grid-cols-3 gap-3 mb-3">
-            <div className="text-center text-sm font-bold text-white bg-gradient-to-br from-[#8B2635] to-[#6B1E2A] py-2 px-3 rounded-lg shadow-sm border border-[#9B3645]/30">
+            <div className="text-center text-sm font-bold text-white bg-[#e23744] py-2 px-3 rounded-lg shadow-sm">
               LA
             </div>
-            <div className="text-center text-sm font-bold text-white bg-gradient-to-br from-[#8B2635] to-[#6B1E2A] py-2 px-3 rounded-lg shadow-sm border border-[#9B3645]/30">
+            <div className="text-center text-sm font-bold text-white bg-[#e23744] py-2 px-3 rounded-lg shadow-sm">
               MM
             </div>
-            <div className="text-center text-sm font-bold text-white bg-gradient-to-br from-[#8B2635] to-[#6B1E2A] py-2 px-3 rounded-lg shadow-sm border border-[#9B3645]/30">
+            <div className="text-center text-sm font-bold text-white bg-[#e23744] py-2 px-3 rounded-lg shadow-sm">
               UM
             </div>
           </div>
@@ -192,7 +192,7 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
               {data.stepperAndBaseCodes.la.map((code) => (
                 <div
                   key={code.id}
-                  className="p-2 rounded-lg bg-[#252525] border border-[#3a3a3a] hover:border-[#4a4a4a] transition-all duration-200"
+                  className="p-2 rounded-lg bg-muted/50 border border-border hover:border-border/80 transition-all duration-200"
                 >
                   {/* Percentage-based code (base code) */}
                   {code.percentage !== undefined ? (
@@ -214,13 +214,13 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                           }}
                           className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                             code.selected
-                              ? "bg-[#e23744] border-[#e23744]"
-                              : "border-[#e23744] bg-transparent"
+                              ? "bg-primary border-primary"
+                              : "border-primary bg-transparent"
                           }`}
                         >
                           {code.selected && (
                             <svg
-                              className="w-2.5 h-2.5 text-white"
+                              className="w-2.5 h-2.5 text-primary-foreground"
                               fill="none"
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -232,7 +232,7 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                             </svg>
                           )}
                         </button>
-                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                        <span className="text-[11px] font-semibold text-primary truncate">
                           {code.percentage}% upto {code.maxAmount}rs
                         </span>
                       </div>
@@ -254,11 +254,11 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">%</span>
-                        <span className="text-[10px] font-medium text-gray-400">upto</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">%</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">upto</span>
                         <Input
                           type="number"
                           value={code.maxAmount}
@@ -273,10 +273,10 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">rs</span>
                       </div>
                     </>
                   ) : (
@@ -299,13 +299,13 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                           }}
                           className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                             code.selected
-                              ? "bg-[#e23744] border-[#e23744]"
-                              : "border-[#e23744] bg-transparent"
+                              ? "bg-primary border-primary"
+                              : "border-primary bg-transparent"
                           }`}
                         >
                           {code.selected && (
                             <svg
-                              className="w-2.5 h-2.5 text-white"
+                              className="w-2.5 h-2.5 text-primary-foreground"
                               fill="none"
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -317,13 +317,15 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                             </svg>
                           )}
                         </button>
-                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                        <span className="text-[11px] font-semibold text-primary truncate">
                           Flat {code.flatOff}rs
                         </span>
                       </div>
                       {/* Compact input fields */}
                       <div className="flex items-center gap-1 mb-1">
-                        <span className="text-[10px] font-medium text-gray-400 w-8">Flat</span>
+                        <span className="text-[10px] font-medium text-muted-foreground w-8">
+                          Flat
+                        </span>
                         <Input
                           type="number"
                           value={code.flatOff}
@@ -338,13 +340,15 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">rs</span>
                       </div>
                       <div className="flex items-center gap-1 mb-1.5">
-                        <span className="text-[10px] font-medium text-gray-400 w-8">MOV</span>
+                        <span className="text-[10px] font-medium text-muted-foreground w-8">
+                          MOV
+                        </span>
                         <Input
                           type="number"
                           value={code.mov}
@@ -359,16 +363,16 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">rs</span>
                       </div>
                     </>
                   )}
                   <Badge
                     variant={code.status === "Picked" ? "default" : "outline"}
-                    className="text-[9px] h-4 px-2 bg-[#e23744] hover:bg-[#e23744] border-none text-white font-semibold"
+                    className="text-[9px] h-4 px-2 bg-primary hover:bg-primary border-none text-primary-foreground font-semibold"
                   >
                     {code.status}
                   </Badge>
@@ -381,7 +385,7 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
               {data.stepperAndBaseCodes.mm.map((code) => (
                 <div
                   key={code.id}
-                  className="p-2 rounded-lg bg-[#252525] border border-[#3a3a3a] hover:border-[#4a4a4a] transition-all duration-200"
+                  className="p-2 rounded-lg bg-muted/50 border border-border hover:border-border/80 transition-all duration-200"
                 >
                   {/* Percentage-based code (base code) */}
                   {code.percentage !== undefined ? (
@@ -403,13 +407,13 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                           }}
                           className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                             code.selected
-                              ? "bg-[#e23744] border-[#e23744]"
-                              : "border-[#e23744] bg-transparent"
+                              ? "bg-primary border-primary"
+                              : "border-primary bg-transparent"
                           }`}
                         >
                           {code.selected && (
                             <svg
-                              className="w-2.5 h-2.5 text-white"
+                              className="w-2.5 h-2.5 text-primary-foreground"
                               fill="none"
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -421,7 +425,7 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                             </svg>
                           )}
                         </button>
-                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                        <span className="text-[11px] font-semibold text-primary truncate">
                           {code.percentage}% upto {code.maxAmount}rs
                         </span>
                       </div>
@@ -443,11 +447,11 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">%</span>
-                        <span className="text-[10px] font-medium text-gray-400">upto</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">%</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">upto</span>
                         <Input
                           type="number"
                           value={code.maxAmount}
@@ -462,10 +466,10 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">rs</span>
                       </div>
                     </>
                   ) : (
@@ -488,13 +492,13 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                           }}
                           className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                             code.selected
-                              ? "bg-[#e23744] border-[#e23744]"
-                              : "border-[#e23744] bg-transparent"
+                              ? "bg-primary border-primary"
+                              : "border-primary bg-transparent"
                           }`}
                         >
                           {code.selected && (
                             <svg
-                              className="w-2.5 h-2.5 text-white"
+                              className="w-2.5 h-2.5 text-primary-foreground"
                               fill="none"
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -506,13 +510,15 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                             </svg>
                           )}
                         </button>
-                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                        <span className="text-[11px] font-semibold text-primary truncate">
                           Flat {code.flatOff}rs
                         </span>
                       </div>
                       {/* Compact input fields */}
                       <div className="flex items-center gap-1 mb-1">
-                        <span className="text-[10px] font-medium text-gray-400 w-8">Flat</span>
+                        <span className="text-[10px] font-medium text-muted-foreground w-8">
+                          Flat
+                        </span>
                         <Input
                           type="number"
                           value={code.flatOff}
@@ -527,13 +533,15 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">rs</span>
                       </div>
                       <div className="flex items-center gap-1 mb-1.5">
-                        <span className="text-[10px] font-medium text-gray-400 w-8">MOV</span>
+                        <span className="text-[10px] font-medium text-muted-foreground w-8">
+                          MOV
+                        </span>
                         <Input
                           type="number"
                           value={code.mov}
@@ -548,16 +556,16 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">rs</span>
                       </div>
                     </>
                   )}
                   <Badge
                     variant={code.status === "Picked" ? "default" : "outline"}
-                    className="text-[9px] h-4 px-2 bg-[#e23744] hover:bg-[#e23744] border-none text-white font-semibold"
+                    className="text-[9px] h-4 px-2 bg-primary hover:bg-primary border-none text-primary-foreground font-semibold"
                   >
                     {code.status}
                   </Badge>
@@ -570,7 +578,7 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
               {data.stepperAndBaseCodes.um.map((code) => (
                 <div
                   key={code.id}
-                  className="p-2 rounded-lg bg-[#252525] border border-[#3a3a3a] hover:border-[#4a4a4a] transition-all duration-200"
+                  className="p-2 rounded-lg bg-muted/50 border border-border hover:border-border/80 transition-all duration-200"
                 >
                   {/* Percentage-based code (base code) */}
                   {code.percentage !== undefined ? (
@@ -592,13 +600,13 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                           }}
                           className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                             code.selected
-                              ? "bg-[#e23744] border-[#e23744]"
-                              : "border-[#e23744] bg-transparent"
+                              ? "bg-primary border-primary"
+                              : "border-primary bg-transparent"
                           }`}
                         >
                           {code.selected && (
                             <svg
-                              className="w-2.5 h-2.5 text-white"
+                              className="w-2.5 h-2.5 text-primary-foreground"
                               fill="none"
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -610,7 +618,7 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                             </svg>
                           )}
                         </button>
-                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                        <span className="text-[11px] font-semibold text-primary truncate">
                           {code.percentage}% upto {code.maxAmount}rs
                         </span>
                       </div>
@@ -632,11 +640,11 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">%</span>
-                        <span className="text-[10px] font-medium text-gray-400">upto</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">%</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">upto</span>
                         <Input
                           type="number"
                           value={code.maxAmount}
@@ -651,10 +659,10 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">rs</span>
                       </div>
                     </>
                   ) : (
@@ -677,13 +685,13 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                           }}
                           className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                             code.selected
-                              ? "bg-[#e23744] border-[#e23744]"
-                              : "border-[#e23744] bg-transparent"
+                              ? "bg-primary border-primary"
+                              : "border-primary bg-transparent"
                           }`}
                         >
                           {code.selected && (
                             <svg
-                              className="w-2.5 h-2.5 text-white"
+                              className="w-2.5 h-2.5 text-primary-foreground"
                               fill="none"
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -695,13 +703,15 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                             </svg>
                           )}
                         </button>
-                        <span className="text-[11px] font-semibold text-[#e23744] truncate">
+                        <span className="text-[11px] font-semibold text-primary truncate">
                           Flat {code.flatOff}rs
                         </span>
                       </div>
                       {/* Compact input fields */}
                       <div className="flex items-center gap-1 mb-1">
-                        <span className="text-[10px] font-medium text-gray-400 w-8">Flat</span>
+                        <span className="text-[10px] font-medium text-muted-foreground w-8">
+                          Flat
+                        </span>
                         <Input
                           type="number"
                           value={code.flatOff}
@@ -716,13 +726,15 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">rs</span>
                       </div>
                       <div className="flex items-center gap-1 mb-1.5">
-                        <span className="text-[10px] font-medium text-gray-400 w-8">MOV</span>
+                        <span className="text-[10px] font-medium text-muted-foreground w-8">
+                          MOV
+                        </span>
                         <Input
                           type="number"
                           value={code.mov}
@@ -737,16 +749,16 @@ export const NCNManagementCard = ({ data: initialData, resId }: NCNManagementCar
                               },
                             });
                           }}
-                          className="h-6 w-10 text-[10px] text-center font-medium bg-[#1f1f1f] border border-[#3a3a3a] focus-visible:ring-1 focus-visible:ring-[#e23744] text-white rounded px-0.5"
+                          className="h-6 w-10 text-[10px] text-center font-medium bg-background border border-border focus-visible:ring-1 focus-visible:ring-primary text-foreground rounded px-0.5"
                           autoComplete="off"
                         />
-                        <span className="text-[10px] font-medium text-gray-400">rs</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">rs</span>
                       </div>
                     </>
                   )}
                   <Badge
                     variant={code.status === "Picked" ? "default" : "outline"}
-                    className="text-[9px] h-4 px-2 bg-[#e23744] hover:bg-[#e23744] border-none text-white font-semibold"
+                    className="text-[9px] h-4 px-2 bg-primary hover:bg-primary border-none text-primary-foreground font-semibold"
                   >
                     {code.status}
                   </Badge>
