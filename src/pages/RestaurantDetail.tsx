@@ -19,6 +19,45 @@ import {
 import { parseStepperCode } from "@/utils/parseStepperCode";
 import { parseBaseCode } from "@/utils/parseBaseCode";
 
+// ============================================================================
+// MOCK COMMISSION DATA CONFIGURATION
+// Set USE_MOCK_COMMISSION to false to use real database values
+// ============================================================================
+const USE_MOCK_COMMISSION = true;
+
+/**
+ * Generates deterministic mock commission data based on restaurant ID
+ * Same res_id will always return the same mock values (deterministic)
+ * Different res_ids will return different values
+ *
+ * @param resId - The restaurant ID from Supabase
+ * @returns Mock commission data object
+ */
+const getMockCommissionData = (resId: string) => {
+  // Create a hash from res_id to get deterministic but varied values
+  const hash = resId.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+
+  // Predefined commission values (realistic range: 15% - 25%)
+  const commissionValues = ["15.5", "17.0", "18.5", "19.0", "20.0", "21.5", "22.0", "23.5", "25.0"];
+
+  // Predefined date values
+  const dateValues = [
+    "Oct 15, 2024",
+    "Nov 01, 2024",
+    "Sep 20, 2024",
+    "Nov 10, 2024",
+    "Aug 05, 2024",
+    "Jul 22, 2024",
+    "Oct 28, 2024",
+    "Sep 05, 2024",
+  ];
+
+  return {
+    commission: commissionValues[hash % commissionValues.length],
+    lastChangeDate: dateValues[hash % dateValues.length],
+  };
+};
+
 const RestaurantDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -67,6 +106,9 @@ const RestaurantDetail = () => {
     toingFlag: (restaurant.toing_flag as "Live" | "Not Live") || "Not Live",
   };
 
+  // Get mock commission data if enabled (uses res_id for different values per restaurant)
+  const mockCommission = USE_MOCK_COMMISSION ? getMockCommissionData(restaurant.res_id) : null;
+
   const metricsData: RestaurantMetrics = {
     activeDrives: 3, // NCN, N2R, Items
     zvdPo: restaurant.zvd_po || "N/A",
@@ -77,8 +119,9 @@ const RestaurantDetail = () => {
     },
     adsAvgAchievement: restaurant.ads_avg_achievement || undefined,
     adsBRCM: restaurant.ads_br_cm || undefined,
-    commission: restaurant.current_commission || undefined,
-    lastChangeDate: restaurant.last_change_date || undefined,
+    // Commission: Use mock data if enabled, otherwise use real database values
+    commission: mockCommission?.commission ?? restaurant.current_commission ?? undefined,
+    lastChangeDate: mockCommission?.lastChangeDate ?? restaurant.last_change_date ?? undefined,
     toingFlag: (restaurant.toing_flag as "Live" | "Not Live") || "Not Live",
   };
 
